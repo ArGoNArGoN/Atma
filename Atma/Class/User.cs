@@ -21,7 +21,6 @@ namespace Atma.Class
 
 		public Int32 ID
 		{
-			
 			get => id;
 			set 
 			{

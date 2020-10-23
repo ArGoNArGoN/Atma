@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Atma.Class
 {
-    interface IChat
+    internal interface IChat
     {
+        List<ServerUser> ServerUsers { get; }
     }
 }
