@@ -46,7 +46,7 @@ namespace Atma.Class
 			get => dater;
 			set 
 			{
-				if ((value) > DateTime.Now) throw new ArgumentException("value>DataTime.Now");
+				if ((value) > DateTime.Now) throw new ArgumentException("value > DataTime.Now");
 					dater = value;
 			}
 		}
