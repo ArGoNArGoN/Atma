@@ -63,6 +63,20 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Class\Category.cs" />
+    <Compile Include="Class\EventLog.cs" />
+    <Compile Include="Class\IChat.cs" />
+    <Compile Include="Class\Message.cs" />
+    <Compile Include="Class\Opinion.cs" />
+    <Compile Include="Class\Request.cs" />
+    <Compile Include="Class\Right.cs" />
+    <Compile Include="Class\RightRole.cs" />
+    <Compile Include="Class\Role.cs" />
+    <Compile Include="Class\Server.cs" />
+    <Compile Include="Class\ServerUser.cs" />
+    <Compile Include="Class\TextChat.cs" />
+    <Compile Include="Class\User.cs" />
+    <Compile Include="Class\UserLog.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
