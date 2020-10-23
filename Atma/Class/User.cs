@@ -25,7 +25,7 @@ namespace Atma.Class
 			get => id;
 			set 
 			{
-				if (value < 1) throw new ArgumentException("value<0", "value");
+				if (value < 0) throw new ArgumentException("value<0", "value");
 					id = value;
 			}
 		}
