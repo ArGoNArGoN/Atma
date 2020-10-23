@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Atma.Class
 {
-    class User
-    {
-    }
+	class User
+	{
+	}
 }
