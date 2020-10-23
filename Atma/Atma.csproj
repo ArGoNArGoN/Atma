@@ -74,6 +74,7 @@
     <Compile Include="Class\Role.cs" />
     <Compile Include="Class\Server.cs" />
     <Compile Include="Class\ServerUser.cs" />
+    <Compile Include="Class\Status.cs" />
     <Compile Include="Class\TextChat.cs" />
     <Compile Include="Class\User.cs" />
     <Compile Include="Class\UserLog.cs" />
