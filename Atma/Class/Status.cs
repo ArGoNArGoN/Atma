@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Atma.Class
 {
-    internal enum Status : Int32
+    public enum Status : Int32
     {
         OutOfPlace,
         Online,

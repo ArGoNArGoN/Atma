@@ -68,6 +68,7 @@
     <Compile Include="Class\IChat.cs" />
     <Compile Include="Class\Message.cs" />
     <Compile Include="Class\Opinion.cs" />
+    <Compile Include="Class\PinnedMessage.cs" />
     <Compile Include="Class\Request.cs" />
     <Compile Include="Class\Right.cs" />
     <Compile Include="Class\RightRole.cs" />
