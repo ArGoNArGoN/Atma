@@ -10,7 +10,7 @@ using System.Windows.Markup;
 
 namespace Atma.Class
 {
-	internal sealed class User
+	public sealed class User
 	{
 		private int id;
 		private string name;
