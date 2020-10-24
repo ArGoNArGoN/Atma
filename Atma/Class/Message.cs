@@ -12,6 +12,7 @@ namespace Atma.Class
 		private int id;
 		private String text;
 		public PinnedMessage PinnedMessage { get; set; }
+
 		public DateTime DateCreate { get; set; } = DateTime.Now;
 		public String DateTimeCreate { get => DateCreate.ToShortTimeString(); }
 		public Stream File  { get; set; }
@@ -23,6 +24,7 @@ namespace Atma.Class
 			{ 
 				Id = id;
 				Text = text;
+
 				User = serverUser;
 			}
             catch { throw; }
@@ -35,6 +37,7 @@ namespace Atma.Class
 				PinnedMessage = pinnedMessage;
 				DateCreate = dateCreate;
 				File = file;
+
             }
             catch { throw; }
         }
