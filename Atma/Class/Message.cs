@@ -12,33 +12,37 @@ namespace Atma.Class
 		private int id;
 		private String text;
 		public PinnedMessage PinnedMessage { get; set; }
-		public DateTime DateCreate { get; set; }
-		public Stream File  { get; set; }
-		private ServerUser user;
 
-		public Message(int id, string text, ServerUser serverUser)
-		{
+		public DateTime DateCreate { get; set; } = DateTime.Now;
+		public String DateTimeCreate { get => DateCreate.ToShortTimeString(); }
+		public Stream File  { get; set; }
+		private User user;
+
+        public Message(int id, string text, User serverUser)
+        {
 			try
 			{ 
 				Id = id;
 				Text = text;
-				ServerUser = serverUser;
-			}
-			catch { throw; }
-		}
 
-		public Message(PinnedMessage pinnedMessage, DateTime dateCreate, Stream file, int id, string text, ServerUser serverUser) : this(id, text, serverUser)
-		{
+				User = serverUser;
+			}
+            catch { throw; }
+        }
+
+        public Message(PinnedMessage pinnedMessage, DateTime dateCreate, Stream file, int id, string text, User serverUser) : this(id, text, serverUser)
+        {
 			try
 			{
 				PinnedMessage = pinnedMessage;
 				DateCreate = dateCreate;
 				File = file;
-			}
-			catch { throw; }
-		}
 
-		public Int32 Id
+            }
+            catch { throw; }
+        }
+
+        public Int32 Id
 		{
 			get => id;
 			set
@@ -56,19 +60,18 @@ namespace Atma.Class
 				if (String.IsNullOrWhiteSpace(value))
 					throw new ArgumentNullException("value is null", "value");
 
-				if (value.Length > 500)
+				if (value.Trim().Length > 500)
 					throw new ArgumentNullException("value.Length > 50", "value");
 
-				text = value;
+				text = value.Trim();
 			}
 		}
-
-		public ServerUser ServerUser 
+		public User User 
 		{ 
 			get => user;
 			set => user = value
 				?? throw new ArgumentNullException("value is null", "value");
 		}
-		public String UserName { get => ServerUser.User.Name; }
+		public String UserName { get => User.Name; }
 	}
 }
