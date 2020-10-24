@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atma", "Atma\Atma.csproj", "{6E846B25-4F91-404C-8906-7FBBF90D2C76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerChat", "ServerChat\ServerChat.csproj", "{30DDABE0-4503-42B9-A74A-3CD4B400F429}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerChat", "ServerChat\ServerChat.csproj", "{7BFCC7AC-89B0-4D33-94DD-3630D53BB196}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{6E846B25-4F91-404C-8906-7FBBF90D2C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E846B25-4F91-404C-8906-7FBBF90D2C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E846B25-4F91-404C-8906-7FBBF90D2C76}.Release|Any CPU.Build.0 = Release|Any CPU
-		{30DDABE0-4503-42B9-A74A-3CD4B400F429}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{30DDABE0-4503-42B9-A74A-3CD4B400F429}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{30DDABE0-4503-42B9-A74A-3CD4B400F429}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{30DDABE0-4503-42B9-A74A-3CD4B400F429}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BFCC7AC-89B0-4D33-94DD-3630D53BB196}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BFCC7AC-89B0-4D33-94DD-3630D53BB196}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BFCC7AC-89B0-4D33-94DD-3630D53BB196}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BFCC7AC-89B0-4D33-94DD-3630D53BB196}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
