@@ -1,46 +1,31 @@
-﻿
-    
-    
-    
-<Window x:Class="Atma.MainWindow"
+﻿<Window x:Class="ServerChat.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Atma"
+        xmlns:local="clr-namespace:ServerChat"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="400">
+        Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.3*" MinWidth="100" MaxWidth="200"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="0.3*" MinWidth="100" MaxWidth="500"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Border>
+        <Border Grid.Column="0">
             <Border.Style>
                 <Style TargetType="Border">
-                    <Setter Property="Background" Value="#FF263C3C"/>
-                </Style>
-            </Border.Style>
-        </Border>
-        <Border>
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="Grid.Column" Value="1"/>
                     <Setter Property="Background" Value="DarkSlateGray"/>
                 </Style>
             </Border.Style>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
-                    <RowDefinition Height="5"></RowDefinition>
-                    <RowDefinition Height="60"></RowDefinition>
+                    <RowDefinition Height="20"></RowDefinition>
                 </Grid.RowDefinitions>
                 <ListView x:Name="listUserMessage" ItemsSource="{Binding Path=Message}">
                     <ListView.Style>
                         <Style TargetType="ListView">
                             <Setter Property="Background" Value="{x:Null}"/>
-                            <Setter Property="Margin" Value="0"/>
-                            <Setter Property="BorderThickness" Value="0"/>
                         </Style>
                     </ListView.Style>
                     <ListView.ItemTemplate>
@@ -90,6 +75,13 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </Grid>
+        </Border>
+        <Border Grid.Column="1">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="DimGray"/>
+                </Style>
+            </Border.Style>
         </Border>
     </Grid>
 </Window>
