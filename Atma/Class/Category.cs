@@ -28,18 +28,18 @@ namespace Atma.Class
             get => name;
             set 
             {
-                if (String.IsNullOrWhiteSpace(value)) throw new ArgumentNullException("value = NULL");
-                if (value.Length > 50) throw new ArgumentException("value.Lenght > 50");
+                if (String.IsNullOrWhiteSpace(value)) throw new ArgumentNullException("value = NULL", "value");
+                if (value.Length > 50) throw new ArgumentException("value.Lenght > 50", "value");
                 name = value;
             }
         }
         public string Info
         {
             get => info;
-            set 
+            set
             {
-                if (value == null) throw new ArgumentNullException("value = NULL");
-                if (value.Length > 500) throw new ArgumentException("value.Lenght > 500");
+                if (value == null) throw new ArgumentNullException("value = NULL", "value");
+                if (value.Length > 500) throw new ArgumentException("value.Lenght > 500", "value");
                 info = value;
             }
         }

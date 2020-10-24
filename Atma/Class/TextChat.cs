@@ -25,14 +25,12 @@ namespace Atma.Class
 			}
             catch { throw; }
         }
-
         public List<ServerUser> ServerUsers 
 		{
 			get => serverUsers;
 			set => serverUsers = value ??
 					throw new ArgumentNullException("value is null");
 		}
-
 		public Int32 Id
         {
 			get => id;
@@ -42,7 +40,6 @@ namespace Atma.Class
 				id = value;
 			}
 		}
-
 		public String Name
         {
 			get => name;
@@ -55,7 +52,6 @@ namespace Atma.Class
 				name = value;
 			}
 		}
-
 		public String Info
         {
 			get => info;
@@ -68,7 +64,6 @@ namespace Atma.Class
 				info = value;
 			}
 		}
-
 		public Int32? MaxCountUser
         {
 			get => maxCountUser;

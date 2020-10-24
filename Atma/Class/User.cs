@@ -24,8 +24,8 @@ namespace Atma.Class
 			get => id;
 			set 
 			{
-				if (value < 0) throw new ArgumentException("value<0", "value");
-					id = value;
+				if (value < 0) throw new ArgumentException("value < 0", "value");
+				id = value;
 			}
 		}
 		public string Name
@@ -36,8 +36,8 @@ namespace Atma.Class
 			}
 			set 
 			{
-				if (String.IsNullOrWhiteSpace(value)) throw new ArgumentNullException("value = NULL");
-					name  = value;
+				if (String.IsNullOrWhiteSpace(value)) throw new ArgumentNullException("value = NULL", "value");
+				name  = value;
 			}
         }
 		public DateTime DateReg
@@ -45,8 +45,8 @@ namespace Atma.Class
 			get => dater;
 			set 
 			{
-				if ((value) > DateTime.Now) throw new ArgumentException("value > DataTime.Now");
-					dater = value;
+				if ((value) > DateTime.Now) throw new ArgumentException("value > DataTime.Now", "value");
+				dater = value;
 			}
 		}
 		public string RealName
@@ -54,8 +54,9 @@ namespace Atma.Class
 			get => rname;
 			set 
 			{
-				if (String.IsNullOrWhiteSpace(value)) throw new ArgumentNullException("RealName is NULL");
-					rname = value;
+				if (String.IsNullOrWhiteSpace(value)) 
+					throw new ArgumentNullException("value is NULL", "value");
+				rname = value;
 			}
 		}
 		public string Icon
@@ -63,8 +64,9 @@ namespace Atma.Class
 			get => icon;
             set 
 			{
-				if (String.IsNullOrWhiteSpace(value)) throw new ArgumentNullException("Icon");
-					icon = value;
+				if (String.IsNullOrWhiteSpace(value)) 
+					throw new ArgumentNullException("value is null", "value");
+				icon = value;
 			} 
 		}
 		public Status Status { get; set; }
@@ -73,8 +75,8 @@ namespace Atma.Class
 			get => status;
 			set 
 			{
-				if (value == null) throw new ArgumentNullException("Status is NULL");
-				if (value.Length > 100) throw new ArgumentNullException("value>100");
+				if (value == null) throw new ArgumentNullException("Status is NULL", "value");
+				if (value.Length > 100) throw new ArgumentException("value > 100", "value");
 					status = value;
 			}
 		}
