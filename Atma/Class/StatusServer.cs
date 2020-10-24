@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Atma.Class
 {
-    enum StatusServer
-    {
-        @private,
-        @public
-    }
+	public enum StatusServer
+	{
+		@private,
+		@public
+	}
 }

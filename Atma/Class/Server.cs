@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 namespace Atma.Class
 {
-    internal sealed class Server
+	public sealed class Server
 	{
 		private Int32 id;
 		private String name;
 		private String info;
 		private String language;
 		private DateTime dateCreate;
-		private List<User> list = new List<User>();
+		private List<ServerUser> list = new List<ServerUser>();
 		public StatusServer Status { get; set; }
 
 		public Server(Int32 id, String name, DateTime dateCreate, String language = "Void", String info = "", StatusServer status = StatusServer.@private)
-        {
+		{
 			try
 			{
 				Id = id;
@@ -24,10 +24,10 @@ namespace Atma.Class
 				Status = status;
 				DateCreate = dateCreate;
 			}
-            catch { throw; }
-        }
+			catch { throw; }
+		}
 
-        public Int32 Id
+		public Int32 Id
 		{
 			get => id;
 			set
@@ -57,6 +57,7 @@ namespace Atma.Class
 			{
 				if (String.IsNullOrWhiteSpace(value))
 					throw new ArgumentNullException("value is value", "language");
+				language = value;
 			}
 		}
 		public String Info
@@ -88,14 +89,13 @@ namespace Atma.Class
 		/// ??
 		/// а если User = null
 		/// </summary>
-		public List<User> List
+		public List<ServerUser> List
 		{
 			get => list;
 			set
 			{
-				if (value == null)
-					throw new ArgumentNullException("value = null", "value");
-				list = value;
+				list = value 
+					?? throw new ArgumentNullException("value = null", "value");
 			}
 		}
 	}
