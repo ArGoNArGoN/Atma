@@ -16,29 +16,29 @@ namespace Atma.Class
 		public Stream File  { get; set; }
 		private ServerUser user;
 
-        public Message(int id, string text, ServerUser serverUser)
-        {
+		public Message(int id, string text, ServerUser serverUser)
+		{
 			try
 			{ 
 				Id = id;
 				Text = text;
 				ServerUser = serverUser;
 			}
-            catch { throw; }
-        }
+			catch { throw; }
+		}
 
-        public Message(PinnedMessage pinnedMessage, DateTime dateCreate, Stream file, int id, string text, ServerUser serverUser) : this(id, text, serverUser)
-        {
+		public Message(PinnedMessage pinnedMessage, DateTime dateCreate, Stream file, int id, string text, ServerUser serverUser) : this(id, text, serverUser)
+		{
 			try
 			{
 				PinnedMessage = pinnedMessage;
 				DateCreate = dateCreate;
 				File = file;
-            }
-            catch { throw; }
-        }
+			}
+			catch { throw; }
+		}
 
-        public Int32 Id
+		public Int32 Id
 		{
 			get => id;
 			set
