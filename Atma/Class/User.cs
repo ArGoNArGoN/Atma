@@ -19,7 +19,30 @@ namespace Atma.Class
 		private string icon;
 		private string status;
 
-		public Int32 ID
+        public User(int iD, string name, string realName)
+        {
+			try
+			{
+				ID = iD;
+				Name = name;
+				RealName = realName;
+            }
+            catch { throw; }
+        }
+
+        public User(int iD, string name, DateTime dateReg, string realName, string icon, Status status, string status2) : this(iD, name, realName)
+        {
+			try
+			{ 
+				Icon = icon;
+				Status = status;
+				Status2 = status2;
+				DateReg = dateReg;
+			}
+            catch { throw; }
+        }
+
+        public Int32 ID
 		{
 			get => id;
 			set 

@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace Atma.Class
 {
-	internal sealed class TextChat : IChat
+	public sealed class TextChat : IChat
 	{
 		private Int32 id;
 		private String name;
 		private String info;
 		private Int32? maxCountUser;
 		private List<ServerUser> serverUsers = new List<ServerUser>();
-
-        public TextChat(int id, string name, string info, int? maxCountUser)
+		private List<Message> messages = new List<Message>();
+		
+		public TextChat(int id, string name, string info, int? maxCountUser = null)
         {
 			try
 			{
@@ -29,6 +30,12 @@ namespace Atma.Class
 		{
 			get => serverUsers;
 			set => serverUsers = value ??
+					throw new ArgumentNullException("value is null");
+		}
+		public List<Message> Messages
+		{
+			get => messages;
+			set => messages = value ??
 					throw new ArgumentNullException("value is null");
 		}
 		public Int32 Id
