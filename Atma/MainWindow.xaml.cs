@@ -64,7 +64,9 @@ namespace Atma
 				listUserMessage.ItemsSource = null;
 				listUserMessage.ItemsSource = TextChat.Messages;
 			}
+
 			catch (Exception e1) { MessageBox.Show(e1.Message); }
+
 			finally { MessagePop.Text = ""; }
 		}
 	}
