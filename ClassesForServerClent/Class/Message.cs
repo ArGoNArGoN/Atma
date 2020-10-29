@@ -5,21 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Atma.Class
+namespace ClassesForServerClent.Class
 {
 	public sealed class Message
 	{
-		private int id;
+		private Int32 id;
 		private String text;
 		public PinnedMessage PinnedMessage { get; set; }
-
 		public DateTime DateCreate { get; set; } = DateTime.Now;
 		public String DateTimeCreate { get => DateCreate.ToShortTimeString(); }
 		public Stream File  { get; set; }
 		private User user;
 
-        public Message(int id, string text, User serverUser)
-        {
+		public Message(int id, string text, User serverUser)
+		{
 			try
 			{ 
 				Id = id;
@@ -27,28 +26,29 @@ namespace Atma.Class
 
 				User = serverUser;
 			}
-            catch { throw; }
-        }
+			catch { throw; }
+		}
 
-        public Message(PinnedMessage pinnedMessage, DateTime dateCreate, Stream file, int id, string text, User serverUser) : this(id, text, serverUser)
-        {
+		public Message(PinnedMessage pinnedMessage, DateTime dateCreate, Stream file, int id, string text, User serverUser) : this(id, text, serverUser)
+		{
 			try
 			{
 				PinnedMessage = pinnedMessage;
 				DateCreate = dateCreate;
 				File = file;
 
-            }
-            catch { throw; }
-        }
+			}
+			catch { throw; }
+		}
 
-        public Int32 Id
+		public Int32 Id
 		{
 			get => id;
 			set
 			{
 				if (value < 0)
-					throw new ArgumentException("value < 0", "value");
+					throw new ArgumentException("value < 0", nameof(value));
+
 				id = value;
 			}
 		}
@@ -58,10 +58,10 @@ namespace Atma.Class
 			set
 			{
 				if (String.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("value is null", "value");
+					throw new ArgumentNullException("value is null", nameof(value));
 
 				if (value.Trim().Length > 500)
-					throw new ArgumentNullException("value.Length > 50", "value");
+					throw new ArgumentNullException("value.Length > 50", nameof(value));
 
 				text = value.Trim();
 			}
@@ -70,7 +70,7 @@ namespace Atma.Class
 		{ 
 			get => user;
 			set => user = value
-				?? throw new ArgumentNullException("value is null", "value");
+				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
 		public String UserName { get => User.Name; }
 	}

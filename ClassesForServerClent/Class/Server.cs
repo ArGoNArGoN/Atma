@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Atma.Class
+namespace ClassesForServerClent.Class
 {
 	public sealed class Server
 	{
@@ -32,7 +32,9 @@ namespace Atma.Class
 			get => id;
 			set
 			{
-				if (value < 0) throw new ArgumentException("value < 0", "value");
+				if (value < 0)
+					throw new ArgumentException("value < 0", nameof(value));
+
 				id = value;
 			}
 		}
@@ -42,10 +44,10 @@ namespace Atma.Class
 			set
 			{
 				if (String.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("value is null", "value");
+					throw new ArgumentNullException("value is null", nameof(value));
 
 				if (value.Length > 50)
-					throw new ArgumentNullException("value.Length > 50", "value");
+					throw new ArgumentNullException("value.Length > 50", nameof(value));
 
 				name = value;
 			}
@@ -56,7 +58,8 @@ namespace Atma.Class
 			set
 			{
 				if (String.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("value is value", "language");
+					throw new ArgumentNullException("value is value", nameof(value));
+
 				language = value;
 			}
 		}
@@ -66,10 +69,10 @@ namespace Atma.Class
 			set
 			{
 				if (value == null)
-					throw new ArgumentNullException("value is null", "value");
+					throw new ArgumentNullException("value is null", nameof(value));
 
 				if (value.Length > 500)
-					throw new ArgumentException("value > 500", "value");
+					throw new ArgumentException("value > 500", nameof(value));
 
 				info = value;
 			}
@@ -80,7 +83,7 @@ namespace Atma.Class
 			set
 			{
 				if (value > DateTime.Now)
-					throw new ArgumentException("value > DateTime.Now", "value");
+					throw new ArgumentException("value > DateTime.Now", nameof(value));
 				dateCreate = value;
 			}
 		}
@@ -92,11 +95,8 @@ namespace Atma.Class
 		public List<ServerUser> List
 		{
 			get => list;
-			set
-			{
-				list = value 
-					?? throw new ArgumentNullException("value = null", "value");
-			}
+			set => list = value
+					?? throw new ArgumentNullException("value = null", nameof(value));
 		}
 	}
 }

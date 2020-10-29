@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Atma.Class
+namespace ClassesForServerClent.Class
 {
 	public sealed class TextChat : IChat
 	{
@@ -16,7 +16,7 @@ namespace Atma.Class
 		private List<Message> messages = new List<Message>();
 		
 		public TextChat(int id, string name, string info, int? maxCountUser = null)
-        {
+		{
 			try
 			{
 				Id = id;
@@ -24,62 +24,69 @@ namespace Atma.Class
 				Info = info;
 				MaxCountUser = maxCountUser;
 			}
-            catch { throw; }
-        }
-        public List<ServerUser> ServerUsers 
+			catch { throw; }
+		}
+		public List<ServerUser> ServerUsers 
 		{
 			get => serverUsers;
-			set => serverUsers = value ??
-					throw new ArgumentNullException("value is null");
+			set => serverUsers = value 
+				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
 		public List<Message> Messages
 		{
 			get => messages;
-			set => messages = value ??
-					throw new ArgumentNullException("value is null");
+			set => messages = value 
+				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
 		public Int32 Id
-        {
+		{
 			get => id;
-            set
-            {
-				if (value < 0) throw new ArgumentException("value < 0", "value");
+			set
+			{
+				if (value < 0)
+					throw new ArgumentException("value < 0", nameof(value));
+
 				id = value;
 			}
 		}
 		public String Name
-        {
+		{
 			get => name;
-            set
-            {
+			set
+			{
 				if (String.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("value is null");
+					throw new ArgumentNullException("value is null", nameof(value));
+
 				if (value.Length > 50)
-					throw new ArgumentException("value.Length > 50", "value");
+					throw new ArgumentException("value.Length > 50", nameof(value));
+
 				name = value;
 			}
 		}
 		public String Info
-        {
+		{
 			get => info;
-            set
-            {
+			set
+			{
 				if (value == null)
-					throw new ArgumentNullException("value is null", "value");
+					throw new ArgumentNullException("value is null", nameof(value));
+
 				if (value.Length > 500)
-					throw new ArgumentException("value.Length > 500", "value");
+					throw new ArgumentException("value.Length > 500", nameof(value));
+
 				info = value;
 			}
 		}
 		public Int32? MaxCountUser
-        {
+		{
 			get => maxCountUser;
 			set
-            {
+			{
 				if (value < 2)
-					throw new ArgumentException("value < 2", "value");
+					throw new ArgumentException("value < 2", nameof(value));
+
 				maxCountUser = value;
 			}
 		}
-    }
+	}
 }

@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Atma.Class
+namespace ClassesForServerClent.Class
 {
-    class EventLog
-    {
-    }
+	public enum StatusServer
+	{
+		@private,
+		@public
+	}
 }
