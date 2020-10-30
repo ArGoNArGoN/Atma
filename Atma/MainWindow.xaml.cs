@@ -1,4 +1,5 @@
 ﻿
+using ClassesForServerClent.Class;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,9 @@ namespace Atma
 		public MainWindow()
 		{
 			InitializeComponent();
+            using (DB db = new DB())
+            {
+			}
 		}
 	}
 }

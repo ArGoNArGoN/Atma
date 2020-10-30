@@ -51,7 +51,7 @@ namespace ClassesForServerClent.Class
 				id = value;
 			}
 		}
-		public Int32 IdUser
+		public Int32 IDUser
 		{
 			get => idUser;
 			set
@@ -62,7 +62,7 @@ namespace ClassesForServerClent.Class
 				idUser = value;
 			}
 		}
-		public Int32 IdTextChat
+		public Int32 IDTextChat
 		{
 			get => idTextChat;
 			set
