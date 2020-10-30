@@ -1,21 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ClassesForServerClent.Class
 {
-	public sealed class Opinion
+	[Table("Opinion")]
+	public class Opinion
 	{
         private Int32 id;
-        private Int32 mark;
+		private Int32 idUser;
 		private User user;
+		private Int32 idServer;
 		private Server server;
-		private string message;
+		private Int32 mark;
+		private String message;
         private DateTime date;
 
-        public Int32 Id
+
+        public Int32 ID
 		{
 			get => id;
 			set
@@ -24,17 +29,27 @@ namespace ClassesForServerClent.Class
 				id = value;
 			}
 		}
-		public User User 
+		public Int32 IDUser
 		{
-			get => user;
-			set => user = value 
-				?? throw new ArgumentException("value is null", nameof(value));
+			get => idUser;
+			set
+			{
+				if (value < 0)
+					throw new ArgumentException("value < 0", nameof(value));
+
+				idUser = value;
+			}
 		}
-		public Server Server
+		public Int32 IDServer
 		{
-			get => server;
-			set => server = value
-				?? throw new ArgumentException("value is null", nameof(value));
+			get => idServer;
+			set
+			{
+				if (value < 0)
+					throw new ArgumentException("value < 0", nameof(value));
+
+				idServer = value;
+			}
 		}
 		public Int32 Mark
         {
@@ -55,12 +70,14 @@ namespace ClassesForServerClent.Class
 				if (String.IsNullOrWhiteSpace(value))
 					throw new ArgumentNullException("value is null", nameof(value));
 
-				if (value.Trim().Length > 200)
+				if (value.Trim().Length > 100)
 					throw new ArgumentNullException("value.Length > 50", nameof(value));
 
 				message = value.Trim();
 			}
 		}
+
+		[Column(TypeName = "date")]
 		public DateTime Date
         {
 			get => date;
@@ -72,5 +89,18 @@ namespace ClassesForServerClent.Class
 				date = value;
             }
         }
-    }
+
+		public virtual Server Server
+		{
+			get => server;
+			set => server = value
+				?? throw new ArgumentNullException("value is null", nameof(value));
+		}
+		public virtual User User
+		{
+			get => user;
+			set => user = value
+				?? throw new ArgumentNullException("value is null", nameof(value));
+		}
+	}
 }

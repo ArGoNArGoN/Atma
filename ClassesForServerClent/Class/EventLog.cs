@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ClassesForServerClent.Class
 {
-	public sealed class EventLog
+	[Table("EventLog")]
+	public class EventLog
 	{
 		private Int32 id;
-        private Server server;
+		private Int32 idServer;
+		private Int32? idUser;
+		private Server server;
         private String message;
 		private DateTime date;
 
-		public Int32 Id
+        public Int32 ID
 		{
 			get => id;
 			set
@@ -24,12 +28,29 @@ namespace ClassesForServerClent.Class
 				id = value;
 			}
 		}
-		public Server Server
-        {
-			get => server;
-			set => server = value
-				?? throw new ArgumentNullException("value is null", nameof(value));
+		public Int32 IDServer
+		{
+			get => idServer;
+			set
+			{
+				if (value < 0)
+					throw new ArgumentException("value < 0", nameof(value));
+
+				idServer = value;
+			}
 		}
+		public Int32? IDUser
+		{
+			get => idUser;
+			set
+			{
+				if (value < 0)
+					throw new ArgumentException("value < 0", nameof(value));
+
+				idUser = value;
+			}
+		}
+		[Column(TypeName = "int")]
 		public ActionInServer Action { get; set; }
 		public String Message
 		{
@@ -39,13 +60,15 @@ namespace ClassesForServerClent.Class
 				if (String.IsNullOrWhiteSpace(value))
 					throw new ArgumentNullException("value is null", nameof(value));
 
-				if (value.Trim().Length > 500)
-					throw new ArgumentNullException("value.Length > 50", nameof(value));
+				if (value.Trim().Length > 200)
+					throw new ArgumentNullException("value.Length > 200", nameof(value));
 
 				message = value.Trim();
 			}
 		}
+		[Column(TypeName = "int")]
 		public TypeEventServer TypeEvent { get; set; }
+		[Column(TypeName = "date")]
 		public DateTime Date
 		{
 			get => date;
@@ -57,5 +80,14 @@ namespace ClassesForServerClent.Class
 				date = value;
 			}
 		}
+
+
+		public virtual Server Server
+		{
+			get => server;
+			set => server = value
+				?? throw new ArgumentNullException("value is null", nameof(value));
+		}
+		public virtual Server User { get; set; }
 	}
 }

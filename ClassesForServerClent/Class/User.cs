@@ -1,16 +1,12 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Markup;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClassesForServerClent.Class
 {
-	public sealed class User
+	[Table("User")]
+	public class User
 	{
 		private Int32 id;
 		private String name;
@@ -23,7 +19,7 @@ namespace ClassesForServerClent.Class
 		{
 			try
 			{
-				Id = id;
+				ID = id;
 				Name = name;
 				RealName = realName;
 			}
@@ -41,7 +37,7 @@ namespace ClassesForServerClent.Class
 			catch { throw; }
 		}
 
-		public Int32 Id
+		public Int32 ID
 		{
 			get => id;
 			set 
@@ -52,6 +48,7 @@ namespace ClassesForServerClent.Class
 				id = value;
 			}
 		}
+		[Required]
 		public String Name
 		{
 			get => name;
@@ -66,17 +63,7 @@ namespace ClassesForServerClent.Class
 				name  = value;
 			}
 		}
-		public DateTime DateReg
-		{
-			get => dater;
-			set 
-			{
-				if ((value) > DateTime.Now)
-					throw new ArgumentException("value > DataTime.Now", nameof(value));
-
-				dater = value;
-			}
-		}
+		[Required]
 		public String RealName
 		{
 			get => rname;
@@ -84,6 +71,9 @@ namespace ClassesForServerClent.Class
 			{
 				if (String.IsNullOrWhiteSpace(value)) 
 					throw new ArgumentNullException("value is null", nameof(value));
+				
+				if (value.Length > 50)
+					throw new ArgumentNullException("value = null", nameof(value));
 
 				rname = value;
 			}
@@ -95,11 +85,17 @@ namespace ClassesForServerClent.Class
 			{
 				if (String.IsNullOrWhiteSpace(value)) 
 					throw new ArgumentNullException("value is null", nameof(value));
+				
+				if (value.Length > 100)
+					throw new ArgumentException("value > 100", nameof(value));
 
 				icon = value;
 			} 
 		}
+
+		[Column(TypeName = "int")]
 		public Status Status { get; set; }
+
 		public String Status2
 		{
 			get => status;
@@ -114,5 +110,52 @@ namespace ClassesForServerClent.Class
 				status = value;
 			}
 		}
+
+		[Column(TypeName = "date")]
+		public DateTime DateReg
+		{
+			get => dater;
+			set
+			{
+				if ((value) > DateTime.Now)
+					throw new ArgumentException("value > DataTime.Now", nameof(value));
+
+				dater = value;
+			}
+		}
+
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+		public User()
+		{
+			EventLog = new HashSet<EventLog>();
+			Message = new HashSet<Message>();
+			Opinion = new HashSet<Opinion>();
+			Request = new HashSet<Request>();
+			Request1 = new HashSet<Request>();
+			ServerUser = new HashSet<ServerUser>();
+			UserLog = new HashSet<UserLog>();
+		}
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<EventLog> EventLog { get; set; }
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<Message> Message { get; set; }
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<Opinion> Opinion { get; set; }
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<Request> Request { get; set; }
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<Request> Request1 { get; set; }
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<ServerUser> ServerUser { get; set; }
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<UserLog> UserLog { get; set; }
 	}
 }
