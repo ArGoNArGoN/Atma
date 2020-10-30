@@ -27,6 +27,9 @@ namespace Atma
 			InitializeComponent();
             using (DB db = new DB())
             {
+				var a = new User() { Name = "dawd", Date = DateTime.Now, RealName = "dawd" };
+				db.User.Add(a);
+				db.SaveChanges();
 			}
 		}
 	}

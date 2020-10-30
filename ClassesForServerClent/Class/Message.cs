@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ClassesForServerClent.Class
 {
+	[Table("Message")]
 	public class Message
 	{
 		private Int32 id;
