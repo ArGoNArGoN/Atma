@@ -32,7 +32,7 @@ namespace ClassesForServerClent.Class
 				Icon = icon;
 				Status = status;
 				Status2 = status2;
-				DateReg = dateReg;
+				Date = dateReg;
 			}
 			catch { throw; }
 		}
@@ -112,7 +112,7 @@ namespace ClassesForServerClent.Class
 		}
 
 		[Column(TypeName = "date")]
-		public DateTime DateReg
+		public DateTime Date
 		{
 			get => dater;
 			set

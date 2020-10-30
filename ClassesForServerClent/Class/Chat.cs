@@ -8,7 +8,6 @@ namespace ClassesForServerClent.Class
     [Table("Chat")]
     public class Chat
     {
-        private List<ServerUser> serverUsers;
         private Int32 id;
         private Int32 idServer;
         private Int32? idCategory;

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ClassesForServerClent.Class
 {
+	[Table("TextChat")]
 	public class TextChat
 	{
 		private Int32 id;

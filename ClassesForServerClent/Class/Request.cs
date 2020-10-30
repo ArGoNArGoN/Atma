@@ -56,7 +56,7 @@ namespace ClassesForServerClent.Class
 			set => user = value
 				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
-		public virtual User Friend
+		public virtual User User1
 		{
 			get => friend;
 			set => friend = value

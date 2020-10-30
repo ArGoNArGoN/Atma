@@ -144,7 +144,7 @@ namespace ClassesForServerClent.Class
 		}
 		public virtual Chat Chat { get; set; }
 		public virtual TextChat TextChat { get; set; }
-		public virtual User User { get; set; }
+		public virtual ServerUser ServerUser { get; set; }
 		public virtual Category Category { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

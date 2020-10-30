@@ -66,7 +66,6 @@ namespace ClassesForServerClent.Class
 			}
 		}
 
-
 		public virtual User User
 		{
 			get => user;

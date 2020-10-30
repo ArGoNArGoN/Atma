@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClassesForServerClent.Class
 {
+	[Table("Role")]
 	public class Role
 	{
         private Int32 id;

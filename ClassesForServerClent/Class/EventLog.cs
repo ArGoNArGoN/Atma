@@ -88,6 +88,6 @@ namespace ClassesForServerClent.Class
 			set => server = value
 				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
-		public virtual Server User { get; set; }
+		public virtual User User { get; set; }
 	}
 }
