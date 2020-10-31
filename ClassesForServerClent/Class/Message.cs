@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,29 +8,28 @@ using System.Threading.Tasks;
 
 namespace ClassesForServerClent.Class
 {
-	public sealed class Message
+	[Table("Message")]
+	public class Message
 	{
 		private Int32 id;
+		private Int32 idTextChat;
+		private Int32 idUser;
 		private String text;
-		public PinnedMessage PinnedMessage { get; set; }
-		public DateTime DateCreate { get; set; } = DateTime.Now;
-		public String DateTimeCreate { get => DateCreate.ToShortTimeString(); }
-		public Stream File  { get; set; }
 		private User user;
+        private TextChat textChat;
 
-		public Message(int id, string text, User serverUser)
+        public Message(int id, string text, User serverUser)
 		{
 			try
 			{ 
-				Id = id;
+				ID = id;
 				Text = text;
 
 				User = serverUser;
 			}
 			catch { throw; }
 		}
-
-		public Message(PinnedMessage pinnedMessage, DateTime dateCreate, Stream file, int id, string text, User serverUser) : this(id, text, serverUser)
+		public Message(Boolean pinnedMessage, DateTime dateCreate, String file, int id, string text, User serverUser) : this(id, text, serverUser)
 		{
 			try
 			{
@@ -41,7 +41,7 @@ namespace ClassesForServerClent.Class
 			catch { throw; }
 		}
 
-		public Int32 Id
+		public Int32 ID
 		{
 			get => id;
 			set
@@ -50,6 +50,28 @@ namespace ClassesForServerClent.Class
 					throw new ArgumentException("value < 0", nameof(value));
 
 				id = value;
+			}
+		}
+		public Int32 IDUser
+		{
+			get => idUser;
+			set
+			{
+				if (value < 0)
+					throw new ArgumentException("value < 0", nameof(value));
+
+				idUser = value;
+			}
+		}
+		public Int32 IDTextChat
+		{
+			get => idTextChat;
+			set
+			{
+				if (value < 0)
+					throw new ArgumentException("value < 0", nameof(value));
+
+				idTextChat = value;
 			}
 		}
 		public String Text
@@ -66,12 +88,30 @@ namespace ClassesForServerClent.Class
 				text = value.Trim();
 			}
 		}
-		public User User 
-		{ 
+
+		[Column(TypeName = "bit")]
+		public Boolean PinnedMessage { get; set; }
+
+		[Column(TypeName = "date")]
+		public DateTime DateCreate { get; set; } = DateTime.Now;
+
+		public String File { get; set; }
+
+
+		public virtual User User
+		{
 			get => user;
 			set => user = value
 				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
+		public virtual TextChat TextChat
+		{
+			get => textChat;
+			set => textChat = value
+				?? throw new ArgumentNullException("value is null", nameof(value));
+		}
+
+		public String DateTimeCreate { get => DateCreate.ToShortTimeString(); }
 		public String UserName { get => User.Name; }
 	}
 }

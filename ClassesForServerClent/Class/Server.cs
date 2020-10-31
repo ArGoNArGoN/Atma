@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClassesForServerClent.Class
 {
-	public sealed class Server
+	[Table("Server")]
+	public class Server
 	{
 		private Int32 id;
 		private String name;
 		private String info;
 		private String language;
 		private DateTime dateCreate;
-		private List<ServerUser> list = new List<ServerUser>();
-		public StatusServer Status { get; set; }
 
-		public Server(Int32 id, String name, DateTime dateCreate, String language = "Void", String info = "", StatusServer status = StatusServer.@private)
+		public Server(Int32 id, String name, DateTime dateCreate, String language = "Void", String info = "", Boolean status = false)
 		{
 			try
 			{
-				Id = id;
+				ID = id;
 				Name = name;
 				Language = language;
 				Info = info;
@@ -27,7 +28,7 @@ namespace ClassesForServerClent.Class
 			catch { throw; }
 		}
 
-		public Int32 Id
+		public Int32 ID
 		{
 			get => id;
 			set
@@ -38,6 +39,8 @@ namespace ClassesForServerClent.Class
 				id = value;
 			}
 		}
+
+		[Required]
 		public String Name
 		{
 			get => name;
@@ -52,13 +55,27 @@ namespace ClassesForServerClent.Class
 				name = value;
 			}
 		}
+
+		[Column(TypeName = "date")]
+		public DateTime DateCreate
+		{
+			get => dateCreate;
+			set
+			{
+				if (value > DateTime.Now)
+					throw new ArgumentException("value > DateTime.Now", nameof(value));
+				
+				dateCreate = value;
+			}
+		}
+		public Boolean Status { get; set; }
 		public String Language
 		{
 			get => language;
 			set
 			{
-				if (String.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("value is value", nameof(value));
+				if (value?.Length > 30)
+					throw new ArgumentNullException("value.Length > 30", nameof(value));
 
 				language = value;
 			}
@@ -77,26 +94,34 @@ namespace ClassesForServerClent.Class
 				info = value;
 			}
 		}
-		public DateTime DateCreate
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+		public Server()
 		{
-			get => dateCreate;
-			set
-			{
-				if (value > DateTime.Now)
-					throw new ArgumentException("value > DateTime.Now", nameof(value));
-				dateCreate = value;
-			}
+			Chat = new HashSet<Chat>();
+			EventLog = new HashSet<EventLog>();
+			Opinion = new HashSet<Opinion>();
+			Right = new HashSet<Right>();
+			ServerUser = new HashSet<ServerUser>();
+			TextChat = new HashSet<TextChat>();
 		}
-		
-		/// <summary>
-		/// ??
-		/// а если User = null
-		/// </summary>
-		public List<ServerUser> List
-		{
-			get => list;
-			set => list = value
-					?? throw new ArgumentNullException("value = null", nameof(value));
-		}
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<Chat> Chat { get; set; }
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<EventLog> EventLog { get; set; }
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<Opinion> Opinion { get; set; }
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<Right> Right { get; set; }
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<ServerUser> ServerUser { get; set; }
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<TextChat> TextChat { get; set; }
 	}
 }

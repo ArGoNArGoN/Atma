@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClassesForServerClent.Class
 {
-    public sealed class Chat : IChat
+    [Table("Chat")]
+    public class Chat
     {
-        private List<ServerUser> serverUsers;
         private Int32 id;
+        private Int32 idServer;
+        private Int32? idCategory;
+        private Int32 type;
+        private String name;
+        private Int32? maxCountUser;
         private Server server;
+        private String info;
 
-        [Key]
-        public Int32 Id
+        public Int32 ID
         {
             get => id;
             set
@@ -22,20 +28,90 @@ namespace ClassesForServerClent.Class
                 id = value;
             }
         }
-        public Server Server
+        public Int32 IDServer
+        {
+            get => idServer;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("value < 0", nameof(value));
+
+                idServer = value;
+            }
+        }
+        public Int32? IDCategory
+        {
+            get => idCategory;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("value < 0", nameof(value));
+
+                idCategory = value;
+            }
+        }
+        public Int32 Type
+        {
+            get => type;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("value < 0", nameof(value));
+
+                type = value;
+            }
+        }
+        [Required]
+        public String Name
+        {
+            get => name;
+            set
+            {
+                if (String.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException("value is null", nameof(value));
+
+                if (value.Length > 50)
+                    throw new ArgumentNullException("value = null", nameof(value));
+
+                name = value;
+            }
+        }
+        public Int32? MaxCountUser 
+        {
+            get => maxCountUser;
+            set => maxCountUser = value > 0 ? value
+                : throw new ArgumentException("value < 0", nameof(value));
+        }
+        public String Info
+        {
+            get => info;
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value is null", nameof(value));
+
+                if (value.Length > 200)
+                    throw new ArgumentException("value > 200", nameof(value));
+
+                info = value;
+            }
+        }
+
+        public virtual Server Server
         {
             get => server;
             set => server = value
                 ?? throw new ArgumentNullException("value is null", nameof(value));
         }
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
 
-        public List<ServerUser> ServerUsers
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Chat()
         {
-            get => serverUsers;
-            set => serverUsers = value
-                ?? throw new ArgumentNullException("serverUser is null", nameof(value));
+            Right = new HashSet<Right>();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Right> Right { get; set; }
     }
 }

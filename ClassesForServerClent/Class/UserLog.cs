@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClassesForServerClent.Class
 {
-	public sealed class UserLog
+    [Table("UserLog")]
+	public class UserLog
 	{
         private Int32 id;
-        private User user;
+		private Int32 idUser;
+		private User user;
         private String info;
         private DateTime date;
-        public Int32 Id
+
+        public Int32 ID
 		{
 			get => id;
 			set
@@ -24,15 +23,21 @@ namespace ClassesForServerClent.Class
 				id = value;
 			}
 		}
-
-		[ForeignKey("")]
-		public User User
+		public Int32 IDUser
 		{
-			get => user;
-			set => user = value
-				?? throw new ArgumentException("value is null", nameof(value));
+			get => idUser;
+			set
+			{
+				if (value < 0)
+					throw new ArgumentException("value < 0", nameof(value));
+
+				idUser = value;
+			}
 		}
+
+		[Column(TypeName = "int")]
 		public TypeActionUser TypeActionUser { get; set; }
+
 		public String Info
 		{
 			get => info;
@@ -41,12 +46,14 @@ namespace ClassesForServerClent.Class
 				if (value == null)
 					throw new ArgumentNullException("value is null", nameof(value));
 
-				if (value.Length > 500)
+				if (value.Length > 100)
 					throw new ArgumentException("value.Length > 500", nameof(value));
 
 				info = value;
 			}
 		}
+
+		[Column(TypeName = "date")]
 		public DateTime Date
 		{
 			get => date;
@@ -57,6 +64,13 @@ namespace ClassesForServerClent.Class
 
 				date = value;
 			}
+		}
+
+		public virtual User User
+		{
+			get => user;
+			set => user = value
+				?? throw new ArgumentException("value is null", nameof(value));
 		}
 	}
 }

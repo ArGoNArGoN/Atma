@@ -1,44 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ClassesForServerClent.Class
 {
-	public sealed class TextChat : IChat
+	[Table("TextChat")]
+	public class TextChat
 	{
 		private Int32 id;
+		private Int32 idServer;
+		private Int32? idCategory;
 		private String name;
 		private String info;
 		private Int32? maxCountUser;
 		private List<ServerUser> serverUsers = new List<ServerUser>();
 		private List<Message> messages = new List<Message>();
-		
-		public TextChat(int id, string name, string info, int? maxCountUser = null)
+        private Server server;
+
+        public TextChat(int id, string name, string info, int? maxCountUser = null)
 		{
 			try
 			{
-				Id = id;
+				ID = id;
 				Name = name;
 				Info = info;
 				MaxCountUser = maxCountUser;
 			}
 			catch { throw; }
 		}
-		public List<ServerUser> ServerUsers 
-		{
-			get => serverUsers;
-			set => serverUsers = value 
-				?? throw new ArgumentNullException("value is null", nameof(value));
-		}
-		public List<Message> Messages
-		{
-			get => messages;
-			set => messages = value 
-				?? throw new ArgumentNullException("value is null", nameof(value));
-		}
-		public Int32 Id
+		public Int32 ID
 		{
 			get => id;
 			set
@@ -47,6 +40,28 @@ namespace ClassesForServerClent.Class
 					throw new ArgumentException("value < 0", nameof(value));
 
 				id = value;
+			}
+		}
+		public Int32 IDServer
+		{
+			get => idServer;
+			set
+			{
+				if (value < 0)
+					throw new ArgumentException("value < 0", nameof(value));
+
+				idServer = value;
+			}
+		}
+		public Int32? IDCategory
+		{
+			get => idCategory;
+			set
+			{
+				if (value < 0)
+					throw new ArgumentException("value < 0", nameof(value));
+
+				idCategory = value;
 			}
 		}
 		public String Name
@@ -63,6 +78,17 @@ namespace ClassesForServerClent.Class
 				name = value;
 			}
 		}
+		public Int32? MaxCountUser
+		{
+			get => maxCountUser;
+			set
+			{
+				if (value < 2)
+					throw new ArgumentException("value < 2", nameof(value));
+
+				maxCountUser = value;
+			}
+		}
 		public String Info
 		{
 			get => info;
@@ -77,16 +103,29 @@ namespace ClassesForServerClent.Class
 				info = value;
 			}
 		}
-		public Int32? MaxCountUser
-		{
-			get => maxCountUser;
-			set
-			{
-				if (value < 2)
-					throw new ArgumentException("value < 2", nameof(value));
 
-				maxCountUser = value;
-			}
+
+		public virtual Server Server
+		{
+			get => server;
+			set => server = value
+					?? throw new ArgumentNullException("value is null", nameof(value));
 		}
+
+		public virtual Category Category { get; set; }
+
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+		public TextChat()
+		{
+			Message = new HashSet<Message>();
+			Right = new HashSet<Right>();
+		}
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<Message> Message { get; set; }
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<Right> Right { get; set; }
 	}
 }

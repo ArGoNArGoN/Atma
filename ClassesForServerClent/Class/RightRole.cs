@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClassesForServerClent.Class
 {
-	public sealed class RightRole
+    [Table("RightRole")]
+	public class RightRole
 	{
-        private int id;
-        private Right right;
+        private Int32 id;
+		private Int32 idRight;
+		private Int32 idRole;
+		private Right right;
         private Role role;
 
-        public Int32 Id
+        public Int32 ID
 		{
 			get => id;
 			set
@@ -23,17 +23,40 @@ namespace ClassesForServerClent.Class
 				id = value;
 			}
 		}
-		public Right Right
+		public Int32 IDRight
+		{
+			get => idRight;
+			set
+			{
+				if (value < 0)
+					throw new ArgumentException("value < 0", nameof(value));
+
+				idRight = value;
+			}
+		}
+		public Int32 IDRole
+		{
+			get => idRole;
+			set
+			{
+				if (value < 0)
+					throw new ArgumentException("value < 0", nameof(value));
+
+				idRole = value;
+			}
+		}
+
+		public virtual Right Right
         {
 			get => right;
 			set => right = value
-				?? throw new ArgumentException("value is null", nameof(value); 
+				?? throw new ArgumentException("value is null", nameof(value)); 
         }
-		public Role Role
+		public virtual Role Role
 		{
 			get => role;
 			set => role = value
-				?? throw new ArgumentException("value is null", nameof(value);
+				?? throw new ArgumentException("value is null", nameof(value));
 		}
 	}
 }

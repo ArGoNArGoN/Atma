@@ -1,27 +1,30 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClassesForServerClent.Class
 {
-	public sealed class ServerUser
+	[Table("ServerUser")]
+	public class ServerUser
 	{
 		private Int32 id;
-		public Status Status { get; set; }
+		private Int32 idUser;
+		private Int32 idServer;
 		private Server server;
 		private User user;
 
-		public ServerUser(Int32 id, Server server, User user)
+        public ServerUser(Int32 id, Server server, User user)
 		{
 			try
 			{
-				Id = id;
+				ID = id;
 				Server = server;
 				User = user;
 			}
 			catch { throw; }
 		}
 
-		public Int32 Id
+		public Int32 ID
 		{
 			get => id;
 			set
@@ -32,17 +35,58 @@ namespace ClassesForServerClent.Class
 				id = value;
 			}
 		}
-		public Server Server 
+		public Int32 IDUser
+		{
+			get => idUser;
+			set
+			{
+				if (value < 0)
+					throw new ArgumentException("value < 0", nameof(value));
+
+				idUser = value;
+			}
+		}
+		public Int32 IDServer
+		{
+			get => idServer;
+			set
+			{
+				if (value < 0)
+					throw new ArgumentException("value < 0", nameof(value));
+
+				idServer = value;
+			}
+		}
+		[Column(TypeName = "int")]
+		public Status Status { get; set; }
+
+
+		public virtual Server Server 
 		{
 			get => server;
 			set => server = value 
 					?? throw new ArgumentNullException("value is null", nameof(value));
 		}
-		public User User 
+		
+		public virtual User User 
 		{
 			get => user;
 			set => user = value
 					?? throw new ArgumentNullException("value is null", nameof(value));
 		}
+
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+		public ServerUser()
+		{
+			Right = new HashSet<Right>();
+			Role = new HashSet<Role>();
+		}
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<Right> Right { get; set; }
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<Role> Role { get; set; }
 	}
 }
