@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Atma.Class
+namespace ClassesForServerClent.Class
 {
-    class RightRole
-    {
-    }
+	public interface IChat
+	{
+		List<ServerUser> ServerUsers { get; }
+	}
 }

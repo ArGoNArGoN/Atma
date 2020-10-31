@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Atma.Class
+namespace ClassesForServerClent.Class
 {
-	public enum StatusServer
+	public enum Status : Int32
 	{
-		@private,
-		@public
+		OutOfPlace,
+		Online,
+		Offline
 	}
 }
