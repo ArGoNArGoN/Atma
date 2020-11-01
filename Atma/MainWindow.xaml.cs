@@ -24,5 +24,20 @@ namespace Atma
 		{
 			InitializeComponent();
 		}
+
+        private void ButtonClouseMenu_Click(object sender, RoutedEventArgs e)
+        {
+			ButtonCloseMenu.Visibility = Visibility.Collapsed;
+			ButtonOpenMenu.Visibility = Visibility.Visible;
+			ListServers.Visibility = Visibility.Collapsed;
+		}
+
+        private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
+        {
+			ButtonCloseMenu.Visibility = Visibility.Visible;
+			ButtonOpenMenu.Visibility = Visibility.Collapsed;
+			ListServers.Visibility = Visibility.Visible;
+
+		}
 	}
 }

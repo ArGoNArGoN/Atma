@@ -6,7 +6,246 @@
         xmlns:local="clr-namespace:Atma"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="700">
+    
+    <Window.Resources>
+        <Storyboard x:Key="MenuOpen">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="50"></EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="150"></EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="MenuClose">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="150"></EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="50"></EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
+            <BeginStoryboard Storyboard="{StaticResource MenuOpen}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
+            <BeginStoryboard Storyboard="{StaticResource MenuClose}"/>
+        </EventTrigger>
+    </Window.Triggers>
+    
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="50" Width="Auto" MaxWidth="150"></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="120"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid x:Name="GridMenu">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="4"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Background" Value="DarkSlateGray"/>
+                </Style>
+            </Grid.Style>
+
+            <Grid.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border>
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Margin" Value="5"></Setter>
+                                            <Setter Property="Background" Value="Gray"></Setter>
+                                            <Setter Property="CornerRadius" Value="10"></Setter>
+                                            <Setter Property="Width" Value="40"></Setter>
+                                            <Setter Property="Height" Value="40"></Setter>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Grid.Resources>
+
+            <Button x:Name="ButtonOpenMenu" HorizontalAlignment="Right" VerticalAlignment="Top" Click="ButtonOpenMenu_Click"/>
+            <Button x:Name="ButtonCloseMenu" HorizontalAlignment="Right" VerticalAlignment="Top" Click="ButtonClouseMenu_Click" Visibility="Collapsed"/>
+
+            <ListView x:Name="ListServers">
+                <ListView.Style>
+                    <Style TargetType="ListView">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Grid.Row" Value="2"/>
+                        <Setter Property="Background" Value="{x:Null}"/>
+                        <Setter Property="BorderBrush" Value="{x:Null}"/>
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Style>
+                </ListView.Style>
+                <!-- Отдельный ресурс -->
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border>
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="DimGray"/>
+                                                <Setter Property="CornerRadius" Value="3"/>
+                                                <Setter Property="Margin" Value="1 2"/>
+                                            </Style>
+                                        </Border.Style>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2"></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="2"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <ContentControl Content="{TemplateBinding Content}">
+                                                <ContentControl.Style>
+                                                    <Style TargetType="ContentControl">
+                                                        <Setter Property="FontSize" Value="14"/>
+                                                        <Setter Property="Grid.Column" Value="1"/>
+                                                    </Style>
+                                                </ContentControl.Style>
+                                            </ContentControl>
+                                        </Grid>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListViewItem>dawdaw</ListViewItem>
+                <ListViewItem>dawdaw</ListViewItem>
+                <ListViewItem>dawdaw</ListViewItem>
+                <ListViewItem>dawdaw</ListViewItem>
+                <!-- Отдельный ресурс-->
+            </ListView>
+        </Grid>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="Grid.Column" Value="1"/>
+                </Style>
+            </Grid.Style>
+
+            <ListView>
+                <ListView.Style>
+                    <Style TargetType="ListView">
+                        <Setter Property="Background" Value="{x:Null}"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                    </Style>
+                </ListView.Style>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border>
+                                        <!-- Реализовать -->
+                                        <ContentControl Content="{TemplateBinding Content}">
+                                            <ContentControl.Style>
+                                                <Style TargetType="ContentControl">
+                                                    <Setter Property="FontSize" Value="14"/>
+                                                    <Setter Property="Grid.Column" Value="1"/>
+                                                </Style>
+                                            </ContentControl.Style>
+                                        </ContentControl>
+                                        <!-- Реализовать -->
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </Grid>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Background" Value="Gray"/>
+                    <Setter Property="Grid.Column" Value="2"/>
+                </Style>
+            </Grid.Style>
+
+            <ListView>
+                <ListView.Style>
+                    <Style TargetType="ListView">
+                        <Setter Property="Background" Value="{x:Null}"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                    </Style>
+                </ListView.Style>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border>
+                                        <!-- Реализовать -->
+                                        <ContentControl Content="{TemplateBinding Content}">
+                                            <ContentControl.Style>
+                                                <Style TargetType="ContentControl">
+                                                    <Setter Property="FontSize" Value="14"/>
+                                                    <Setter Property="Grid.Column" Value="1"/>
+                                                </Style>
+                                            </ContentControl.Style>
+                                        </ContentControl>
+                                        <!-- Реализовать -->
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </Grid>
+
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Background" Value="DarkSlateGray"/>
+                    <Setter Property="Grid.Column" Value="3"/>
+                </Style>
+            </Grid.Style>
+
+            <ListView>
+                <ListView.Style>
+                    <Style TargetType="ListView">
+                        <Setter Property="Background" Value="{x:Null}"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                    </Style>
+                </ListView.Style>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border>
+                                        <!-- Реализовать -->
+                                        <ContentControl Content="{TemplateBinding Content}">
+                                            <ContentControl.Style>
+                                                <Style TargetType="ContentControl">
+                                                    <Setter Property="FontSize" Value="14"/>
+                                                    <Setter Property="Grid.Column" Value="1"/>
+                                                </Style>
+                                            </ContentControl.Style>
+                                        </ContentControl>
+                                        <!-- Реализовать -->
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </Grid>
     </Grid>
 </Window>
