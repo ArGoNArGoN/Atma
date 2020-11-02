@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClassesForServerClent.Class
 {
-    [Table("UserLog")]
+	[Serializable]
+	[Table("UserLog")]
 	public class UserLog
 	{
         private Int32 id;

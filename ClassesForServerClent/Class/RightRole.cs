@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClassesForServerClent.Class
 {
-    [Table("RightRole")]
+	[Serializable]
+	[Table("RightRole")]
 	public class RightRole
 	{
         private Int32 id;
