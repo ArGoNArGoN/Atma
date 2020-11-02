@@ -78,7 +78,7 @@ namespace ClassesForServerClent.Class
 			}
 		}
 
-		[Column(TypeName = "date")]
+		[Column(TypeName = "datetime")]
 		public DateTime Date
         {
 			get => date;
@@ -91,13 +91,13 @@ namespace ClassesForServerClent.Class
             }
         }
 
-		public virtual Server Server
+		public Server Server
 		{
 			get => server;
 			set => server = value
 				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
-		public virtual User User
+		public User User
 		{
 			get => user;
 			set => user = value

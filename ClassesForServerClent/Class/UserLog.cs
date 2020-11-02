@@ -54,7 +54,7 @@ namespace ClassesForServerClent.Class
 			}
 		}
 
-		[Column(TypeName = "date")]
+		[Column(TypeName = "datetime")]
 		public DateTime Date
 		{
 			get => date;
@@ -67,7 +67,7 @@ namespace ClassesForServerClent.Class
 			}
 		}
 
-		public virtual User User
+		public User User
 		{
 			get => user;
 			set => user = value

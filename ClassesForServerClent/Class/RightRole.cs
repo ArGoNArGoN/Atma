@@ -47,13 +47,13 @@ namespace ClassesForServerClent.Class
 			}
 		}
 
-		public virtual Right Right
+		public Right Right
         {
 			get => right;
 			set => right = value
 				?? throw new ArgumentException("value is null", nameof(value)); 
         }
-		public virtual Role Role
+		public Role Role
 		{
 			get => role;
 			set => role = value

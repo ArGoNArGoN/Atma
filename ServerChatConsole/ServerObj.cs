@@ -40,6 +40,7 @@ namespace ServerChatConsole
                 while (true) 
                 {
                     GetClient();
+                    Console.WriteLine("Кто-то пытается подключиться");
                 }
             }
             catch (Exception)

@@ -77,7 +77,7 @@ namespace ClassesForServerClent.Class
 				priority = value;
 			}
 		}
-		[Column(TypeName = "date")]
+		[Column(TypeName = "datetime")]
 		public DateTime Date
 		{
 			get => date;
@@ -98,9 +98,9 @@ namespace ClassesForServerClent.Class
 		}
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<RightRole> RightRole { get; set; }
+		public ICollection<RightRole> RightRole { get; set; }
 
-		public virtual ServerUser ServerUser
+		public ServerUser ServerUser
 		{
 			get => server;
 			set => server = value

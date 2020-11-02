@@ -1,5 +1,6 @@
 ﻿using ClassesForServerClent.Class;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -34,14 +35,12 @@ namespace ServerChatConsole
 				Stream = Client.GetStream();
 
 				GetUser();
+				Console.WriteLine("Подключаем пользователя!");
 
 				ServerObj.AddConnection(this);
-
-				/// Отправляем пользователю сообщение об успешной операции
-				formatter.Serialize(Stream, true);
-
 				/// Отправляем пользователю текстовые чаты и сообщения
 				SendTextChatAndMessage();
+				Console.WriteLine("Отправляем ему Текстовые часты");
 
 				GetMessageWhile();
 			}
@@ -54,7 +53,6 @@ namespace ServerChatConsole
 				if (User != null)
 				{
 					ServerObj.RemoveConnection(User.ID);
-					formatter.Serialize(Stream, false);
 				}
 				Close();
 			}
@@ -68,6 +66,7 @@ namespace ServerChatConsole
 				DB.Message.Add(message);
 				Console.WriteLine($"{User.Name}: {message.Text}");
 				ServerObj.BroadcastMessage(message);
+				DB.SaveChanges();
 			}
 			while (true);
 		}
@@ -79,13 +78,17 @@ namespace ServerChatConsole
 
 		private void SendTextChatAndMessage()
 		{
-			var textChats = DB.TextChat
-				.Include(x => x.Message)
-				.Include(x => x.Info)
-				.Include(x => x.MaxCountUser)
-				.ToList();
+			var textChats = DB.TextChat.Include(x => x.Message).ToList();
 
-			formatter.Serialize(Stream, textChats);
+            foreach (var item in textChats)
+            {
+				item.Message = DB.Message
+					.Include(x => x.User)
+					.Where(x => x.IDTextChat == item.ID)
+					.ToList();
+            }
+
+			formatter.Serialize(Stream, textChats.ToArray());
 		}
 
 		private void GetUser()
@@ -98,13 +101,16 @@ namespace ServerChatConsole
 
 		internal void Close()
 		{
-			throw new NotImplementedException();
+			if (Stream != null)
+				Stream.Close();
+			if (Client != null)
+				Client.Close();
 		}
 		
 		private Boolean FindUser(String rName, Int32 id)
 		{
 			User = DB.User.Find(id);
-			return User.RealName.Trim() != rName.Trim() || User == null;
+			return User.Name.Trim() != rName.Trim() || User == null;
 		}
 	}
 }

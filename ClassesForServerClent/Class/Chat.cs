@@ -98,7 +98,7 @@ namespace ClassesForServerClent.Class
             }
         }
 
-        public virtual Server Server
+        public Server Server
         {
             get => server;
             set => server = value
@@ -113,6 +113,6 @@ namespace ClassesForServerClent.Class
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Right> Right { get; set; }
+        public ICollection<Right> Right { get; set; }
     }
 }

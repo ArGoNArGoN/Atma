@@ -51,13 +51,13 @@ namespace ClassesForServerClent.Class
 		public Boolean UserRequest { get; set; }
 		public Boolean FriendRequest { get; set; }
 
-		public virtual User User
+		public User User
 		{
 			get => user;
 			set => user = value
 				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
-		public virtual User User1
+		public User User1
 		{
 			get => friend;
 			set => friend = value

@@ -81,10 +81,10 @@ namespace ClassesForServerClent.Class
 		}
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<Chat> Chat { get; set; }
+		public ICollection<Chat> Chat { get; set; }
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<Right> Right { get; set; }
+		public ICollection<Right> Right { get; set; }
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<TextChat> TextChat { get; set; }
+		public ICollection<TextChat> TextChat { get; set; }
 	}
 }

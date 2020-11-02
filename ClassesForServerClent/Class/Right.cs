@@ -118,7 +118,7 @@ namespace ClassesForServerClent.Class
 				info = value;
 			}
 		}
-		[Column(TypeName = "date")]
+		[Column(TypeName = "datetime")]
 		public DateTime Date
 		{
 			get => date;
@@ -137,18 +137,18 @@ namespace ClassesForServerClent.Class
 			RightRole = new HashSet<RightRole>();
 		}
 
-		public virtual Server Server
+		public Server Server
 		{
 			get => server;
 			set => server = value
 				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
-		public virtual Chat Chat { get; set; }
-		public virtual TextChat TextChat { get; set; }
-		public virtual ServerUser ServerUser { get; set; }
-		public virtual Category Category { get; set; }
+		public Chat Chat { get; set; }
+		public TextChat TextChat { get; set; }
+		public ServerUser ServerUser { get; set; }
+		public Category Category { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<RightRole> RightRole { get; set; }
+		public ICollection<RightRole> RightRole { get; set; }
 	}
 }

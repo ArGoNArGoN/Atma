@@ -19,6 +19,7 @@ namespace ClassesForServerClent.Class
 		private User user;
         private TextChat textChat;
 
+		public Message() { }
         public Message(int id, string text, User serverUser)
 		{
 			try
@@ -35,7 +36,7 @@ namespace ClassesForServerClent.Class
 			try
 			{
 				PinnedMessage = pinnedMessage;
-				DateCreate = dateCreate;
+				Date = dateCreate;
 				File = file;
 
 			}
@@ -93,26 +94,25 @@ namespace ClassesForServerClent.Class
 		[Column(TypeName = "bit")]
 		public Boolean PinnedMessage { get; set; }
 
-		[Column(TypeName = "date")]
-		public DateTime DateCreate { get; set; } = DateTime.Now;
+		[Column(TypeName = "datetime")]
+		public DateTime Date { get; set; } = DateTime.Now;
 
 		public String File { get; set; }
 
-
-		public virtual User User
+		public User User
 		{
 			get => user;
 			set => user = value
 				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
-		public virtual TextChat TextChat
+		public TextChat TextChat
 		{
 			get => textChat;
 			set => textChat = value
 				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
 
-		public String DateTimeCreate { get => DateCreate.ToShortTimeString(); }
-		public String UserName { get => User.Name; }
+		public String DateTimeCreate { get => Date.ToShortTimeString(); }
+		public String UserName { get => User?.Name; }
 	}
 }

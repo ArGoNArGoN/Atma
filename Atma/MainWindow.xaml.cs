@@ -24,5 +24,10 @@ namespace Atma
 		{
 			InitializeComponent();
 		}
-	}
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+    }
 }

@@ -90,15 +90,14 @@ namespace ClassesForServerClent.Class
 				maxCountUser = value;
 			}
 		}
+
+		[Column("Info")]
 		public String Info
 		{
 			get => info;
 			set
 			{
-				if (value == null)
-					throw new ArgumentNullException("value is null", nameof(value));
-
-				if (value.Length > 500)
+				if (value?.Length > 200)
 					throw new ArgumentException("value.Length > 500", nameof(value));
 
 				info = value;
@@ -106,14 +105,14 @@ namespace ClassesForServerClent.Class
 		}
 
 
-		public virtual Server Server
+		public Server Server
 		{
 			get => server;
 			set => server = value
 					?? throw new ArgumentNullException("value is null", nameof(value));
 		}
 
-		public virtual Category Category { get; set; }
+		public Category Category { get; set; }
 
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -124,9 +123,9 @@ namespace ClassesForServerClent.Class
 		}
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<Message> Message { get; set; }
+		public ICollection<Message> Message { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<Right> Right { get; set; }
+		public ICollection<Right> Right { get; set; }
 	}
 }

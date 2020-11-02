@@ -69,7 +69,7 @@ namespace ClassesForServerClent.Class
 		}
 		[Column(TypeName = "int")]
 		public TypeEventServer TypeEvent { get; set; }
-		[Column(TypeName = "date")]
+		[Column(TypeName = "datetime")]
 		public DateTime Date
 		{
 			get => date;
@@ -83,12 +83,12 @@ namespace ClassesForServerClent.Class
 		}
 
 
-		public virtual Server Server
+		public Server Server
 		{
 			get => server;
 			set => server = value
 				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
-		public virtual User User { get; set; }
+		public User User { get; set; }
 	}
 }

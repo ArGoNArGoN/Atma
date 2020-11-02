@@ -85,9 +85,9 @@ namespace ClassesForServerClent.Class
 		}
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<Right> Right { get; set; }
+		public ICollection<Right> Right { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<Role> Role { get; set; }
+		public ICollection<Role> Role { get; set; }
 	}
 }

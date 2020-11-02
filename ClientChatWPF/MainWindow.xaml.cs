@@ -2,35 +2,145 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
+
 
 namespace ClientChatWPF
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-    {
-        List<TextChat> TextChats { get; set; }
+	/// <summary>
+	/// Логика взаимодействия для MainWindow.xaml
+	/// </summary>
+	public partial class MainWindow : Window
+	{
+		event Action<List<Message>> MyEvent;
+		List<TextChat> TextChats { get; set; }
+		static User User { get; set; }
+		private const string host = "127.0.0.1";
+		private const int port = 8888;
+		static TcpClient Client { get; set; }
+		static NetworkStream Stream { get; set; }
+		BinaryFormatter formatter = new BinaryFormatter();
 
-        public MainWindow()
+		public MainWindow()
+		{
+			Reg reg = new Reg();
+			reg.ShowDialog();
+			User = reg.User;
+
+			InitializeComponent();
+
+			ConnectServer();
+
+			listTextChat.ItemsSource = TextChats.Select(x => x.ID.ToString() + " "+ x.Name.ToString());
+			Messages = TextChats[0].Message.ToList();
+			listUserMessage.ItemsSource = Messages;
+
+			this.Loaded += new RoutedEventHandler(Form1_Load);
+		}
+
+		List<Message> Messages { get; set; }
+
+        private void Form1_Load(object sender, RoutedEventArgs e)
         {
-            InitializeComponent();
-        }
+			this.MyEvent += new Action<List<Message>>(Form1_MyEvent);
+			Thread thr = new Thread(new ThreadStart(Method));
+			thr.IsBackground = true;
+			thr.Start();
+		}
 
-        private void MySelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void Method()
+		{
+			do
+			{
+				TextChats[0].Message.Add(GetMessageSerialize());
+				MyEvent(TextChats[0].Message.ToList());
+			} while (true);
+		}
 
-        }
-    }
+        private void Form1_MyEvent(List<Message> obj)
+		{
+			listUserMessage.Dispatcher
+				.Invoke(new Action(
+					() =>
+						listUserMessage.ItemsSource = obj
+					));
+		}
+
+        private void ConnectServer()
+		{
+			Client = new TcpClient();
+
+			try
+			{
+				Client.Connect(host, port);
+				Stream = Client.GetStream();
+				formatter.Serialize(Stream, User);
+
+				TextChats = ((TextChat[])formatter.Deserialize(Stream)).ToList();
+
+				Thread receiveThread = new Thread(new ThreadStart(ReceiveMessage));
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.Message);
+			}
+		}
+
+		private void ReceiveMessage()
+		{
+			while (true)
+			{
+				try
+				{
+
+				}
+				catch (Exception e)
+				{
+					MessageBox.Show(e.Message);
+					Disconnect();
+				}
+			}
+		}
+
+		private void Disconnect()
+		{
+			if (Stream != null)
+				Stream.Close();//отключение потока
+			if (Client != null)
+				Client.Close();//отключение клиента
+		}
+
+		private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+		}
+
+		private void GetMessage()
+		{
+			listUserMessage.ItemsSource = TextChats[0].Message;
+			List<Message> messages = new List<Message>();
+			do
+			{
+				messages.Add(GetMessageSerialize());
+				listTextChat.SelectedItem = messages;
+			} while (true);
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			if (String.IsNullOrWhiteSpace(MessagePop.Text))
+				return;
+			SendMessageSerialize(new Message() { IDUser = User.ID, IDTextChat = 1, Text = MessagePop.Text, Date = DateTime.Now });
+		}
+
+		private void SendMessageSerialize(Message message)
+			=> formatter.Serialize(Stream, message);
+		private Message GetMessageSerialize()
+			=> (Message)formatter.Deserialize(Stream);
+	}
 }

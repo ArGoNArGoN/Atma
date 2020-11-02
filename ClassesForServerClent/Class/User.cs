@@ -84,10 +84,7 @@ namespace ClassesForServerClent.Class
 			get => icon;
 			set 
 			{
-				if (String.IsNullOrWhiteSpace(value)) 
-					throw new ArgumentNullException("value is null", nameof(value));
-				
-				if (value.Length > 100)
+				if (value?.Length > 100)
 					throw new ArgumentException("value > 100", nameof(value));
 
 				icon = value;
@@ -102,17 +99,14 @@ namespace ClassesForServerClent.Class
 			get => status;
 			set 
 			{
-				if (value == null) 
-					throw new ArgumentNullException("Status is null", nameof(value));
-
-				if (value.Length > 100)
+				if (value?.Length > 100)
 					throw new ArgumentException("value > 100", nameof(value));
 
 				status = value;
 			}
 		}
 
-		[Column(TypeName = "date")]
+		[Column(TypeName = "datetime")]
 		public DateTime Date
 		{
 			get => dater;
@@ -139,24 +133,24 @@ namespace ClassesForServerClent.Class
 		}
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<EventLog> EventLog { get; set; }
+		public ICollection<EventLog> EventLog { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<Message> Message { get; set; }
+		public  ICollection<Message> Message { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<Opinion> Opinion { get; set; }
+		public  ICollection<Opinion> Opinion { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<Request> Request { get; set; }
+		public  ICollection<Request> Request { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<Request> Request1 { get; set; }
+		public  ICollection<Request> Request1 { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<ServerUser> ServerUser { get; set; }
+		public  ICollection<ServerUser> ServerUser { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<UserLog> UserLog { get; set; }
+		public  ICollection<UserLog> UserLog { get; set; }
 	}
 }
