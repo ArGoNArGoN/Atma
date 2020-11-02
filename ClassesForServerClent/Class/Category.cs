@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace ClassesForServerClent.Class
 {
+	[Serializable]
 	[Table("Category")]
 	public class Category
 	{

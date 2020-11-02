@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClassesForServerClent.Class
 {
+	[Serializable]
 	[Table("ServerUser")]
 	public class ServerUser
 	{

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ClassesForServerClent.Class
 {
+	[Serializable]
 	[Table("TextChat")]
 	public class TextChat
 	{

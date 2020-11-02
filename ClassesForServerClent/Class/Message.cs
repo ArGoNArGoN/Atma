@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ClassesForServerClent.Class
 {
+	[Serializable]
 	[Table("Message")]
 	public class Message
 	{
