@@ -22,6 +22,7 @@ namespace Atma
 	{
 		public MainWindow()
 		{
+			new Reg().ShowDialog();
 			InitializeComponent();
 		}
 
