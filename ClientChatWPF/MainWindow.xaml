@@ -167,7 +167,6 @@
                                 <Setter Property="MaxHeight" Value="30"></Setter>
                                 <Setter Property="MinHeight" Value="30"></Setter>
                                 <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
-
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Background" Value="Gray"/>

@@ -49,12 +49,12 @@ namespace ClientChatWPF
         private void Form1_Load(object sender, RoutedEventArgs e)
         {
 			this.MyEvent += new Action<List<Message>>(Form1_MyEvent);
-			Thread thr = new Thread(new ThreadStart(Method));
+			Thread thr = new Thread(new ThreadStart(GetMessage));
 			thr.IsBackground = true;
 			thr.Start();
 		}
 
-        private void Method()
+        private void GetMessage()
 		{
 			do
 			{
@@ -83,8 +83,6 @@ namespace ClientChatWPF
 				formatter.Serialize(Stream, User);
 
 				TextChats = ((TextChat[])formatter.Deserialize(Stream)).ToList();
-
-				Thread receiveThread = new Thread(new ThreadStart(ReceiveMessage));
 			}
 			catch (Exception e)
 			{
@@ -92,43 +90,8 @@ namespace ClientChatWPF
 			}
 		}
 
-		private void ReceiveMessage()
-		{
-			while (true)
-			{
-				try
-				{
-
-				}
-				catch (Exception e)
-				{
-					MessageBox.Show(e.Message);
-					Disconnect();
-				}
-			}
-		}
-
-		private void Disconnect()
-		{
-			if (Stream != null)
-				Stream.Close();//отключение потока
-			if (Client != null)
-				Client.Close();//отключение клиента
-		}
-
 		private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-		}
-
-		private void GetMessage()
-		{
-			listUserMessage.ItemsSource = TextChats[0].Message;
-			List<Message> messages = new List<Message>();
-			do
-			{
-				messages.Add(GetMessageSerialize());
-				listTextChat.SelectedItem = messages;
-			} while (true);
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)

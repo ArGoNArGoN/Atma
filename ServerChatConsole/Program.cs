@@ -6,12 +6,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+
+
 namespace ServerChatConsole
 {
 	class Program
 	{
 		/// Объект сервера
 		static ServerObj Server { get; set; }
+
 		/// Поток
 		static Thread ThreadList { get; set; }
 
