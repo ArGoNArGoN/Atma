@@ -20,23 +20,25 @@ namespace ClientChatWPF
     /// </summary>
     public partial class Reg : Window
     {
-        public User User = new User();
+        public User User;
         public Reg()
         {
             InitializeComponent();
         }
 
-        private void Click(object sender, MouseButtonEventArgs e)
+
+        private void ClickButton(object sender, RoutedEventArgs e)
         {
-            if(!String.IsNullOrWhiteSpace(UserName.Text) && !String.IsNullOrWhiteSpace(Id.Text))
+            if (String.IsNullOrWhiteSpace(Name.Text) || String.IsNullOrWhiteSpace(Password.Text))
+            { ErrorText.Text = "Некоторые поля оказались незаполненными!"; return; }
+
+
+            try
             {
-                try
-                {
-                    User = new User() { Name = UserName.Text, ID = Int32.Parse(Id.Text) };
-                    Close();
-                }
-                catch { }
+                User = new User() { Name = Name.Text, ID = Int32.Parse(Password.Text) };
+                Close();
             }
+            catch { User = null; }
         }
     }
 }

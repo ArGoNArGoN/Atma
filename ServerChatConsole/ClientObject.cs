@@ -38,8 +38,10 @@ namespace ServerChatConsole
 				Console.WriteLine("Подключаем пользователя!");
 
 				ServerObj.AddConnection(this);
+
+				UpdateStatusDB();
 				/// Отправляем пользователю текстовые чаты и сообщения
-				SendTextChatAndMessage();
+				SendServers();
 				Console.WriteLine("Отправляем ему Текстовые часты");
 
 				GetMessageWhile();
@@ -57,6 +59,12 @@ namespace ServerChatConsole
 				Close();
 			}
 		}
+
+        private void UpdateStatusDB()
+        {
+			User.Status = Status.Online;
+			DB.SaveChanges();
+        }
 
         private void GetMessageWhile()
 		{
@@ -101,6 +109,8 @@ namespace ServerChatConsole
 
 		internal void Close()
 		{
+			User.Status = Status.Offline;
+			DB.SaveChanges();
 			if (Stream != null)
 				Stream.Close();
 			if (Client != null)

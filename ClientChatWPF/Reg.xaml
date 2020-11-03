@@ -5,60 +5,235 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientChatWPF"
         mc:Ignorable="d"
-        Title="Reg" Height="456.799" Width="249.292">
+        Title="Reg" MinHeight="420" Height="420" MinWidth="300" Width="300" MaxHeight="640" MaxWidth="380">
     <Grid>
+        <!-- Добавим Столбцы -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition Width="20"></ColumnDefinition>
+
+            <!-- Зададим значение атрибута Width значению 40 Point  -->
+            <ColumnDefinition Width="40"></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+
+            <!-- Зададим значение атрибута Width значению * <- Указывает на динамическое расширение... попробуй изменить размеры окна -->
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition Width="40"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+
+        <!-- Добавим Строки -->
         <Grid.RowDefinitions>
+
+            <!-- Зададим значение атрибута Height значению 4* 
+            <- Указывает на динамическое расширение 
+            (Высота этой строки будет в 4 раза больше чем строка 2 (индекс строки начинается с 0)) 
+            ... попробуй изменить размеры окна -->
             <RowDefinition Height="4*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="6"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="6"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+
+            <!-- В этой строке Пользователь будет вводить Имя -->
+            <RowDefinition Height="*" MaxHeight="50"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+
+            <!-- В этой строке Пользователь будет вводить Пароль -->
+            <RowDefinition Height="*" MaxHeight="50"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+
+            <!-- В этой строке будет кнопка входа -->
+            <RowDefinition Height="*" MaxHeight="60"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
         </Grid.RowDefinitions>
 
+        <!-- Дизайн у Grid -->
         <Grid.Style>
+            <!-- Дизайн у типа Grid -->
             <Style TargetType="Grid">
+                <!-- Присваиваем свойству Background значение DarkSlateGray в элементе Grid -->
                 <Setter Property="Background" Value="DarkSlateGray"/>
             </Style>
         </Grid.Style>
 
+        <!-- Ресурс -->
         <Grid.Resources>
-            <Style TargetType="Border">
-                <Setter Property="Background" Value="Gray"/>
-                <Setter Property="CornerRadius" Value="33"/>
+            <!-- Чтобы присвоить элементу стиль, он должен использовать ключ -->
+            <!-- TargetType="Border" -->
+            <Style x:Key="StyleBox" TargetType="Border">
+                <Setter Property="Background" Value="DimGray"/>
+                <Setter Property="CornerRadius" Value="20"/>
             </Style>
-            <Style TargetType="TextBox">
+            <Style x:Key="StyleTextBox" TargetType="TextBox">
+
+                <!-- {x:Null} - прозрачный фон -->
                 <Setter Property="Background" Value="{x:Null}"/>
+
+                <!-- убираем обводку -->
                 <Setter Property="BorderThickness" Value="0"/>
+
+                <!-- изменяем размер буковок -->
+                <Setter Property="FontSize" Value="16"/>
+
+                <!-- изменяем их цвет -->
+                <Setter Property="Foreground" Value="White"/>
+
+                <!-- Ставим всо по центру! -->
+                <!-- **** -->
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="HorizontalAlignment" Value="Center"/>
-                <Setter Property="MinHeight" Value="30"/>
-                <Setter Property="MinWidth" Value="17"/>
-                <Setter Property="Foreground" Value="Black"/>
-                <Setter Property="FontSize" Value="17"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <!-- **** -->
+
+                <Setter Property="MinWidth" Value="50"/>
             </Style>
         </Grid.Resources>
 
-        <Border Grid.Column="1" Grid.Row="1">
-            <TextBox x:Name="UserName"/>
-        </Border>
-        <Border Grid.Column="1" Grid.Row="3">
-            <TextBox x:Name="Id"/>
-        </Border>
+        <!-- Отправим Grid в первую строку -->
+        <Grid Grid.Row="0" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <!-- Параметр Auto растягивает строку на столько,
+                сколько нужно элементу, который находится в ней -->
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
 
-        <Border x:Name="Button" Grid.Column="1" Grid.Row="5" MouseLeftButtonDown="Click">
+            <!-- Текст ошибки -->
+            <TextBlock x:Name="ErrorText" Text="">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Grid.Row" Value="1"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="FontSize" Value="15"/>
+                        <Setter Property="Foreground" Value="Red"/>
+
+                        <!-- текст может переносится в другую строку -->
+                        <Setter Property="TextWrapping" Value="Wrap"/>
+                        <Setter Property="Height" Value="Auto"/>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+
+
+
+
+        <!-- ******************** -->
+
+        <!-- Поле для ввода Имени -->
+        <Border>
             <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="Background" Value="DimGray"/>
-                    <Setter Property="CornerRadius" Value="20"/>
+
+                <!-- BasedOn="{StaticResource ИмяСтиля} -->
+                <Style TargetType="Border" BasedOn="{StaticResource StyleBox}">
+                    <Setter Property="Grid.Column" Value="2"/>
+                    <Setter Property="Grid.Row" Value="2"/>
                 </Style>
             </Border.Style>
+
+            <!-- Border позволяет хранить в себе элементы -->
+            <!-- Объявим Имя -->
+            <!-- По нему мы будем обращаться к текту -->
+            <TextBox x:Name="Name">
+                <TextBox.Style>
+
+                    <!-- BasedOn="{StaticResource ИмяСтиля} -->
+                    <Style TargetType="TextBox" BasedOn="{StaticResource StyleTextBox}"/>
+                </TextBox.Style>
+            </TextBox>
         </Border>
+
+        <!-- Поле для ввода Пароля -->
+        <Border>
+            <Border.Style>
+
+                <!-- BasedOn="{StaticResource ИмяСтиля} -->
+                <Style TargetType="Border" BasedOn="{StaticResource StyleBox}">
+                    <Setter Property="Grid.Column" Value="2"/>
+                    <Setter Property="Grid.Row" Value="4"/>
+                </Style>
+            </Border.Style>
+
+            <!-- Border позволяет хранить в себе элементы -->
+            <!-- Объявим Имя -->
+            <!-- По нему мы будем обращаться к текту -->
+            <TextBox x:Name="Password">
+                <TextBox.Style>
+
+                    <!-- BasedOn="{StaticResource ИмяСтиля} -->
+                    <Style TargetType="TextBox" BasedOn="{StaticResource StyleTextBox}"/>
+                </TextBox.Style>
+            </TextBox>
+        </Border>
+
+        <!-- ******************** -->
+
+
+
+        <!-- Кнопка для проверки данных -->
+        <!-- Событие нажатия на кнопку -->
+        <Button Click="ClickButton">
+            <Button.Style>
+                <Style TargetType="Button">
+
+                    <!-- Вставляем кнопку в 8 строку 2 солбца -->
+                    <Setter Property="Grid.Column" Value="2"/>
+                    <Setter Property="Grid.Row" Value="6"/>
+
+                    <!-- переопределим отображение Кнопки   -->
+                    <!-- Это свойство есть у всех элементов, как и свойство Style -->
+                    <Setter Property="Template">
+                        <!-- Template присвоим -->
+                        <Setter.Value>
+                            <!-- Мы изменяем только отображение, поэтому ControlTemplate -->
+                            <ControlTemplate>
+                                <!-- Border - Штука, у котрой есть только форма и цвет (нам это и нужно)-->
+                                <Border>
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="Gray"/>
+
+                                            <!-- Округляет края -->
+                                            <Setter Property="CornerRadius" Value="30"/>
+
+                                            <!-- Создаем триггер -->
+                                            <Style.Triggers>
+                                                <!-- если пользователь Убрал мышку "IsMouseOver" с элемента Border "True" -->
+                                                <Trigger Property="IsMouseOver" Value="True">
+
+                                                    <!-- то изменить цвет фона этого элемента на "DimGray", -->
+                                                    <!--иначе оставить таким, каким он был -->
+                                                    <Setter Property="Background" Value="LightSlateGray"/>
+
+                                                    <!-- ууууухх, как сложно!! -->
+
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+
+                                    <!-- ************* -->
+                                    <TextBlock>
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Grid.Row" Value="2"/>
+                                                <Setter Property="Grid.Column" Value="2"/>
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                <Setter Property="FontSize" Value="15"/>
+                                                <Setter Property="Foreground" Value="Black"/>
+                                                <Setter Property="Text" Value="Войти"/>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <!-- ************* -->
+
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
     </Grid>
 </Window>
+

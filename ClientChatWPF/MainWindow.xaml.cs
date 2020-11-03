@@ -19,7 +19,8 @@ namespace ClientChatWPF
 	public partial class MainWindow : Window
 	{
 		event Action<List<Message>> MyEvent;
-		List<TextChat> TextChats { get; set; }
+		List<Server> TextChats { get; set; }
+		List<User> Users { get; set; }
 		static User User { get; set; }
 		private const string host = "127.0.0.1";
 		private const int port = 8888;
@@ -33,6 +34,9 @@ namespace ClientChatWPF
 			reg.ShowDialog();
 			User = reg.User;
 
+			if (reg.User == null)
+			{ Close(); return; }
+
 			InitializeComponent();
 
 			ConnectServer();
@@ -40,6 +44,8 @@ namespace ClientChatWPF
 			listTextChat.ItemsSource = TextChats.Select(x => x.ID.ToString() + " "+ x.Name.ToString());
 			Messages = TextChats[0].Message.ToList();
 			listUserMessage.ItemsSource = Messages;
+
+			ListUserOnline.ItemsSource = 
 
 			this.Loaded += new RoutedEventHandler(Form1_Load);
 		}
@@ -58,8 +64,20 @@ namespace ClientChatWPF
 		{
 			do
 			{
-				TextChats[0].Message.Add(GetMessageSerialize());
-				MyEvent(TextChats[0].Message.ToList());
+				Object ob = GetMessageSerialize();
+
+				switch (ob)
+                {
+					case (Message):
+						TextChats[0].Message.Add((Message)ob);
+						MyEvent(TextChats[0].Message.ToList());
+						break;
+					case (ClassesForServerClent.Class.User):
+
+						break;
+					default:
+                        break;
+                }
 			} while (true);
 		}
 

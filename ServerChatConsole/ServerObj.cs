@@ -27,6 +27,7 @@ namespace ServerChatConsole
         internal void RemoveConnection(Int32 id)
         {
             var client = ClientObjects.FirstOrDefault(x => x.User.ID == id);
+
             if (client != null)
                 ClientObjects.Remove(client);
         }
@@ -79,6 +80,16 @@ namespace ServerChatConsole
         /// ОТправляет сообщение всем пользователям
         internal void BroadcastMessage(Message message)
             => BroadcastMessage(message, message.IDUser);
+
+        /// ОТправляет сообщение всем пользователям
+        internal void BroadcastMessage(User User)
+        {
+            foreach (var item in ClientObjects)
+            {
+                if (item.User.ID != User.ID)
+                    formatter.Serialize(item.Stream, User);
+            }
+        }
 
         /// ОТправляет сообщение всем пользователям
         internal void BroadcastMessage(Message message, Int32 iDUser)
