@@ -61,19 +61,16 @@ namespace ClassesForServerClent.Class
 		[Column(TypeName = "int")]
 		public Status Status { get; set; }
 
-
-		public virtual Server Server 
+		public Server Server 
 		{
 			get => server;
-			set => server = value 
-					?? throw new ArgumentNullException("value is null", nameof(value));
+			set => server = value;
 		}
 		
-		public virtual User User 
+		public User User 
 		{
 			get => user;
-			set => user = value
-					?? throw new ArgumentNullException("value is null", nameof(value));
+			set => user = value;
 		}
 
 

@@ -17,12 +17,10 @@ namespace ServerChatConsole
 			Client = client;
 			ServerObj = serverObj;
 		}
-
 		public TcpClient Client { get; set; }
 		public ServerObj ServerObj { get; set; }
 		public NetworkStream Stream { get; internal set; }
 		internal User User { get; set; }
-		private DB DB { get; set; } = new DB();
 		private BinaryFormatter formatter = new BinaryFormatter();
 
 		/// <summary>
@@ -34,17 +32,12 @@ namespace ServerChatConsole
 			{
 				Stream = Client.GetStream();
 
-				GetUser();
-				Console.WriteLine("Подключаем пользователя!");
-
+				/// Отправим пользователю его данные, а так же все сервера, на которых он присутствует
+				GetInfoOfUser(out String RName, out Int32 id);
+				SendInfoForUser(RName, id);
 				ServerObj.AddConnection(this);
-
-				UpdateStatusDB();
-				/// Отправляем пользователю текстовые чаты и сообщения
-				SendServers();
-				Console.WriteLine("Отправляем ему Текстовые часты");
-
-				GetMessageWhile();
+				ServerObj.UserLogOrUnLog(User);
+				TakeObjectFromUser();
 			}
 			catch(Exception e)
 			{
@@ -60,67 +53,139 @@ namespace ServerChatConsole
 			}
 		}
 
-        private void UpdateStatusDB()
+        private void GetInfoOfUser(out String Name, out Int32 id)
         {
-			User.Status = Status.Online;
-			DB.SaveChanges();
+			User user = null;
+			try 
+			{
+				user = (User)formatter.Deserialize(Stream);
+			}
+			catch(InvalidCastException e)
+			{
+				Console.WriteLine("Не удалось преобразовать тип, который отправил пользователь.. Подробнее: \r" + e.Message);
+			}
+			if(user == null)
+				throw new Exception("Из-за критической ошибки сервер разрывает связь с пользователем "); 
+			Name = user.Name;
+			id = user.ID;
+		}
+
+        private void TakeObjectFromUser()
+        {
+            do
+            {
+				var Obj = formatter.Deserialize(Stream);
+
+                using (DB DB = new DB())
+                {
+                    switch (Obj)
+					{
+						case (Message):
+							Message message = (Message)Obj;
+							message.User = DB.User.Find(message.IDUser);
+							DB.Entry(message).State = EntityState.Added;
+							Console.WriteLine($"{User.Name}: {message.Text}");
+							ServerObj.BroadcastMessage(message);
+							DB.SaveChanges();
+							break;
+						default:
+							Console.WriteLine("Пользователь отправил объект, который не приводится к типам," +
+								" которые описаны в switch");
+							throw new Exception("Неопределенный тип");
+					}
+				}
+            } while (true);
         }
 
-        private void GetMessageWhile()
-		{
-			do
-			{
-				var message = GetMessage();
-				DB.Message.Add(message);
-				Console.WriteLine($"{User.Name}: {message.Text}");
-				ServerObj.BroadcastMessage(message);
+        private void SendInfoForUser(string rName, int id)
+        {
+			GetUserFromDB(rName, id);
+			SendUserInStrem();
+        }
+
+        private void SendUserInStrem()
+        {
+			formatter.Serialize(Stream, User);
+        }
+
+        private void GetUserFromDB(string rName, int id)
+        {
+            using (DB DB = new DB())
+            {
+				User = DB.User.Find(id);
+				if (User == null)
+					throw new Exception("Пользовотель не найден!");
+				if (User.RealName != rName)
+					throw new Exception("Отправленное имя пользователя не совпадает с именем в DB");
+
+				try
+				{
+					var serversUsers = User.ServerUser = DB.ServerUser
+						.Include(x => x.User)
+						.Include(x => x.Server)
+						.Where(x => x.IDUser == User.ID)
+						.ToList();
+
+					var servers = DB.Server
+						.Include(x => x.ServerUser)
+						.Include(x => x.TextChat)
+						.Include(x => x.Chat)
+						.ToList();
+
+					var srevers = new List<Server>();
+					foreach (var SerUsr in serversUsers)
+					{
+						SerUsr.Server = servers.Find(x => x.ID == SerUsr.IDServer);
+						SerUsr.User = DB.User.Find(SerUsr.IDUser);
+						var TextChats = SerUsr.Server.TextChat;
+						srevers.Add(SerUsr.Server);
+
+						foreach (var textChat in TextChats)
+						{
+							textChat.Server = SerUsr.Server;
+
+							textChat.Message = DB.Message
+								.Include(x => x.User)
+								.Include(x => x.TextChat)
+								.Where(x => x.IDTextChat == textChat.ID)
+								.ToList();
+						}
+					}
+
+                    foreach (var ser in servers)
+                        foreach (var item in ser.ServerUser)
+							item.User = DB.User.Find(item.IDUser);
+				}
+				catch(Exception e)
+				{ 
+					Console.WriteLine(e.Message + " " + e.InnerException?.Message);
+					throw new Exception("Не удалось получить данные из DB, опять Debug!!!");
+				}
+
+				DB.Entry(User).State = EntityState.Modified;
+
+				User.Status = Status.Online;
+
 				DB.SaveChanges();
 			}
-			while (true);
-		}
-
-        private Message GetMessage()
-		{
-			return (Message)formatter.Deserialize(Stream);
-		}
-
-		private void SendTextChatAndMessage()
-		{
-			var textChats = DB.TextChat.Include(x => x.Message).ToList();
-
-            foreach (var item in textChats)
-            {
-				item.Message = DB.Message
-					.Include(x => x.User)
-					.Where(x => x.IDTextChat == item.ID)
-					.ToList();
-            }
-
-			formatter.Serialize(Stream, textChats.ToArray());
-		}
-
-		private void GetUser()
-		{
-			if (!((formatter.Deserialize(Stream)) is User user))
-				throw new InvalidOperationException($"Не получилось получить объект класса User!");
-			if (FindUser(user.Name, user.ID))
-				throw new InvalidOperationException($"Пользователь \"{user.Name}\" с ID \"{user.ID}\" не найден!");
-		}
+        }
 
 		internal void Close()
 		{
-			User.Status = Status.Offline;
-			DB.SaveChanges();
-			if (Stream != null)
+            using (DB DB = new DB())
+            {
+				User.Status = Status.Offline;
+				DB.Entry(User).State = EntityState.Modified;
+				DB.SaveChanges();
+            }
+
+			ServerObj.UserLogOrUnLog(User);
+			ServerObj.RemoveConnection(User.ID);
+
+            if (Stream != null)
 				Stream.Close();
 			if (Client != null)
 				Client.Close();
-		}
-		
-		private Boolean FindUser(String rName, Int32 id)
-		{
-			User = DB.User.Find(id);
-			return User.Name.Trim() != rName.Trim() || User == null;
 		}
 	}
 }

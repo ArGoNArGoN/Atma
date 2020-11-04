@@ -43,6 +43,7 @@ namespace ClassesForServerClent.Class
 			catch { throw; }
 		}
 
+		[System.ComponentModel.DataAnnotations.Key]
 		public Int32 ID
 		{
 			get => id;
@@ -108,8 +109,7 @@ namespace ClassesForServerClent.Class
 		public TextChat TextChat
 		{
 			get => textChat;
-			set => textChat = value
-				?? throw new ArgumentNullException("value is null", nameof(value));
+			set => textChat = value;
 		}
 
 		public String DateTimeCreate { get => Date.ToShortTimeString(); }

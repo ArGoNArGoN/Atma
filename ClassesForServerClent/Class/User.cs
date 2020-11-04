@@ -136,21 +136,21 @@ namespace ClassesForServerClent.Class
 		public ICollection<EventLog> EventLog { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public  ICollection<Message> Message { get; set; }
+		public ICollection<Message> Message { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public  ICollection<Opinion> Opinion { get; set; }
+		public ICollection<Opinion> Opinion { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public  ICollection<Request> Request { get; set; }
+		public ICollection<Request> Request { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public  ICollection<Request> Request1 { get; set; }
+		public ICollection<Request> Request1 { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public  ICollection<ServerUser> ServerUser { get; set; }
+		public ICollection<ServerUser> ServerUser { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public  ICollection<UserLog> UserLog { get; set; }
+		public ICollection<UserLog> UserLog { get; set; }
 	}
 }

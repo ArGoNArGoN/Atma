@@ -235,10 +235,12 @@
                     <Setter Property="FontSize" Value="14"/>
                     <Setter Property="FontWeight" Value="Medium"/>
                 </Style>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="Template">
+                <Style x:Key="ListUser" TargetType="ListView">
+                    <Setter Property="Background" Value="{x:Null}"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="ItemTemplate">
                         <Setter.Value>
-                            <ControlTemplate TargetType="ListBoxItem">
+                            <DataTemplate>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -246,14 +248,15 @@
                                         <ColumnDefinition></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="3"></RowDefinition>
+                                        <RowDefinition Height="1"></RowDefinition>
                                         <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="2"></RowDefinition>
+                                        <RowDefinition Height="0"></RowDefinition>
                                         <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="3"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="1"></RowDefinition>
                                     </Grid.RowDefinitions>
-                                    
-                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Source=UserName}">
+
+                                    <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=Name}">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="FontSize" Value="14"/>
@@ -261,7 +264,7 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
-                                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Source=Status}">
+                                    <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Path=Status}">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="FontSize" Value="10"/>
@@ -269,7 +272,7 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
-                                    <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Source=Status2}">
+                                    <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding Path=Status2}">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="FontSize" Value="8"/>
@@ -278,7 +281,7 @@
                                         </TextBlock.Style>
                                     </TextBlock>
                                 </Grid>
-                            </ControlTemplate>
+                            </DataTemplate>
                         </Setter.Value>
                     </Setter>
                 </Style>
@@ -291,7 +294,11 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <TextBlock Text="В сети:"/>
-                    <ListBox x:Name="ListUserOnline" Grid.Row="1" ItemsSource="{Binding Path=User}"></ListBox>
+                    <ListView Style="{StaticResource ListUser}"
+                              x:Name="ListUserOnline"
+                              Grid.Row="1"
+                              ItemsSource="{Binding Path=User}"/>
+
                 </Grid>
             </Border>
             <Border Grid.Row="1">
@@ -301,7 +308,10 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Не в сети:"/>
-                    <ListBox x:Name="ListUserOfline" Grid.Row="1" ItemsSource="{Binding Path=User}"></ListBox>
+                    <ListView Style="{StaticResource ListUser}"
+                              x:Name="ListUserOffline" Grid.Row="1"
+                              ItemsSource="{Binding Path=User}"/>
+
                 </Grid>
             </Border>
         </Grid>

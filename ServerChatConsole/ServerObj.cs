@@ -91,6 +91,18 @@ namespace ServerChatConsole
             }
         }
 
+        internal void UserLogOrUnLog(User user)
+        {
+            if (user == null)
+                throw new ArgumentNullException("user == null", nameof(user));
+
+            foreach (var x in ClientObjects)
+            {
+                if(x.User.ID != user.ID)
+                    formatter.Serialize(x.Stream, user);
+            }
+        }
+
         /// ОТправляет сообщение всем пользователям
         internal void BroadcastMessage(Message message, Int32 iDUser)
         {

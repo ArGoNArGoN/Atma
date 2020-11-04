@@ -24,7 +24,7 @@ namespace ClassesForServerClent.Class
 				Language = language;
 				Info = info;
 				Status = status;
-				DateCreate = dateCreate;
+				DateReg = dateCreate;
 			}
 			catch { throw; }
 		}
@@ -58,7 +58,7 @@ namespace ClassesForServerClent.Class
 		}
 
 		[Column(TypeName = "datetime")]
-		public DateTime DateCreate
+		public DateTime DateReg
 		{
 			get => dateCreate;
 			set
@@ -86,10 +86,7 @@ namespace ClassesForServerClent.Class
 			get => info;
 			set
 			{
-				if (value == null)
-					throw new ArgumentNullException("value is null", nameof(value));
-
-				if (value.Length > 500)
+				if (value?.Length > 500)
 					throw new ArgumentException("value > 500", nameof(value));
 
 				info = value;

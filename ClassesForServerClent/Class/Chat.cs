@@ -104,7 +104,7 @@ namespace ClassesForServerClent.Class
             set => server = value
                 ?? throw new ArgumentNullException("value is null", nameof(value));
         }
-        public virtual Category Category { get; set; }
+        public Category Category { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Chat()

@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,17 +27,33 @@ namespace ClientChatWPF
         {
             InitializeComponent();
         }
-
+        private const string host = "127.0.0.1";
+        private const int port = 8888;
+        public TcpClient Client { get; set; }
+        public NetworkStream Stream { get; set; }
 
         private void ClickButton(object sender, RoutedEventArgs e)
         {
             if (String.IsNullOrWhiteSpace(Name.Text) || String.IsNullOrWhiteSpace(Password.Text))
             { ErrorText.Text = "Некоторые поля оказались незаполненными!"; return; }
 
-
             try
             {
                 User = new User() { Name = Name.Text, ID = Int32.Parse(Password.Text) };
+
+                try
+                {
+                    Client = new TcpClient();
+                    Client.Connect(host, port);
+                    Stream = Client.GetStream();
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    formatter.Serialize(Stream, User);
+                    User = (User)formatter.Deserialize(Stream);
+                }
+                catch (Exception ex)
+                {
+                    ErrorText.Text = ex.Message;
+                }
                 Close();
             }
             catch { User = null; }
