@@ -21,8 +21,7 @@ namespace ClientChatWPF
 		event Action<List<Message>> EventAddMessage;
 		event Action<User> EventUpUserStatus;
 
-
-
+		List<Int32> IndexAndIdTC = new List<Int32>();
 		List<TextChat> TextChats { get; set; }
 		static User User { get; set; }
 		static NetworkStream Stream { get; set; }
@@ -49,12 +48,18 @@ namespace ClientChatWPF
 		{
 			Server = User.ServerUser.ToList()[0].Server;
 
+			ListServers.ItemsSource = User.ServerUser.Select(x => x.Server);
+
 			ListUserOnline.ItemsSource = UsersOnline = Server.ServerUser.Select(x => x.User).Where(x => x.Status == Status.Online).ToList();
 			ListUserOffline.ItemsSource = UsersOffline = Server.ServerUser.Select(x => x.User).Where(x => x.Status == Status.Offline).ToList();
 
-			listTextChat.ItemsSource = Server.TextChat.Select(x => x.Name);
+			ListTextChat.ItemsSource = Server.TextChat;
+            foreach (var item in Server.TextChat) 
+				IndexAndIdTC.Add(item.ID);
 
-			listUserMessage.ItemsSource = Messages = new List<Message>();
+			ListTextChat.SelectedIndex = 0;
+			ListServers.SelectedIndex = 0;
+			ListUserMessage.ItemsSource = Messages = new List<Message>();
 		}
 
 		List<Message> Messages { get; set; }
@@ -76,6 +81,7 @@ namespace ClientChatWPF
 		{
 			Messages = Server.TextChat.ToList()[0].Message.ToList();
 			EventAddMessage(Messages);
+
 			do
 			{
 
@@ -84,11 +90,24 @@ namespace ClientChatWPF
 				switch (ob)
 				{
 					case (Message):
-						Server.TextChat.ToList()[0].Message.Add((Message)ob);
-						EventAddMessage(Server.TextChat.ToList()[0].Message.ToList());
+						User.ServerUser.Select(x => x.Server).ToList().ForEach(x1 => x1.TextChat.FirstOrDefault(x => x.ID == ((Message)ob).IDTextChat)?.Message.Add((Message)ob));
+						var textChat = Server.TextChat.FirstOrDefault(x => x.ID == ((Message)ob).IDTextChat);
+						if (textChat == null)
+							break;
+
+						EventAddMessage(textChat.Message.ToList());
 						break;
 					case (ClassesForServerClent.Class.User):
-						EventUpUserStatus((User)ob);
+                        foreach (var item in User.ServerUser.Select(x => x.Server))
+                        {
+							var s = item.ServerUser.FirstOrDefault(x1 => x1.IDUser == ((User)ob).ID);
+							if (s is not null)
+							{
+								s.User = (User)ob;
+							}
+						}
+						if (Server.ServerUser.Any(x => x.IDUser == ((User)ob).ID))
+							EventUpUserStatus((User)ob);
 						break;
 					default:
 						break;
@@ -98,13 +117,15 @@ namespace ClientChatWPF
 
 		private void AddMessageInListbox(List<Message> obj)
 		{
-			listUserMessage.Dispatcher
+			ListUserMessage.Dispatcher
 				.Invoke(new Action(
 					() =>
-						listUserMessage.ItemsSource = obj
+					{
+						if (Server.TextChat.ToList()[ListTextChat.SelectedIndex].ID == obj[0]?.IDTextChat)
+							ListUserMessage.ItemsSource = obj;
+					}
 					));
 		}
-
 
 		private void UpUserStatusInListBoxs(User obj)
 		{
@@ -158,27 +179,56 @@ namespace ClientChatWPF
 				);
 		}
 
-
-		private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void TextChatWasSelected(object sender, SelectionChangedEventArgs e)
 		{
+			if (ListTextChat.SelectedIndex == -1)
+				ListTextChat.SelectedIndex = 0;
+			ListUserMessage.ItemsSource = Server.TextChat.ToList()[ListTextChat.SelectedIndex].Message;
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
+		private void SendMessage(object sender, RoutedEventArgs e)
 		{
 			if (String.IsNullOrWhiteSpace(MessagePop.Text))
 				return;
+
 			SendMessageSerialize(new Message()
 			{
 				IDUser = User.ID,
-				IDTextChat = 1,
+				IDTextChat = Server.TextChat.ToList()[ListTextChat.SelectedIndex].ID,
 				Text = MessagePop.Text,
 				Date = DateTime.Now,
 			});
+
+			MessagePop.Text = "";
 		}
 		
 		private void SendMessageSerialize(Message message)
 			=> formatter.Serialize(Stream, message);
 		private Object GetMessageSerialize()
 			=> formatter.Deserialize(Stream);
-	}
+
+        private void MenuCloseEvent(object sender, RoutedEventArgs e)
+        {
+			ButtonMenuClose.Visibility = Visibility.Collapsed;
+			ButtonMenuOpen.Visibility = Visibility.Visible;
+			ListServers.Visibility = Visibility.Collapsed;
+		}
+
+        private void MenuOpenEvent(object sender, RoutedEventArgs e)
+        {
+			ButtonMenuOpen.Visibility = Visibility.Collapsed;
+			ButtonMenuClose.Visibility = Visibility.Visible;
+			ListServers.Visibility = Visibility.Visible;
+		}
+
+		private void ServerWasSelected(object sender, SelectionChangedEventArgs e)
+		{
+			ListTextChat.SelectedIndex = 0;
+			Server = User.ServerUser.ToList()[ListServers.SelectedIndex].Server;
+			ListTextChat.ItemsSource = Server.TextChat;
+			ListUserMessage.ItemsSource = Server.TextChat.ToList()[0].Message;
+			ListUserOffline.ItemsSource = Server.ServerUser.Where(x => x.User.Status == Status.Offline).Select(x => x.User);
+			ListUserOnline.ItemsSource = Server.ServerUser.Where(x => x.User.Status == Status.Online).Select(x => x.User);
+		}
+    }
 }

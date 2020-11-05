@@ -109,8 +109,11 @@ namespace ServerChatConsole
             if (iDUser < 0)
                 throw new ArgumentException("idUser < 0", nameof(iDUser));
 
-            ClientObjects
-                .ForEach(x => formatter.Serialize(x.Stream, message));
+            foreach (var item in ClientObjects)
+            {
+                if (item.User.ServerUser.FirstOrDefault(x => x.IDServer == message.TextChat.IDServer) != null)
+                    formatter.Serialize(item.Stream, message);
+            }
         }
     }
 }

@@ -83,6 +83,8 @@ namespace ServerChatConsole
 						case (Message):
 							Message message = (Message)Obj;
 							message.User = DB.User.Find(message.IDUser);
+							message.TextChat = DB.TextChat.Find(message.IDTextChat);
+							message.TextChat.Server = DB.Server.Find(message.TextChat.IDServer);
 							DB.Entry(message).State = EntityState.Added;
 							Console.WriteLine($"{User.Name}: {message.Text}");
 							ServerObj.BroadcastMessage(message);
