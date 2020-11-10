@@ -58,8 +58,8 @@ namespace ClassesForServerClent.Class
 				idServer = value;
 			}
 		}
-		[Column(TypeName = "int")]
-		public Status Status { get; set; }
+		[Column(TypeName ="datetime")]
+		public DateTime Date { get; set; } = DateTime.Now;
 
 		public Server Server 
 		{

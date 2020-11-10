@@ -11,20 +11,20 @@ namespace ClassesForServerClent.Class
     {
         private Int32 id;
         private Int32 idServer;
-        private Int32? idCategory;
         private Int32 type;
         private String name;
         private Int32? maxCountUser;
         private Server server;
         private String info;
+        private Int32 number;
 
         public Int32 ID
         {
             get => id;
             set
             {
-                if (value < 0)
-                    throw new ArgumentException("value < 0", nameof(value));
+                if (value < 1)
+                    throw new ArgumentException("value < 1", nameof(value));
 
                 id = value;
             }
@@ -34,21 +34,10 @@ namespace ClassesForServerClent.Class
             get => idServer;
             set
             {
-                if (value < 0)
-                    throw new ArgumentException("value < 0", nameof(value));
+                if (value < 1)
+                    throw new ArgumentException("value < 1", nameof(value));
 
                 idServer = value;
-            }
-        }
-        public Int32? IDCategory
-        {
-            get => idCategory;
-            set
-            {
-                if (value < 0)
-                    throw new ArgumentException("value < 0", nameof(value));
-
-                idCategory = value;
             }
         }
         public Int32 Type
@@ -97,6 +86,16 @@ namespace ClassesForServerClent.Class
                 info = value;
             }
         }
+        public Int32 Number
+        {
+            get => number;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("value < 0", nameof(value));
+                number = value;
+            }
+        }
 
         public Server Server
         {
@@ -104,15 +103,17 @@ namespace ClassesForServerClent.Class
             set => server = value
                 ?? throw new ArgumentNullException("value is null", nameof(value));
         }
-        public Category Category { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Chat()
         {
             Right = new HashSet<Right>();
+            EventLog = new HashSet<EventLog>();
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public ICollection<Right> Right { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public ICollection<EventLog> EventLog { get; set; }
     }
 }

@@ -19,8 +19,7 @@ namespace ClassesForServerClent.Class
         private Int32 idServer;
 		private Int32? idChat;
 		private Int32? idTextChat;
-		private Int32? idUser;
-        private Int32? idCategory;
+		private Int32? idServerUser;
 
         public Int32 ID
 		{
@@ -66,26 +65,15 @@ namespace ClassesForServerClent.Class
 				idTextChat = value;
 			}
 		}
-		public Int32? IDUser
+		public Int32? IDServerUser
 		{
-			get => idUser;
+			get => idServerUser;
 			set
 			{
 				if (value < 0)
 					throw new ArgumentException("value < 0", nameof(value));
 
-				idUser = value;
-			}
-		}
-		public Int32? IDCategory
-		{
-			get => idCategory;
-			set
-			{
-				if (value < 0)
-					throw new ArgumentException("value < 0", nameof(value));
-
-				idCategory = value;
+				idServerUser = value;
 			}
 		}
 		public String Name
@@ -135,6 +123,7 @@ namespace ClassesForServerClent.Class
 		public Right()
 		{
 			RightRole = new HashSet<RightRole>();
+			EventLog = new HashSet<EventLog>();
 		}
 
 		public Server Server
@@ -146,9 +135,10 @@ namespace ClassesForServerClent.Class
 		public Chat Chat { get; set; }
 		public TextChat TextChat { get; set; }
 		public ServerUser ServerUser { get; set; }
-		public Category Category { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<RightRole> RightRole { get; set; }
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public ICollection<EventLog> EventLog { get; set; }
 	}
 }

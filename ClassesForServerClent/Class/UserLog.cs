@@ -9,6 +9,7 @@ namespace ClassesForServerClent.Class
 	{
         private Int32 id;
 		private Int32 idUser;
+		private Int32? idServer;
 		private User user;
         private String info;
         private DateTime date;
@@ -35,9 +36,19 @@ namespace ClassesForServerClent.Class
 				idUser = value;
 			}
 		}
+		public Int32? IDServer
+		{
+			get => idServer;
+			set
+			{
+				if (value < 0)
+					throw new ArgumentException("value < 0", nameof(value));
 
+				idServer = value;
+			}
+		}
 		[Column(TypeName = "int")]
-		public TypeActionUser TypeActionUser { get; set; }
+		public TypeActionUser Action { get; set; }
 
 		public String Info
 		{
@@ -66,6 +77,8 @@ namespace ClassesForServerClent.Class
 				date = value;
 			}
 		}
+
+		public Server Server { get; set; }
 
 		public User User
 		{

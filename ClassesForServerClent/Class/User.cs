@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 
 namespace ClassesForServerClent.Class
 {
@@ -13,10 +14,10 @@ namespace ClassesForServerClent.Class
 		private String name;
 		private DateTime dater;
 		private String rname;
-		private String icon;
 		private String status;
+        private string password;
 
-		public User(Int32 id, String name, String realName)
+        public User(Int32 id, String name, String realName)
 		{
 			try
 			{
@@ -26,7 +27,7 @@ namespace ClassesForServerClent.Class
 			}
 			catch { throw; }
 		}
-		public User(Int32 id, String name, DateTime dateReg, String realName, String icon, Status status, String status2) : this(id, name, realName)
+		public User(Int32 id, String name, DateTime dateReg, String realName, Byte[] icon, Status status, String status2) : this(id, name, realName)
 		{
 			try
 			{ 
@@ -79,17 +80,7 @@ namespace ClassesForServerClent.Class
 				rname = value;
 			}
 		}
-		public String Icon
-		{
-			get => icon;
-			set 
-			{
-				if (value?.Length > 100)
-					throw new ArgumentException("value > 100", nameof(value));
-
-				icon = value;
-			} 
-		}
+		public Byte[] Icon { get; set; }
 
 		[Column(TypeName = "int")]
 		public Status Status { get; set; }
@@ -119,6 +110,20 @@ namespace ClassesForServerClent.Class
 			}
 		}
 
+		public String Password
+        {
+			get => password;
+			set
+            {
+				if (String.IsNullOrEmpty(value))
+					throw new ArgumentNullException("value is null or empty", nameof(value));
+
+				if (value.Length < 6 || value.Length > 15)
+					throw new ArgumentException("value.Length < 6 || value.Length > 15", nameof(value));
+
+				password = value;
+			}
+        }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 		public User()

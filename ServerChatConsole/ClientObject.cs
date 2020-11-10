@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -10,18 +9,19 @@ using System.Threading;
 
 namespace ServerChatConsole
 {
-	internal class ClientObject
+    internal class ClientObject
 	{
-		public ClientObject(TcpClient client, ServerObj serverObj)
+		internal ClientObject(TcpClient client, ServerObj serverObj)
 		{
 			Client = client;
 			ServerObj = serverObj;
 		}
-		public TcpClient Client { get; set; }
-		public ServerObj ServerObj { get; set; }
+		internal TcpClient Client { get; set; }
+		internal ServerObj ServerObj { get; set; }
 		public NetworkStream Stream { get; internal set; }
 		internal User User { get; set; }
 		private BinaryFormatter formatter = new BinaryFormatter();
+		internal List<ServerUsers> ServerUsers { get; set; } = new List<ServerUsers>();
 
 		/// <summary>
 		/// Пользователь должен отправить Свое имя и id
@@ -33,10 +33,10 @@ namespace ServerChatConsole
 				Stream = Client.GetStream();
 
 				/// Отправим пользователю его данные, а так же все сервера, на которых он присутствует
-				GetInfoOfUser(out String RName, out Int32 id);
-				SendInfoForUser(RName, id);
+				GetInfoOfUser(out String RName, out String password);
+				SendInfoForUser(RName, password);
 				ServerObj.AddConnection(this);
-				ServerObj.UserLogOrUnLog(User);
+				SendUser(User);
 				TakeObjectFromUser();
 			}
 			catch(Exception e)
@@ -45,29 +45,8 @@ namespace ServerChatConsole
 			}
 			finally
 			{
-				if (User != null)
-				{
-					ServerObj.RemoveConnection(User.ID);
-				}
 				Close();
 			}
-		}
-
-        private void GetInfoOfUser(out String Name, out Int32 id)
-        {
-			User user = null;
-			try 
-			{
-				user = (User)formatter.Deserialize(Stream);
-			}
-			catch(InvalidCastException e)
-			{
-				Console.WriteLine("Не удалось преобразовать тип, который отправил пользователь.. Подробнее: \r" + e.Message);
-			}
-			if(user == null)
-				throw new Exception("Из-за критической ошибки сервер разрывает связь с пользователем "); 
-			Name = user.Name;
-			id = user.ID;
 		}
 
         private void TakeObjectFromUser()
@@ -81,14 +60,13 @@ namespace ServerChatConsole
                     switch (Obj)
 					{
 						case (Message):
-							Message message = (Message)Obj;
-							message.User = DB.User.Find(message.IDUser);
-							message.TextChat = DB.TextChat.Find(message.IDTextChat);
-							message.TextChat.Server = DB.Server.Find(message.TextChat.IDServer);
-							DB.Entry(message).State = EntityState.Added;
-							Console.WriteLine($"{User.Name}: {message.Text}");
-							ServerObj.BroadcastMessage(message);
-							DB.SaveChanges();
+							this.SendMessade((Message)Obj);
+							break;
+						case (ClassesForServerClent.Class.User):
+							this.SendUser((User)Obj);
+							break;
+						case (Server):
+							this.SendServer((Server)Obj);
 							break;
 						default:
 							Console.WriteLine("Пользователь отправил объект, который не приводится к типам," +
@@ -99,25 +77,88 @@ namespace ServerChatConsole
             } while (true);
         }
 
-        private void SendInfoForUser(string rName, int id)
+		private void SendMessade(Message message)
         {
-			GetUserFromDB(rName, id);
-			SendUserInStrem();
-        }
+			if(message is null)
+				throw new ArgumentNullException("message is null", nameof(message));
 
-        private void SendUserInStrem()
+			Console.WriteLine($"{User.Name}: {message.Text}");
+
+			using (DB DB = new DB())
+            {
+				message.User = DB.User.Find(message.IDUser);
+				message.TextChat = DB.TextChat.Find(message.IDTextChat);
+				message.TextChat.Server = DB.Server.Find(message.TextChat.IDServer);
+				DB.Entry(message).State = EntityState.Added;
+
+				DB.SaveChanges();
+			}
+			var sU = ServerUsers
+				.Find(x => x.Server.ID == message.TextChat.Server.ID);
+
+			new Thread(sU.SendMessageToServer)
+				.Start(message);
+		}
+		private void SendUser(User user)
+		{
+			if (user is null)
+				throw new ArgumentNullException("user is null", nameof(user));
+
+			using(DB DB = new DB())
+            {
+				DB.Entry(user).State = EntityState.Modified;
+            }
+
+			Console.WriteLine($"{User.Name}: Отправил самого себя всем пользователям");
+
+			foreach (var x in ServerUsers)
+				new Thread(x.SendUserToServer).Start(user);
+		}
+		private void SendServer(Server server)
         {
+			if (server is null)
+				throw new ArgumentNullException("server is null", nameof(server));
+
+			Console.WriteLine($"{User.Name}: изменил сервер {server.Name}");
+
+			ServerUsers
+				.Find(x => x.Server.ID == server.ID)
+				.SendServerToServer(server);
+		}
+		private void SendInfoForUser(String rName, String password)
+		{
+			GetUserFromDB(rName, password);
+			SendUserOfClient();
+		}
+		private void SendUserOfClient()
+		{
 			formatter.Serialize(Stream, User);
-        }
+		}
 
-        private void GetUserFromDB(string rName, int id)
+		private void GetInfoOfUser(out String Name, out String password)
+		{
+			User user = null;
+			try
+			{
+				user = (User)formatter.Deserialize(Stream);
+			}
+			catch (InvalidCastException e)
+			{
+				Console.WriteLine("Не удалось преобразовать тип, который отправил пользователь.. Подробнее: \r" + e.Message);
+			}
+			if (user == null)
+				throw new Exception("Из-за критической ошибки сервер разрывает связь с пользователем ");
+			Name = user.Name;
+			password = user.Password;
+		}
+        private void GetUserFromDB(String rName, String password)
         {
             using (DB DB = new DB())
             {
-				User = DB.User.Find(id);
+				User = DB.User.First(x => x.RealName == rName);
 				if (User == null)
 					throw new Exception("Пользовотель не найден!");
-				if (User.RealName != rName)
+				if (User.Password != password)
 					throw new Exception("Отправленное имя пользователя не совпадает с именем в DB");
 
 				try
@@ -172,6 +213,13 @@ namespace ServerChatConsole
 			}
         }
 
+		internal void SendObjectToClient(Object message)
+		{
+			lock (formatter)
+			{
+				formatter.Serialize(Stream, message);
+			}
+		}
 		internal void Close()
 		{
             using (DB DB = new DB())
@@ -181,8 +229,8 @@ namespace ServerChatConsole
 				DB.SaveChanges();
             }
 
-			ServerObj.UserLogOrUnLog(User);
-			ServerObj.RemoveConnection(User.ID);
+			SendUser(User);
+			ServerObj.RemoveConnection(this);
 
             if (Stream != null)
 				Stream.Close();

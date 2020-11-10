@@ -95,10 +95,13 @@ namespace ClassesForServerClent.Class
 		public Role()
 		{
 			RightRole = new HashSet<RightRole>();
+			EventLog = new HashSet<EventLog>();
 		}
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<RightRole> RightRole { get; set; }
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public ICollection<EventLog> EventLog { get; set; }
 
 		public ServerUser ServerUser
 		{

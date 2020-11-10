@@ -39,7 +39,7 @@ namespace ClientChatWPF
 
             try
             {
-                User = new User() { Name = Name.Text, ID = Int32.Parse(Password.Text) };
+                User = new User() { Name = Name.Text, Password = Password.Text };
 
                 try
                 {
@@ -49,14 +49,19 @@ namespace ClientChatWPF
                     BinaryFormatter formatter = new BinaryFormatter();
                     formatter.Serialize(Stream, User);
                     User = (User)formatter.Deserialize(Stream);
+                    Close();
                 }
                 catch (Exception ex)
                 {
                     ErrorText.Text = ex.Message;
+                    User = null;
                 }
-                Close();
             }
-            catch { User = null; }
+            catch 
+            {
+                ErrorText.Text = "Вы ввели некорректные данные";
+                User = null;
+            }
         }
     }
 }

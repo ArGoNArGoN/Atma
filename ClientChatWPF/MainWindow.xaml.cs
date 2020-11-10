@@ -121,6 +121,9 @@ namespace ClientChatWPF
 				.Invoke(new Action(
 					() =>
 					{
+						if (obj is null || obj.Count() == 0)
+							return;
+
 						if (Server.TextChat.ToList()[ListTextChat.SelectedIndex].ID == obj[0]?.IDTextChat)
 							ListUserMessage.ItemsSource = obj;
 					}

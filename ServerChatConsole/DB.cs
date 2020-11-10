@@ -13,7 +13,6 @@ namespace ServerChatConsole
         {
         }
 
-        public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Chat> Chat { get; set; }
         public virtual DbSet<EventLog> EventLog { get; set; }
         public virtual DbSet<Message> Message { get; set; }
@@ -28,33 +27,44 @@ namespace ServerChatConsole
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserLog> UserLog { get; set; }
 
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Category>()
-                .HasMany(e => e.Chat)
-                .WithOptional(e => e.Category)
-                .HasForeignKey(e => e.IDCategory);
-
-            modelBuilder.Entity<Category>()
-                .HasMany(e => e.Right)
-                .WithOptional(e => e.Category)
-                .HasForeignKey(e => e.IDCategory);
-
-            modelBuilder.Entity<Category>()
-                .HasMany(e => e.TextChat)
-                .WithOptional(e => e.Category)
-                .HasForeignKey(e => e.IDCategory);
+            modelBuilder.Entity<Chat>()
+                .HasMany(e => e.EventLog)
+                .WithOptional(e => e.Chat)
+                .HasForeignKey(e => e.IDChat);
 
             modelBuilder.Entity<Chat>()
                 .HasMany(e => e.Right)
                 .WithOptional(e => e.Chat)
                 .HasForeignKey(e => e.IDChat);
 
+            modelBuilder.Entity<Message>()
+                .HasMany(e => e.EventLog)
+                .WithOptional(e => e.Message1)
+                .HasForeignKey(e => e.IDMessage);
+
+            modelBuilder.Entity<Opinion>()
+                .HasMany(e => e.EventLog)
+                .WithOptional(e => e.Opinion)
+                .HasForeignKey(e => e.IDOpinion);
+
+            modelBuilder.Entity<Right>()
+                .HasMany(e => e.EventLog)
+                .WithOptional(e => e.Right)
+                .HasForeignKey(e => e.IDRight);
+
             modelBuilder.Entity<Right>()
                 .HasMany(e => e.RightRole)
                 .WithRequired(e => e.Right)
                 .HasForeignKey(e => e.IDRight)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Role>()
+                .HasMany(e => e.EventLog)
+                .WithOptional(e => e.Role)
+                .HasForeignKey(e => e.IDRole);
 
             modelBuilder.Entity<Role>()
                 .HasMany(e => e.RightRole)
@@ -98,16 +108,26 @@ namespace ServerChatConsole
                 .HasForeignKey(e => e.IDServer)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Server>()
+                .HasMany(e => e.UserLog)
+                .WithOptional(e => e.Server)
+                .HasForeignKey(e => e.IDServer);
+
             modelBuilder.Entity<ServerUser>()
                 .HasMany(e => e.Right)
                 .WithOptional(e => e.ServerUser)
-                .HasForeignKey(e => e.IDUser);
+                .HasForeignKey(e => e.IDServerUser);
 
             modelBuilder.Entity<ServerUser>()
                 .HasMany(e => e.Role)
                 .WithRequired(e => e.ServerUser)
                 .HasForeignKey(e => e.IDServer)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<TextChat>()
+                .HasMany(e => e.EventLog)
+                .WithOptional(e => e.TextChat)
+                .HasForeignKey(e => e.IDTextChat);
 
             modelBuilder.Entity<TextChat>()
                 .HasMany(e => e.Message)
