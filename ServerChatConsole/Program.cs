@@ -1,16 +1,11 @@
-﻿using ClassesForServerClent.Class;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 
 
 
 namespace ServerChatConsole
 {
-	class Program
+    class Program
 	{
 		/// Объект сервера
 		static ServerObj Server { get; set; }

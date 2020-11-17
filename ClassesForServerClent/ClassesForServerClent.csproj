@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\ActionForServer.cs" />
     <Compile Include="Class\ActionInServer.cs" />
     <Compile Include="Class\Chat.cs" />
     <Compile Include="Class\EventLog.cs" />

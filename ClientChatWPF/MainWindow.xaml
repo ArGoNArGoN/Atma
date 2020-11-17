@@ -29,7 +29,6 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
-
     <Window.Triggers>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonMenuOpen">
             <BeginStoryboard Storyboard="{StaticResource MenuOpen}"></BeginStoryboard>
@@ -47,10 +46,10 @@
 			<ColumnDefinition Width="130"></ColumnDefinition>
 		</Grid.ColumnDefinitions>
 		<Grid.Resources>
-            <Style x:Key="ListItemStyle" TargetType="ListBoxItem">
+            <Style x:Key="ListItemStyle" TargetType="ListViewItem">
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="ListBoxItem">
+                        <ControlTemplate TargetType="ListViewItem">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="3"></ColumnDefinition>
@@ -67,7 +66,7 @@
                                         <Style TargetType="Border">
                                             <Setter Property="Grid.Row" Value="1"/>
                                             <Setter Property="Grid.ColumnSpan" Value="4"/>
-                                            <Setter Property="Background" Value="DarkSlateGray"/>
+                                            <Setter Property="Background" Value="#FF2F3136"/>
                                             <Setter Property="CornerRadius" Value="5"/>
                                             <Style.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
@@ -107,7 +106,7 @@
                             </Grid>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
-                                    <Setter TargetName="TC" Property="Background" Value="Gray"/>
+                                    <Setter TargetName="TC" Property="Background" Value="#FF898989"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -125,7 +124,8 @@
         <Border x:Name="BorderMenu">
             <Border.Style>
                 <Style TargetType="Border">
-                    <Setter Property="Background" Value="#FF2C2828"/>
+                    <Setter Property="Background" Value="#FF1E1E1E"/>
+                    <Setter Property="Width" Value="46"/>
                 </Style>
             </Border.Style>
             <Grid>
@@ -136,7 +136,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid.Resources>
-                    <Style TargetType="Button">
+                    <Style x:Key="ButtonStyle" TargetType="Button">
                         <Setter Property="HorizontalAlignment" Value="Right"/>
                         <Setter Property="VerticalAlignment" Value="Top"/>
                         <Setter Property="Template">
@@ -145,28 +145,28 @@
                                     <Border>
                                         <Border.Style>
                                             <Style TargetType="Border">
-                                                <Setter Property="Background" Value="Gray"/>
+                                                <Setter Property="Background" Value="#FF333333"/>
                                                 <Setter Property="Height" Value="30"/>
                                                 <Setter Property="Width" Value="30"/>
-                                                <Setter Property="Margin" Value="8"/>
                                                 <Setter Property="CornerRadius" Value="5"/>
                                             </Style>
                                         </Border.Style>
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition/>
-                                                <RowDefinition Height="6"/>
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Text="≡" FontSize="28">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Setter Property="VerticalAlignment" Value="Center"/>
-                                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Grid VerticalAlignment="Top" HorizontalAlignment="Center">
+                                            <ContentControl Margin="0 0 0 6" Content="{TemplateBinding Content}" FontSize="20">
+                                                <ContentControl.Style>
+                                                    <Style TargetType="ContentControl">
+                                                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
                                                     </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
+                                                </ContentControl.Style>
+                                            </ContentControl>
                                         </Grid>
                                     </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="Gray"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
@@ -191,7 +191,7 @@
                                                 <Style TargetType="Border">
                                                     <Setter Property="Grid.Row" Value="1"/>
                                                     <Setter Property="Grid.Column" Value="1"/>
-                                                    <Setter Property="Background" Value="#FF404344"/>
+                                                    <Setter Property="Background" Value="#FF2F3136"/>
                                                     <Setter Property="CornerRadius" Value="5"/>
                                                 </Style>
                                             </Border.Style>
@@ -224,7 +224,7 @@
                                     </Grid>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="ItSr" Property="Background" Value="Gray"/>
+                                            <Setter TargetName="ItSr" Property="Background" Value="#FF898989"/>
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
@@ -238,16 +238,19 @@
                         <Setter Property="ItemContainerStyle" Value="{StaticResource  ItemServer}"/>
                     </Style>
                 </Grid.Resources>
-
-                <Button x:Name="ButtonMenuOpen" Click="MenuOpenEvent"/>
-                <Button x:Name="ButtonMenuClose" Click="MenuCloseEvent" Visibility="Collapsed"/>
-
+                <StackPanel Orientation="Horizontal">
+                    <Grid>
+                        <Button Margin="8" Content="≡" Style="{StaticResource ButtonStyle}" x:Name="ButtonMenuOpen" Click="MenuOpenEvent"/>
+                        <Button Margin="8" Content="≡" Style="{StaticResource ButtonStyle}" x:Name="ButtonMenuClose" Click="MenuCloseEvent" Visibility="Collapsed"/>
+                    </Grid>
+                    <Button Margin="8" Content="+" Style="{StaticResource ButtonStyle}" Click="SearchServer"/>
+                </StackPanel>
                 <ListView Style="{StaticResource ListServers}"
                           x:Name="ListServers"
                           Grid.Row="2"
                           SelectionChanged="ServerWasSelected"
                           Visibility="Collapsed"/>
-
+                
             </Grid>
         </Border>
 		<Border>
@@ -257,10 +260,60 @@
                     <Setter Property="Background" Value="#FF263C3C"/>
 				</Style>
 			</Border.Style>
-            <ListView Style="{StaticResource ListChatsView}"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ListView Style="{StaticResource ListChatsView}"
 					  x:Name="ListTextChat"
-					  SelectionChanged="TextChatWasSelected">
-            </ListView>
+					  SelectionChanged="TextChatWasSelected" Background="#FF2D2D30">
+                </ListView>
+                
+                <Grid>
+                    <Grid.Resources>
+                    </Grid.Resources>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Grid.Row" Value="1"/>
+                            <Setter Property="Margin" Value="10"/>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border>
+                        <Border.Style>
+                            <Style TargetType="Border">
+                            </Style>
+                        </Border.Style>
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="40"/>
+                            </Grid.ColumnDefinitions>
+                            <Border>
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="Gray"/>
+                                        <Setter Property="CornerRadius" Value="14"/>
+                                        <Setter Property="Width" Value="28"/>
+                                        <Setter Property="Height" Value="28"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="CornerRadius" Value="5"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Grid>
+                
+            </Grid>
         </Border>
 		<Border>
 			<Border.Style>
@@ -348,7 +401,7 @@
 						<RowDefinition Height="10"></RowDefinition>
 					</Grid.RowDefinitions>
 
-					<Border>
+					<Border Background="#FF3E3E42">
 						<Border.Style>
 							<Style TargetType="Border">
 								<Setter Property="Background" Value="#FF636363"></Setter>
@@ -389,7 +442,7 @@
 						</Grid>
 					</Border>
 
-					<Border>
+					<Border Background="#FF3E3E42">
 						<Border.Style>
 							<Style TargetType="Border">
 								<Setter Property="Background" Value="#FF636363"></Setter>

@@ -1,239 +1,400 @@
 ﻿<Window x:Class="ClientChatWPF.Reg"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ClientChatWPF"
-        mc:Ignorable="d"
-        Title="Reg" MinHeight="420" Height="420" MinWidth="300" Width="300" MaxHeight="640" MaxWidth="380">
-    <Grid>
-        <!-- Добавим Столбцы -->
-        <Grid.ColumnDefinitions>
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:ClientChatWPF"
+		mc:Ignorable="d"
+        
+        
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		Title="Reg" MinHeight="420" Height="420" MinWidth="300" Width="300" MaxHeight="640" MaxWidth="380">
+	<Grid>
+		
+		<!-- Добавим Столбцы -->
+		<Grid.ColumnDefinitions>
 
-            <!-- Зададим значение атрибута Width значению 40 Point  -->
-            <ColumnDefinition Width="40"></ColumnDefinition>
-            <ColumnDefinition Width="10"></ColumnDefinition>
+			<!-- Зададим значение атрибута Width значению 40 Point  -->
+			<ColumnDefinition Width="40"></ColumnDefinition>
+			<ColumnDefinition Width="10"></ColumnDefinition>
 
-            <!-- Зададим значение атрибута Width значению * <- Указывает на динамическое расширение... попробуй изменить размеры окна -->
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="10"></ColumnDefinition>
-            <ColumnDefinition Width="40"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
+			<!-- Зададим значение атрибута Width значению * <- Указывает на динамическое расширение... попробуй изменить размеры окна -->
+			<ColumnDefinition Width="*"></ColumnDefinition>
+			<ColumnDefinition Width="10"></ColumnDefinition>
+			<ColumnDefinition Width="40"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
 
-        <!-- Добавим Строки -->
-        <Grid.RowDefinitions>
+		<!-- Добавим Строки -->
+		<Grid.RowDefinitions>
 
-            <!-- Зададим значение атрибута Height значению 4* 
-            <- Указывает на динамическое расширение 
-            (Высота этой строки будет в 4 раза больше чем строка 2 (индекс строки начинается с 0)) 
-            ... попробуй изменить размеры окна -->
-            <RowDefinition Height="4*"></RowDefinition>
-            <RowDefinition Height="5"></RowDefinition>
+			<!-- Зададим значение атрибута Height значению 4* 
+			<- Указывает на динамическое расширение 
+			(Высота этой строки будет в 4 раза больше чем строка 2 (индекс строки начинается с 0)) 
+			... попробуй изменить размеры окна -->
+			<RowDefinition Height="4*"></RowDefinition>
+			<RowDefinition Height="5"></RowDefinition>
 
-            <!-- В этой строке Пользователь будет вводить Имя -->
-            <RowDefinition Height="*" MaxHeight="50"></RowDefinition>
-            <RowDefinition Height="5"></RowDefinition>
+			<!-- В этой строке Пользователь будет вводить Имя -->
+			<RowDefinition Height="*" MaxHeight="50"></RowDefinition>
+			<RowDefinition Height="5"></RowDefinition>
 
-            <!-- В этой строке Пользователь будет вводить Пароль -->
-            <RowDefinition Height="*" MaxHeight="50"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
+			<!-- В этой строке Пользователь будет вводить Пароль -->
+			<RowDefinition Height="*" MaxHeight="50"></RowDefinition>
+			<RowDefinition Height="30"></RowDefinition>
 
-            <!-- В этой строке будет кнопка входа -->
-            <RowDefinition Height="*" MaxHeight="60"></RowDefinition>
-            <RowDefinition Height="25"></RowDefinition>
-        </Grid.RowDefinitions>
+			<!-- В этой строке будет кнопка входа -->
+			<RowDefinition Height="*" MaxHeight="60"></RowDefinition>
+			<RowDefinition Height="5"></RowDefinition>
+			<RowDefinition Height="30"></RowDefinition>
+			<RowDefinition Height="14"></RowDefinition>
+		</Grid.RowDefinitions>
 
-        <!-- Дизайн у Grid -->
-        <Grid.Style>
-            <!-- Дизайн у типа Grid -->
-            <Style TargetType="Grid">
-                <!-- Присваиваем свойству Background значение DarkSlateGray в элементе Grid -->
-                <Setter Property="Background" Value="DarkSlateGray"/>
-            </Style>
-        </Grid.Style>
+		<!-- Дизайн у Grid -->
+		<Grid.Style>
+			<!-- Дизайн у типа Grid -->
+			<Style TargetType="Grid">
+				<!-- Присваиваем свойству Background значение DarkSlateGray в элементе Grid -->
+                <Setter Property="Background" Value="#FF2D2D30"/>
+			</Style>
+		</Grid.Style>
 
-        <!-- Ресурс -->
-        <Grid.Resources>
-            <!-- Чтобы присвоить элементу стиль, он должен использовать ключ -->
-            <!-- TargetType="Border" -->
-            <Style x:Key="StyleBox" TargetType="Border">
-                <Setter Property="Background" Value="DimGray"/>
-                <Setter Property="CornerRadius" Value="20"/>
-            </Style>
-            <Style x:Key="StyleTextBox" TargetType="TextBox">
+		<!-- Ресурс -->
+		<Grid.Resources>
+			<!-- Чтобы присвоить элементу стиль, он должен использовать ключ -->
+			<!-- TargetType="Border" -->
+			<Style x:Key="StyleBox" TargetType="Border">
+				<Setter Property="Background" Value="DarkSlateGray"/>
+				<Setter Property="CornerRadius" Value="20"/>
+			</Style>
+			<Style x:Key="StyleTextBox" TargetType="TextBox">
 
-                <!-- {x:Null} - прозрачный фон -->
-                <Setter Property="Background" Value="{x:Null}"/>
+				<!-- {x:Null} - прозрачный фон -->
+				<Setter Property="Background" Value="{x:Null}"/>
 
-                <!-- убираем обводку -->
-                <Setter Property="BorderThickness" Value="0"/>
+				<!-- убираем обводку -->
+				<Setter Property="BorderThickness" Value="0"/>
 
-                <!-- изменяем размер буковок -->
-                <Setter Property="FontSize" Value="16"/>
+				<!-- изменяем размер буковок -->
+				<Setter Property="FontSize" Value="16"/>
 
-                <!-- изменяем их цвет -->
-                <Setter Property="Foreground" Value="White"/>
+				<!-- изменяем их цвет -->
+				<Setter Property="Foreground" Value="White"/>
 
-                <!-- Ставим всо по центру! -->
-                <!-- **** -->
+				<!-- Ставим всо по центру! -->
+				<!-- **** -->
+				<Setter Property="VerticalAlignment" Value="Center"/>
+				<Setter Property="HorizontalAlignment" Value="Center"/>
+				<Setter Property="HorizontalContentAlignment" Value="Center"/>
+				<Setter Property="VerticalContentAlignment" Value="Center"/>
+				<!-- **** -->
+
+				<Setter Property="MinWidth" Value="150"/>
+			</Style>
+            <Style x:Key="StyleTextBlock" TargetType="TextBlock">
+                <Setter Property="Foreground" Value="Gray"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="HorizontalAlignment" Value="Center"/>
-                <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <!-- **** -->
-
-                <Setter Property="MinWidth" Value="50"/>
             </Style>
+            <Style TargetType="Border" x:Key="L">
+                <Setter Property="Background" Value="#FF787827"/>
+                <Setter Property="CornerRadius" Value="20"/>
+            </Style>
+            <Style TargetType="Border" x:Key="R">
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="CornerRadius" Value="18"/>
+                <Setter Property="Background" Value="#FF2D2D30"></Setter>
+            </Style>
+            <Style TargetType="TextBlock" x:Key="TextF">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Visibility" Value="Collapsed"/>
+                <Setter Property="Foreground" Value="Gray"/>
+            </Style>
+            <ControlTemplate  TargetType="Button" x:Key="btTemplate">
+                <Grid>
+                    <Border x:Name="Font">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="20"></Setter>
+                                <Setter Property="Background" Value="#FFC1C140"></Setter>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                    <Border x:Name="Back1">
+                        <Border>
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Margin" Value="2"></Setter>
+                                    <Setter Property="CornerRadius" Value="18"></Setter>
+                                    <Setter Property="Background" Value="#FF2D2D30"></Setter>
+                                    <Setter Property="Visibility" Value="Visible"></Setter>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                    </Border>
+                    <ContentControl x:Name="Cont" Content="{TemplateBinding Content}">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Setter Property="Foreground" Value="Wheat"></Setter>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="Back1" Property="Visibility" Value="Collapsed"></Setter>
+                        <Setter TargetName="Cont" Property="Foreground" Value="Black"></Setter>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="True">
+                        <Setter TargetName="Font" Property="Background" Value="Yellow"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
         </Grid.Resources>
 
-        <!-- Отправим Grid в первую строку -->
-        <Grid Grid.Row="0" Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <!-- Параметр Auto растягивает строку на столько,
-                сколько нужно элементу, который находится в ней -->
+		<!-- Отправим Grid в первую строку -->
+		<Grid Grid.Row="0" Grid.Column="2">
+			<Grid.RowDefinitions>
+				<RowDefinition></RowDefinition>
+				<!-- Параметр Auto растягивает строку на столько,
+				сколько нужно элементу, который находится в ней -->
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <!-- Текст ошибки -->
-            <TextBlock x:Name="ErrorText" Text="">
-                <TextBlock.Style>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="Grid.Row" Value="1"/>
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                        <Setter Property="FontSize" Value="15"/>
+			<!-- Текст ошибки -->
+			<TextBlock x:Name="ErrorText" Text="">
+				<TextBlock.Style>
+					<Style TargetType="TextBlock">
+						<Setter Property="Grid.Row" Value="1"/>
+						<Setter Property="VerticalAlignment" Value="Center"/>
+						<Setter Property="HorizontalAlignment" Value="Center"/>
+						<Setter Property="FontSize" Value="15"/>
                         <Setter Property="Foreground" Value="Red"/>
 
                         <!-- текст может переносится в другую строку -->
-                        <Setter Property="TextWrapping" Value="Wrap"/>
+						<Setter Property="TextWrapping" Value="Wrap"/>
                         <Setter Property="Height" Value="Auto"/>
                     </Style>
-                </TextBlock.Style>
-            </TextBlock>
+				</TextBlock.Style>
+			</TextBlock>
+
+            <!-- -->
+            <Border>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Grid.Row" Value="2"></Setter>
+                        <Setter Property="Width" Value="Auto"></Setter>
+                        <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+                        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                        <Setter Property="Margin" Value="0 0 0 5"></Setter>
+                    </Style>
+                </Border.Style>
+                <Border.Resources>
+                    <Style x:Key="StyleText" TargetType="TextBlock">
+                        <Setter Property="Text" Value="Имя"/>
+                        <Setter Property="Foreground" Value="WhiteSmoke"/>
+                        <Setter Property="FontSize" Value="15"></Setter>
+                        <Setter Property="Visibility" Value="Collapsed"></Setter>
+                    </Style>
+                </Border.Resources>
+                <Grid>
+                    <TextBlock x:Name="Nam">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource StyleText}">
+                                <Setter Property="Text" Value="Name"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Name, Path=IsFocused}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBlock x:Name="Pass">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource StyleText}">
+                                <Setter Property="Text" Value="Password"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Password, Path=IsFocused}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+            </Border>
         </Grid>
 
+        
+		<!-- ******************** -->
 
-
-
-        <!-- ******************** -->
-
-        <!-- Поле для ввода Имени -->
-        <Border>
+		<!-- Поле для ввода Имени -->
+		<Border>
             <Border.Style>
-
                 <!-- BasedOn="{StaticResource ИмяСтиля} -->
-                <Style TargetType="Border" BasedOn="{StaticResource StyleBox}">
-                    <Setter Property="Grid.Column" Value="2"/>
-                    <Setter Property="Grid.Row" Value="2"/>
-                </Style>
-            </Border.Style>
+				<Style TargetType="Border">
+					<Setter Property="Grid.Column" Value="2"/>
+					<Setter Property="Grid.Row" Value="2"/>
+				</Style>
+			</Border.Style>
 
-            <!-- Border позволяет хранить в себе элементы -->
-            <!-- Объявим Имя -->
-            <!-- По нему мы будем обращаться к текту -->
-            <TextBox x:Name="Name">
-                <TextBox.Style>
+			<!-- Border позволяет хранить в себе элементы -->
+			<!-- Объявим Имя -->
+			<!-- По нему мы будем обращаться к текту -->
+            <Grid>
+                <Border>
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource L}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=Name, Path=IsFocused}" Value="True">
+                                    <Setter Property="Background" Value="Yellow"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
+                <Border Style="{StaticResource R}"/>
+                <TextBlock x:Name="EmptyT1">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextF}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="Text" Value="Empty.."/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=Name, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Visibility" Value="Visible"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBox x:Name="Name">
+                    <TextBox.Style>
 
-                    <!-- BasedOn="{StaticResource ИмяСтиля} -->
-                    <Style TargetType="TextBox" BasedOn="{StaticResource StyleTextBox}"/>
-                </TextBox.Style>
-            </TextBox>
+                        <!-- BasedOn="{StaticResource ИмяСтиля} -->
+                        <Style TargetType="TextBox" BasedOn="{StaticResource StyleTextBox}"/>
+                    </TextBox.Style>
+                </TextBox>
+            </Grid>
+		</Border>
+
+		<!-- Поле для ввода Пароля -->
+		<Border>
+            <Border.Style>
+                <!-- BasedOn="{StaticResource ИмяСтиля} -->
+				<Style TargetType="Border">
+					<Setter Property="Grid.Column" Value="2"/>
+					<Setter Property="Grid.Row" Value="4"/>
+				</Style>
+			</Border.Style>
+
+			<!-- Border позволяет хранить в себе элементы -->
+			<!-- Объявим Имя -->
+			<!-- По нему мы будем обращаться к текту -->
+            <Grid>
+                <Border>
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource L}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=Password, Path=IsFocused}" Value="True">
+                                    <Setter Property="Background" Value="Yellow"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
+                <Border Style="{StaticResource R}"/>
+                <TextBlock x:Name="EmptyT2">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextF}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="Text" Value="Empty.."/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=Password, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Visibility" Value="Visible"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBox x:Name="Password">
+                    <TextBox.Style>
+
+                        <!-- BasedOn="{StaticResource ИмяСтиля} -->
+                        <Style TargetType="TextBox" BasedOn="{StaticResource StyleTextBox}"/>
+                    </TextBox.Style>
+                </TextBox>
+            </Grid>
         </Border>
 
-        <!-- Поле для ввода Пароля -->
-        <Border>
-            <Border.Style>
+		<!-- ******************** -->
 
-                <!-- BasedOn="{StaticResource ИмяСтиля} -->
-                <Style TargetType="Border" BasedOn="{StaticResource StyleBox}">
-                    <Setter Property="Grid.Column" Value="2"/>
-                    <Setter Property="Grid.Row" Value="4"/>
-                </Style>
-            </Border.Style>
+        
+		<!-- Кнопка для проверки данных -->
+		<!-- Событие нажатия на кнопку -->
+		<Button Click="ClickButton">
+			<Button.Style>
+				<Style TargetType="Button">
 
-            <!-- Border позволяет хранить в себе элементы -->
-            <!-- Объявим Имя -->
-            <!-- По нему мы будем обращаться к текту -->
-            <TextBox x:Name="Password">
-                <TextBox.Style>
-
-                    <!-- BasedOn="{StaticResource ИмяСтиля} -->
-                    <Style TargetType="TextBox" BasedOn="{StaticResource StyleTextBox}"/>
-                </TextBox.Style>
-            </TextBox>
-        </Border>
-
-        <!-- ******************** -->
-
-
-
-        <!-- Кнопка для проверки данных -->
-        <!-- Событие нажатия на кнопку -->
-        <Button Click="ClickButton">
-            <Button.Style>
-                <Style TargetType="Button">
-
-                    <!-- Вставляем кнопку в 8 строку 2 солбца -->
-                    <Setter Property="Grid.Column" Value="2"/>
-                    <Setter Property="Grid.Row" Value="6"/>
-
+					<!-- Вставляем кнопку в 8 строку 2 солбца -->
+					<Setter Property="Grid.Column" Value="2"/>
+					<Setter Property="Grid.Row" Value="6"/>
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Setter Property="Opacity" Value="0.3"/>
+                    <Setter Property="Content" Value="Войти"/>
                     <!-- переопределим отображение Кнопки   -->
-                    <!-- Это свойство есть у всех элементов, как и свойство Style -->
-                    <Setter Property="Template">
-                        <!-- Template присвоим -->
-                        <Setter.Value>
-                            <!-- Мы изменяем только отображение, поэтому ControlTemplate -->
-                            <ControlTemplate>
-                                <!-- Border - Штука, у котрой есть только форма и цвет (нам это и нужно)-->
-                                <Border>
-                                    <Border.Style>
-                                        <Style TargetType="Border">
-                                            <Setter Property="Background" Value="Gray"/>
+					<!-- Это свойство есть у всех элементов, как и свойство Style -->
+                    <Setter Property="Template" Value="{StaticResource btTemplate}"/>
 
-                                            <!-- Округляет края -->
-                                            <Setter Property="CornerRadius" Value="30"/>
 
-                                            <!-- Создаем триггер -->
-                                            <Style.Triggers>
-                                                <!-- если пользователь Убрал мышку "IsMouseOver" с элемента Border "True" -->
-                                                <Trigger Property="IsMouseOver" Value="True">
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ElementName=EmptyT1, Path=Visibility}" Value="Collapsed"></Condition>
+                                <Condition Binding="{Binding ElementName=EmptyT2, Path=Visibility}" Value="Collapsed"></Condition>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter Property="IsEnabled" Value="True"/>
+                                <Setter Property="Opacity" Value="1"/>
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+				</Style>
+			</Button.Style>
+		</Button>
 
-                                                    <!-- то изменить цвет фона этого элемента на "DimGray", -->
-                                                    <!--иначе оставить таким, каким он был -->
-                                                    <Setter Property="Background" Value="LightSlateGray"/>
+		<Button Click="ClickReg">
+			<Button.Style>
+				<Style TargetType="Button">
 
-                                                    <!-- ууууухх, как сложно!! -->
-
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-
-                                    <!-- ************* -->
-                                    <TextBlock>
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="Grid.Row" Value="2"/>
-                                                <Setter Property="Grid.Column" Value="2"/>
-                                                <Setter Property="VerticalAlignment" Value="Center"/>
-                                                <Setter Property="HorizontalAlignment" Value="Center"/>
-                                                <Setter Property="HorizontalAlignment" Value="Center"/>
-                                                <Setter Property="FontSize" Value="15"/>
-                                                <Setter Property="Foreground" Value="Black"/>
-                                                <Setter Property="Text" Value="Войти"/>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                    <!-- ************* -->
-
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-        </Button>
-    </Grid>
+					<!-- Вставляем кнопку в 8 строку 2 солбца -->
+					<Setter Property="Grid.Column" Value="2"/>
+					<Setter Property="Grid.Row" Value="8"/>
+					
+					<!-- переопределим отображение Кнопки   -->
+					<!-- Это свойство есть у всех элементов, как и свойство Style -->
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate>
+								<TextBlock
+									x:Name="Reg"
+									Text="Регистрация"
+									Style="{StaticResource ResourceKey=StyleTextBlock}"></TextBlock>
+								<ControlTemplate.Triggers>
+									<Trigger Property="IsMouseOver" Value="True">
+										<Setter TargetName="Reg" Property="Foreground" Value="#FF211F1F"/>
+									</Trigger>
+                                </ControlTemplate.Triggers>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</Button.Style>
+		</Button>
+	</Grid>
 </Window>
-

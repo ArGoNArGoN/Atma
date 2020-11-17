@@ -48,7 +48,7 @@ namespace ServerChatConsole
 			try
 			{
 				StartServer();
-				while (true) 
+				while (true)
 				{
 					GetClient();
 					Console.WriteLine("Кто-то пытается подключиться");
@@ -73,19 +73,18 @@ namespace ServerChatConsole
 		/// Инициализируем прослушивание и запускаем сервер
 		private void StartServer()
 		{
-			TcpListener = new TcpListener(IPAddress.Any, 8888);
+			TcpListener = new TcpListener(IPAddress.Any, 22222);
 			TcpListener.Start();
 			ServerUsers = new List<ServerUsers>();
 
-			using(DB db = new DB())
-			{
-				foreach (var server in db.Server)
-				{
-					ServerUsers.Add
-						(new ServerUsers() { Server = server });
-				}
-			}
-		}
+            using DB db = new DB();
+
+            foreach (var server in db.Server)
+            {
+                ServerUsers.Add
+                    (new ServerUsers() { Server = server });
+            }
+        }
 
 		/// Отключаем пользователей и сервер
 		/// Доделать

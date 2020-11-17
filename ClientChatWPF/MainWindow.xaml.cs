@@ -5,11 +5,8 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-
-
 
 namespace ClientChatWPF
 {
@@ -25,7 +22,8 @@ namespace ClientChatWPF
 		List<TextChat> TextChats { get; set; }
 		static User User { get; set; }
 		static NetworkStream Stream { get; set; }
-		BinaryFormatter formatter = new BinaryFormatter();
+        BinaryFormatter formatter = new BinaryFormatter();
+
 		public MainWindow()
 		{
 			Reg reg = new Reg();
@@ -39,12 +37,27 @@ namespace ClientChatWPF
 
 			InitializeComponent();
 
+			if (User.ServerUser.Count() == 0)
+				GetServer();
+
 			LoadedDataInWindow();
 
 			this.Loaded += new RoutedEventHandler(LoadInfoServer);
 		}
 
-		private void LoadedDataInWindow()
+        private void GetServer()
+        {
+			ServerSearchWindow server = new ServerSearchWindow(User);
+            server.ShowDialog();
+
+			if (User.ServerUser.Count() == 0)
+			{
+				Close();
+				Environment.Exit(0);
+			}
+        }
+
+        private void LoadedDataInWindow()
 		{
 			Server = User.ServerUser.ToList()[0].Server;
 
@@ -233,5 +246,10 @@ namespace ClientChatWPF
 			ListUserOffline.ItemsSource = Server.ServerUser.Where(x => x.User.Status == Status.Offline).Select(x => x.User);
 			ListUserOnline.ItemsSource = Server.ServerUser.Where(x => x.User.Status == Status.Online).Select(x => x.User);
 		}
+
+        private void SearchServer(object sender, RoutedEventArgs e)
+        {
+			GetServer();
+        }
     }
 }

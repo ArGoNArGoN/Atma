@@ -6,6 +6,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ServerChatConsole
 {
+    /// <summary>
+    /// </summary>
     class ServerUsers
     {
         public Server Server;

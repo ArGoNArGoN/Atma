@@ -12,12 +12,13 @@ namespace ClassesForServerClent.Class
 	{
 		private Int32 id;
 		private String name;
+		private String password;
 		private DateTime dater;
+		private DateTime? dateB;
 		private String rname;
 		private String status;
-        private string password;
 
-        public User(Int32 id, String name, String realName)
+		public User(Int32 id, String name, String realName)
 		{
 			try
 			{
@@ -30,11 +31,11 @@ namespace ClassesForServerClent.Class
 		public User(Int32 id, String name, DateTime dateReg, String realName, Byte[] icon, Status status, String status2) : this(id, name, realName)
 		{
 			try
-			{ 
+			{
 				Icon = icon;
 				Status = status;
 				Status2 = status2;
-				Date = dateReg;
+				DateReg = dateReg;
 			}
 			catch { throw; }
 		}
@@ -42,7 +43,7 @@ namespace ClassesForServerClent.Class
 		public Int32 ID
 		{
 			get => id;
-			set 
+			set
 			{
 				if (value < 0)
 					throw new ArgumentException("value < 0", nameof(value));
@@ -54,28 +55,28 @@ namespace ClassesForServerClent.Class
 		public String Name
 		{
 			get => name;
-			set 
+			set
 			{
 				if (String.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("value is null", nameof(value));
+					throw new ArgumentNullException("The nickname cannot be empty!");
 
 				if (value.Length > 50)
-					throw new ArgumentNullException("value = null", nameof(value));
+					throw new ArgumentNullException("The nickname is longer than 50 characters!");
 
-				name  = value;
+				name = value;
 			}
 		}
 		[Required]
 		public String RealName
 		{
 			get => rname;
-			set 
+			set
 			{
-				if (String.IsNullOrWhiteSpace(value)) 
-					throw new ArgumentNullException("value is null", nameof(value));
-				
+				if (String.IsNullOrWhiteSpace(value))
+					throw new ArgumentNullException("The Name cannot be empty!");
+
 				if (value.Length > 50)
-					throw new ArgumentNullException("value = null", nameof(value));
+					throw new ArgumentNullException("The Name is longer than 50 characters!");
 
 				rname = value;
 			}
@@ -88,42 +89,58 @@ namespace ClassesForServerClent.Class
 		public String Status2
 		{
 			get => status;
-			set 
+			set
 			{
 				if (value?.Length > 100)
-					throw new ArgumentException("value > 100", nameof(value));
+					throw new ArgumentException("The status length is too long!");
 
 				status = value;
 			}
 		}
 
-		[Column(TypeName = "datetime")]
-		public DateTime Date
+		[Column(TypeName = "date")]
+		public DateTime DateReg
 		{
 			get => dater;
 			set
 			{
 				if ((value) > DateTime.Now)
-					throw new ArgumentException("value > DataTime.Now", nameof(value));
+					throw new ArgumentException("Are you trying to register in the future!? ");
 
 				dater = value;
 			}
 		}
 
+		[Column(TypeName = "date")]
+		public DateTime? DateOfBirht
+		{
+			get => dateB;
+			set
+			{
+				if ((value) > DateTime.Now)
+					throw new ArgumentException("Were you born in the future!?");
+
+				dateB = value;
+			}
+		}
+
 		public String Password
-        {
+		{
 			get => password;
 			set
-            {
+			{
 				if (String.IsNullOrEmpty(value))
-					throw new ArgumentNullException("value is null or empty", nameof(value));
+					throw new ArgumentNullException("The password can't be empty!");
 
 				if (value.Length < 6 || value.Length > 15)
-					throw new ArgumentException("value.Length < 6 || value.Length > 15", nameof(value));
+					throw new ArgumentException("The password must be between 6 and 15 characters long!");
 
 				password = value;
 			}
-        }
+		}
+
+		[NotMapped]
+		public ActionForServer? ActionForServer { get; set; } = null;
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 		public User()
