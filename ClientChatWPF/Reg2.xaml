@@ -1,0 +1,488 @@
+﻿<Window x:Class="ClientChatWPF.Reg2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClientChatWPF"
+        mc:Ignorable="d"
+        
+        
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Title="Reg2" Height="350" Width="350" MinHeight="700" MaxHeight="800" MinWidth="350" MaxWidth="400">
+    
+    <Window.Resources>
+        <Style TargetType="TextBox" x:Key="TextInButton">
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="MinWidth" Value="140"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+        </Style>
+        <Style TargetType="Border" x:Key="L">
+            <Setter Property="Background" Value="#FF787827"/>
+            <Setter Property="CornerRadius" Value="20"/>
+        </Style>
+        <Style TargetType="Border" x:Key="R">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="CornerRadius" Value="18"/>
+            <Setter Property="Background" Value="#FF2D2D30"></Setter>
+        </Style>
+        <Style TargetType="Border" x:Key="T">
+            <Setter Property="Grid.Row" Value="1"/>
+            <Setter Property="Height" Value="40"></Setter>
+            <Setter Property="Margin" Value="30 0"></Setter>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
+                                    <SplineThicknessKeyFrame KeyTime="00:00:00" Value="30 0" />
+                                    <SplineThicknessKeyFrame KeyTime="00:00:0.1" Value="0"/>
+                                </ThicknessAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
+                                    <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0" />
+                                    <SplineThicknessKeyFrame KeyTime="00:00:0.1" Value="30 0"/>
+                                </ThicknessAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="TextN">
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="TextF">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Setter Property="Foreground" Value="DarkSlateGray"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="ErrorText">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Foreground" Value="Red"/>
+
+            <!-- текст может переносится в другую строку -->
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Height" Value="Auto"/>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Setter Property="Background" Value="#FF2D2D30"/>
+            </Style>
+        </Grid.Style>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="50"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition MinHeight="65" MaxHeight="82"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition MinHeight="65" MaxHeight="82"></RowDefinition>
+            <RowDefinition Height="4"></RowDefinition>
+            <RowDefinition MinHeight="65" MaxHeight="82"></RowDefinition>
+            <RowDefinition Height="4"></RowDefinition>
+            <RowDefinition MinHeight="45" MaxHeight="82"></RowDefinition>
+            <RowDefinition Height="4"></RowDefinition>
+            <RowDefinition MinHeight="65" MaxHeight="82"></RowDefinition>
+            <RowDefinition Height="4"></RowDefinition>
+            <RowDefinition MinHeight="65" MaxHeight="82"></RowDefinition>
+            <RowDefinition Height="4"></RowDefinition>
+            <RowDefinition MinHeight="65" MaxHeight="82"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="Auto" MinHeight="40" MaxHeight="50"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <Grid.Resources>
+        </Grid.Resources>
+
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Grid.Column" Value="1"></Setter>
+                    <Setter Property="Grid.Row" Value="0"></Setter>
+                </Style>
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="Error" Style="{StaticResource ErrorText}"></TextBlock>
+            <TextBlock Grid.Row="1" Text="Required Fields" Style="{StaticResource TextN}" FontSize="15" Foreground="LightGray" VerticalAlignment="Bottom" Margin="0 0 0 7"></TextBlock>
+        </Grid>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Grid.Row" Value="2"></Setter>
+                    <Setter Property="Grid.Column" Value="1"></Setter>
+                </Style>
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="25" MaxHeight="30"></RowDefinition>
+                <RowDefinition MinHeight="40" MaxHeight="50"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Border Style="{StaticResource T}">
+                <Grid>
+                    <Border>
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource L}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text1, Path=IsFocused}" Value="True">
+                                        <Setter Property="Background" Value="Yellow"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                    <Border Style="{StaticResource R}"/>
+                    <TextBlock x:Name="EmptyT1" Text="Empty...">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource TextF}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text1, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBox x:Name="Text1" Style="{StaticResource ResourceKey=TextInButton}"/>
+                </Grid>
+            </Border>
+            <TextBlock Style="{StaticResource TextN}">Real Name</TextBlock>
+        </Grid>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Grid.Row" Value="4"></Setter>
+                    <Setter Property="Grid.Column" Value="1"></Setter>
+                </Style>
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="25" MaxHeight="30"></RowDefinition>
+                <RowDefinition MinHeight="40" MaxHeight="50"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Border Style="{StaticResource T}">
+                <Grid>
+                    <Border>
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource L}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text2, Path=IsFocused}" Value="True">
+                                        <Setter Property="Background" Value="Yellow"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                    <Border Style="{StaticResource R}"/>
+                    <TextBlock  x:Name="EmptyT2" Text="Empty...">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource TextF}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text2, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBox x:Name="Text2" Style="{StaticResource ResourceKey=TextInButton}"/>
+                </Grid>
+            </Border>
+            <TextBlock Style="{StaticResource TextN}">Password</TextBlock>
+
+        </Grid>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Grid.Row" Value="6"></Setter>
+                    <Setter Property="Grid.Column" Value="1"></Setter>
+                </Style>
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="25" MaxHeight="30"></RowDefinition>
+                <RowDefinition MinHeight="40" MaxHeight="50"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Border Style="{StaticResource T}">
+                <Grid>
+                    <Border>
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource L}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text3, Path=IsFocused}" Value="True">
+                                        <Setter Property="Background" Value="Yellow"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                    <Border Style="{StaticResource R}"/>
+                    <TextBlock x:Name="EmptyT3" Text="Empty...">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource TextF}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text3, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBox x:Name="Text3" Style="{StaticResource ResourceKey=TextInButton}"/>
+                </Grid>
+            </Border>
+            <TextBlock Style="{StaticResource TextN}">Password</TextBlock>
+        </Grid>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Grid.Column" Value="1"></Setter>
+                    <Setter Property="Grid.Row" Value="8"></Setter>
+                </Style>
+            </Grid.Style>
+            <TextBlock Text="Optional Fields" Style="{StaticResource TextN}" FontSize="15" Foreground="LightGray" VerticalAlignment="Bottom" Margin="0 0 0 7"></TextBlock>
+        </Grid>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Grid.Row" Value="10"></Setter>
+                    <Setter Property="Grid.Column" Value="1"></Setter>
+                </Style>
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="25" MaxHeight="30"></RowDefinition>
+                <RowDefinition MinHeight="40" MaxHeight="50"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Border Style="{StaticResource T}">
+                <Grid>
+                    <Border>
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource L}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text4, Path=IsFocused}" Value="True">
+                                        <Setter Property="Background" Value="Yellow"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                    <Border Style="{StaticResource R}"/>
+                    <TextBlock Text="dd mm yy">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource TextF}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text4, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBox x:Name="Text4" Style="{StaticResource ResourceKey=TextInButton}"/>
+                </Grid>
+            </Border>
+            <TextBlock Style="{StaticResource TextN}">Date of Birth</TextBlock>
+
+        </Grid>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Grid.Row" Value="12"></Setter>
+                    <Setter Property="Grid.Column" Value="1"></Setter>
+                </Style>
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="25" MaxHeight="30"></RowDefinition>
+                <RowDefinition MinHeight="40" MaxHeight="50"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Border Style="{StaticResource T}">
+                <Grid>
+                    <Border>
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource L}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text5, Path=IsFocused}" Value="True">
+                                        <Setter Property="Background" Value="Yellow"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                    <Border Style="{StaticResource R}"/>
+                    <TextBlock Text="Empty...">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource TextF}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text5, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBox x:Name="Text5" Style="{StaticResource ResourceKey=TextInButton}"/>
+                </Grid>
+            </Border>
+            <TextBlock Style="{StaticResource TextN}">Status</TextBlock>
+
+        </Grid>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Grid.Row" Value="14"></Setter>
+                    <Setter Property="Grid.Column" Value="1"></Setter>
+                </Style>
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="25" MaxHeight="30"></RowDefinition>
+                <RowDefinition MinHeight="40" MaxHeight="50"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Border Style="{StaticResource T}">
+                <Grid>
+                    <Border>
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource L}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text6, Path=IsFocused}" Value="True">
+                                        <Setter Property="Background" Value="Yellow"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                    <Border Style="{StaticResource R}"/>
+                    <TextBlock Text="Empty...">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource TextF}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text6, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBox x:Name="Text6" Style="{StaticResource TextInButton}"/>
+                </Grid>
+            </Border>
+            <TextBlock Style="{StaticResource TextN}">Nickname</TextBlock>
+
+        </Grid>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Grid.Row" Value="16"></Setter>
+                    <Setter Property="Grid.Column" Value="0"></Setter>
+                    <Setter Property="Grid.ColumnSpan" Value="3"></Setter>
+                </Style>
+            </Grid.Style>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="10"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <ControlTemplate  TargetType="Button" x:Key="btTemplate">
+                    <Grid>
+                        <Border>
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="20"></Setter>
+                                    <Setter Property="Background" Value="#FFC1C140"></Setter>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                        <Border x:Name="Back1">
+                            <Border>
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Margin" Value="2"></Setter>
+                                        <Setter Property="CornerRadius" Value="18"></Setter>
+                                        <Setter Property="Background" Value="#FF2D2D30"></Setter>
+                                        <Setter Property="Visibility" Value="Visible"></Setter>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                        </Border>
+                        <ContentControl x:Name="Cont" Content="{TemplateBinding Content}">
+                            <ContentControl.Style>
+                                <Style TargetType="ContentControl">
+                                    <Setter Property="Foreground" Value="Wheat"></Setter>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Margin" Value="0 0 0 2"/>
+                                </Style>
+                            </ContentControl.Style>
+                        </ContentControl>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Back1" Property="Visibility" Value="Collapsed"></Setter>
+                            <Setter TargetName="Cont" Property="Foreground" Value="Black"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Grid.Resources>
+            <Button x:Name="dawd" Grid.Column="1" Content="Register!" Click="RegisterClick">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Opacity" Value="0.3"/>
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Setter Property="Template" Value="{StaticResource btTemplate}"></Setter>
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=EmptyT1, Path=Visibility}" Value="Collapsed"></Condition>
+                                    <Condition Binding="{Binding ElementName=EmptyT2, Path=Visibility}" Value="Collapsed"></Condition>
+                                    <Condition Binding="{Binding ElementName=EmptyT3, Path=Visibility}" Value="Collapsed"></Condition>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="IsEnabled" Value="True"/>
+                                    <Setter Property="Opacity" Value="1"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button x:Name="dawdd" Grid.Column="3" Content="Go out!" Template="{StaticResource btTemplate}" Click="GoOutClick"/>
+        </Grid>
+    </Grid>
+</Window>

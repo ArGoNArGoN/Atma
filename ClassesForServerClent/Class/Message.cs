@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClassesForServerClent.Class
 {
@@ -16,11 +12,15 @@ namespace ClassesForServerClent.Class
 		private Int32 idTextChat;
 		private Int32 idUser;
 		private String text;
+
 		private User user;
         private TextChat textChat;
 
-		public Message() { }
-        public Message(int id, string text, User serverUser)
+		public Message() 
+		{
+			EventLog = new HashSet<EventLog>();
+		}
+        public Message(int id, string text, User serverUser) : base()
 		{
 			try
 			{ 
@@ -43,13 +43,14 @@ namespace ClassesForServerClent.Class
 			catch { throw; }
 		}
 
+		[System.ComponentModel.DataAnnotations.Key]
 		public Int32 ID
 		{
 			get => id;
 			set
 			{
-				if (value < 0)
-					throw new ArgumentException("value < 0", nameof(value));
+				if (value < 1)
+					throw new ArgumentException("value < 1", nameof(value));
 
 				id = value;
 			}
@@ -59,8 +60,8 @@ namespace ClassesForServerClent.Class
 			get => idUser;
 			set
 			{
-				if (value < 0)
-					throw new ArgumentException("value < 0", nameof(value));
+				if (value < 1)
+					throw new ArgumentException("value < 1", nameof(value));
 
 				idUser = value;
 			}
@@ -70,12 +71,13 @@ namespace ClassesForServerClent.Class
 			get => idTextChat;
 			set
 			{
-				if (value < 0)
-					throw new ArgumentException("value < 0", nameof(value));
+				if (value < 1)
+					throw new ArgumentException("value < 1", nameof(value));
 
 				idTextChat = value;
 			}
 		}
+
 		public String Text
 		{
 			get => text;
@@ -108,11 +110,13 @@ namespace ClassesForServerClent.Class
 		public TextChat TextChat
 		{
 			get => textChat;
-			set => textChat = value
-				?? throw new ArgumentNullException("value is null", nameof(value));
+			set => textChat = value;
 		}
 
 		public String DateTimeCreate { get => Date.ToShortTimeString(); }
 		public String UserName { get => User?.Name; }
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public ICollection<EventLog> EventLog { get; set; }
 	}
 }

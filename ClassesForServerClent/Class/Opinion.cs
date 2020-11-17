@@ -11,22 +11,23 @@ namespace ClassesForServerClent.Class
 	[Table("Opinion")]
 	public class Opinion
 	{
-        private Int32 id;
+		private Int32 id;
 		private Int32 idUser;
 		private User user;
 		private Int32 idServer;
 		private Server server;
 		private Int32 mark;
 		private String message;
-        private DateTime date;
+		private DateTime date;
 
 
-        public Int32 ID
+		public Int32 ID
 		{
 			get => id;
 			set
 			{
-				if (value < 0) throw new ArgumentException("value < 0", "value");
+				if (value < 1)
+					throw new ArgumentException("value < 1", "value");
 				id = value;
 			}
 		}
@@ -35,8 +36,8 @@ namespace ClassesForServerClent.Class
 			get => idUser;
 			set
 			{
-				if (value < 0)
-					throw new ArgumentException("value < 0", nameof(value));
+				if (value < 1)
+					throw new ArgumentException("value < 1", nameof(value));
 
 				idUser = value;
 			}
@@ -46,23 +47,23 @@ namespace ClassesForServerClent.Class
 			get => idServer;
 			set
 			{
-				if (value < 0)
-					throw new ArgumentException("value < 0", nameof(value));
+				if (value < 1)
+					throw new ArgumentException("value < 1", nameof(value));
 
 				idServer = value;
 			}
 		}
 		public Int32 Mark
-        {
+		{
 			get => mark;
 			set
-            {
+			{
 				if (value < 0 || value > 10)
 					throw new ArgumentException("value < 0 || value > 10", nameof(value));
 
 				mark = value;
-            }
-        }
+			}
+		}
 		public String Message
 		{
 			get => message;
@@ -80,16 +81,21 @@ namespace ClassesForServerClent.Class
 
 		[Column(TypeName = "datetime")]
 		public DateTime Date
-        {
+		{
 			get => date;
-            set
-            {
+			set
+			{
 				if (value > DateTime.Now)
 					throw new ArgumentException("date > DateTime.Now", nameof(value));
 
 				date = value;
-            }
-        }
+			}
+		}
+
+		public Opinion()
+		{
+			EventLog = new HashSet<EventLog>();
+		}
 
 		public Server Server
 		{
@@ -103,5 +109,8 @@ namespace ClassesForServerClent.Class
 			set => user = value
 				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public ICollection<EventLog> EventLog { get; set; }
 	}
 }

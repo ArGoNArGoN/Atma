@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 
 namespace ClassesForServerClent.Class
 {
@@ -24,7 +25,7 @@ namespace ClassesForServerClent.Class
 				Language = language;
 				Info = info;
 				Status = status;
-				DateCreate = dateCreate;
+				Date = dateCreate;
 			}
 			catch { throw; }
 		}
@@ -58,7 +59,7 @@ namespace ClassesForServerClent.Class
 		}
 
 		[Column(TypeName = "datetime")]
-		public DateTime DateCreate
+		public DateTime Date
 		{
 			get => dateCreate;
 			set
@@ -81,20 +82,22 @@ namespace ClassesForServerClent.Class
 				language = value;
 			}
 		}
+
+		[StringLength(500)]
 		public String Info
 		{
 			get => info;
 			set
 			{
-				if (value == null)
-					throw new ArgumentNullException("value is null", nameof(value));
-
-				if (value.Length > 500)
+				if (value?.Length > 500)
 					throw new ArgumentException("value > 500", nameof(value));
 
 				info = value;
 			}
 		}
+
+		[Column(TypeName = "image")]
+		public byte[] Icon { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 		public Server()
@@ -105,6 +108,7 @@ namespace ClassesForServerClent.Class
 			Right = new HashSet<Right>();
 			ServerUser = new HashSet<ServerUser>();
 			TextChat = new HashSet<TextChat>();
+			UserLog = new HashSet<UserLog>();
 		}
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -124,5 +128,8 @@ namespace ClassesForServerClent.Class
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<TextChat> TextChat { get; set; }
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public ICollection<UserLog> UserLog { get; set; }
 	}
 }

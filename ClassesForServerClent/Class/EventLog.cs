@@ -14,6 +14,12 @@ namespace ClassesForServerClent.Class
 		private Int32 id;
 		private Int32 idServer;
 		private Int32? idUser;
+		private Int32? idChat;
+		private Int32? idTextChat;
+		private Int32? idRole;
+		private Int32? idRight;
+		private Int32? idMessage;
+		private Int32? idOpinion;
 		private Server server;
         private String message;
 		private DateTime date;
@@ -23,8 +29,8 @@ namespace ClassesForServerClent.Class
 			get => id;
 			set
 			{
-				if (value < 0)
-					throw new ArgumentException("value < 0", nameof(value));
+				if (value < 1)
+					throw new ArgumentException("value < 1", nameof(value));
 
 				id = value;
 			}
@@ -34,8 +40,8 @@ namespace ClassesForServerClent.Class
 			get => idServer;
 			set
 			{
-				if (value < 0)
-					throw new ArgumentException("value < 0", nameof(value));
+				if (value < 1)
+					throw new ArgumentException("value < 1", nameof(value));
 
 				idServer = value;
 			}
@@ -45,15 +51,83 @@ namespace ClassesForServerClent.Class
 			get => idUser;
 			set
 			{
-				if (value < 0)
-					throw new ArgumentException("value < 0", nameof(value));
+				if (value < 1)
+					throw new ArgumentException("value < 1", nameof(value));
 
 				idUser = value;
 			}
 		}
+		public Int32? IDChat
+		{
+			get => idChat;
+			set
+			{
+				if (value < 1)
+					throw new ArgumentException("value < 1", nameof(value));
+
+				idChat = value;
+			}
+		}
+		public Int32? IDTextChat
+		{
+			get => idTextChat;
+			set
+			{
+				if (value < 1)
+					throw new ArgumentException("value < 1", nameof(value));
+
+				idTextChat = value;
+			}
+		}
+		public Int32? IDRole
+        {
+			get => idRole;
+			set
+            {
+				if (value < 1)
+					throw new ArgumentException("value < 1", nameof(value));
+				
+				idRole = value;
+            }
+        }
+		public Int32? IDRight
+		{
+			get => idRight;
+			set
+			{
+				if (value < 1)
+					throw new ArgumentException("value < 1", nameof(value));
+
+				idRight = value;
+			}
+		}
+		public Int32? IDMessage
+        {
+			get=> idMessage;
+			set
+            {
+				if (value < 1)
+					throw new ArgumentException("value < 1", nameof(value));
+
+				idMessage = value;
+            }
+        }
+		public Int32? IDOpinion
+		{
+			get => idOpinion;
+			set
+			{
+				if (value < 1)
+					throw new ArgumentException("value < 1", nameof(value));
+
+				idOpinion = value;
+			}
+		}
+
 		[Column(TypeName = "int")]
 		public ActionInServer Action { get; set; }
-		public String Message
+		[Column(name: "Message")]
+		public String Text
 		{
 			get => message;
 			set
@@ -67,8 +141,6 @@ namespace ClassesForServerClent.Class
 				message = value.Trim();
 			}
 		}
-		[Column(TypeName = "int")]
-		public TypeEventServer TypeEvent { get; set; }
 		[Column(TypeName = "datetime")]
 		public DateTime Date
 		{
@@ -82,13 +154,18 @@ namespace ClassesForServerClent.Class
 			}
 		}
 
-
 		public Server Server
 		{
 			get => server;
 			set => server = value
 				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
+		public Chat Chat { get; set; }
+		public Message Message1 { get; set; }
+		public Opinion Opinion { get; set; }
+		public Right Right { get; set; }
+		public Role Role { get; set; }
+		public TextChat TextChat { get; set; }
 		public User User { get; set; }
 	}
 }

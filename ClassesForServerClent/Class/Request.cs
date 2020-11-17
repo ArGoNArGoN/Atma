@@ -50,6 +50,8 @@ namespace ClassesForServerClent.Class
 		}
 		public Boolean UserRequest { get; set; }
 		public Boolean FriendRequest { get; set; }
+		[Column(TypeName = "datetime")]
+		public DateTime Date { get; set; } = DateTime.Now;
 
 		public User User
 		{
