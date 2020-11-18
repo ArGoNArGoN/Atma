@@ -15,14 +15,15 @@ namespace ClientChatWPF
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		event Action<List<Message>> EventAddMessage;
-		event Action<User> EventUpUserStatus;
-
+		public event Action<List<Message>> EventAddMessage;
+		public event Action<User> EventUpUserStatus;
+		public event Action<List<Server>> EventUpServer;
+		ServerSearchWindow serverSearch;
 		List<Int32> IndexAndIdTC = new List<Int32>();
 		List<TextChat> TextChats { get; set; }
 		static User User { get; set; }
 		static NetworkStream Stream { get; set; }
-        BinaryFormatter formatter = new BinaryFormatter();
+        static BinaryFormatter formatter = new BinaryFormatter();
 
 		public MainWindow()
 		{
@@ -40,6 +41,7 @@ namespace ClientChatWPF
 			if (User.ServerUser.Count() == 0)
 				GetServer();
 
+			serverSearch = new ServerSearchWindow(User);
 			LoadedDataInWindow();
 
 			this.Loaded += new RoutedEventHandler(LoadInfoServer);
@@ -47,8 +49,8 @@ namespace ClientChatWPF
 
         private void GetServer()
         {
-			ServerSearchWindow server = new ServerSearchWindow(User);
-            server.ShowDialog();
+			SendMessageSerialize(new List<Server>());
+            serverSearch.ShowDialog();
 
 			if (User.ServerUser.Count() == 0)
 			{
@@ -84,6 +86,7 @@ namespace ClientChatWPF
 		{
 			this.EventAddMessage += new Action<List<Message>>(AddMessageInListbox);
 			this.EventUpUserStatus += new Action<User>(UpUserStatusInListBoxs);
+			this.EventUpServer += new Action<List<Server>>(serverSearch.UpServer);
 
 			Thread thr = new Thread(new ThreadStart(TakeMessageOfServer));
 			thr.IsBackground = true;
@@ -97,30 +100,37 @@ namespace ClientChatWPF
 
 			do
 			{
-
-				Object ob = GetMessageSerialize();
+				Object ob = TakeMessageSerialize();
 
 				switch (ob)
 				{
 					case (Message):
-						User.ServerUser.Select(x => x.Server).ToList().ForEach(x1 => x1.TextChat.FirstOrDefault(x => x.ID == ((Message)ob).IDTextChat)?.Message.Add((Message)ob));
+						User.ServerUser
+							.Select(x => x.Server)
+							.ToList()
+							.ForEach(x1 => x1.TextChat.FirstOrDefault(x => x.ID == ((Message)ob).IDTextChat)?.Message.Add((Message)ob));
 						var textChat = Server.TextChat.FirstOrDefault(x => x.ID == ((Message)ob).IDTextChat);
 						if (textChat == null)
 							break;
 
 						EventAddMessage(textChat.Message.ToList());
 						break;
-					case (ClassesForServerClent.Class.User):
+
+					case (ClassesForServerClent.Class.User user):
                         foreach (var item in User.ServerUser.Select(x => x.Server))
                         {
-							var s = item.ServerUser.FirstOrDefault(x1 => x1.IDUser == ((User)ob).ID);
+							var s = item.ServerUser.FirstOrDefault(x1 => x1.IDUser == user.ID);
 							if (s is not null)
-							{
-								s.User = (User)ob;
-							}
+								s.User = user;
 						}
-						if (Server.ServerUser.Any(x => x.IDUser == ((User)ob).ID))
-							EventUpUserStatus((User)ob);
+						if (Server.ServerUser.Any(x => x.IDUser == user.ID))
+							EventUpUserStatus(user);
+						break;
+					case (List<Server> Servers):
+						if (Servers is null || Servers.Count() == 0)
+							break;
+
+						EventUpServer(Servers);
 						break;
 					default:
 						break;
@@ -218,9 +228,9 @@ namespace ClientChatWPF
 			MessagePop.Text = "";
 		}
 		
-		private void SendMessageSerialize(Message message)
+		public static void SendMessageSerialize(Object message)
 			=> formatter.Serialize(Stream, message);
-		private Object GetMessageSerialize()
+		private Object TakeMessageSerialize()
 			=> formatter.Deserialize(Stream);
 
         private void MenuCloseEvent(object sender, RoutedEventArgs e)
@@ -229,7 +239,6 @@ namespace ClientChatWPF
 			ButtonMenuOpen.Visibility = Visibility.Visible;
 			ListServers.Visibility = Visibility.Collapsed;
 		}
-
         private void MenuOpenEvent(object sender, RoutedEventArgs e)
         {
 			ButtonMenuOpen.Visibility = Visibility.Collapsed;
@@ -251,5 +260,21 @@ namespace ClientChatWPF
         {
 			GetServer();
         }
+
+		/// <summary>
+		///	Запускаем окно
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+        private void UpClientClick(object sender, RoutedEventArgs e)
+        {
+			/// Отправляем пользователя
+			UpClient upClient = new UpClient(User);
+			upClient.ShowDialog();
+
+			/// Если пользователь изменился, то отправляем его на сервер
+			if(User.ActionForServer == ActionForServer.Upp)
+				SendMessageSerialize(User);
+		}
     }
 }

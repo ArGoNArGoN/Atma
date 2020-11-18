@@ -28,7 +28,8 @@ namespace ClientChatWPF
 		{
 			InitializeComponent();
 		}
-		private const string host = "192.168.0.100";
+		/// private const string host = "192.168.0.100";
+		private const string host = "127.1.0.1";
 		private const int port = 22222;
 		public TcpClient Client { get; set; }
 		public NetworkStream Stream { get; set; }

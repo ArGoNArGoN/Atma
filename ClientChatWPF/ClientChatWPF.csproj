@@ -76,6 +76,10 @@
     <Compile Include="ServerSearchWindow.xaml.cs">
       <DependentUpon>ServerSearchWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TakeMessageOfServer.cs" />
+    <Compile Include="UpClient.xaml.cs">
+      <DependentUpon>UpClient.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -97,6 +101,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ServerSearchWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UpClient.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

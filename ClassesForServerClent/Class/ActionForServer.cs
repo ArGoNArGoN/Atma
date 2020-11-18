@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ClassesForServerClent.Class
+﻿namespace ClassesForServerClent.Class
 {
     public enum ActionForServer
     {
-        Registration = 0,
+        None = 0,
+        Registration,
+        Search,
         AddDB,
-        Check,
+        Upp,
         Fill,
     }
 }

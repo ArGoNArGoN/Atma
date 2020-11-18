@@ -99,6 +99,9 @@ namespace ClassesForServerClent.Class
 		[Column(TypeName = "image")]
 		public byte[] Icon { get; set; }
 
+		[NotMapped]
+		public ActionForServer ActionForServer { get; set; }
+
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 		public Server()
 		{

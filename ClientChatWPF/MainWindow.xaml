@@ -269,7 +269,7 @@
 					  x:Name="ListTextChat"
 					  SelectionChanged="TextChatWasSelected" Background="#FF2D2D30">
                 </ListView>
-                
+				<!-- User -->
                 <Grid>
                     <Grid.Resources>
                     </Grid.Resources>
@@ -289,7 +289,6 @@
                             </Style>
                         </Border.Style>
                         <Grid>
-
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="40"/>
@@ -311,8 +310,47 @@
                             </Border>
                         </Grid>
                     </Border>
+                    <Border>
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Width" Value="30"/>
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                            </Style>
+                        </Border.Style>
+                        <Button Click="UpClientClick">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Content" Value="⚙"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <ContentControl  x:Name="Content1" Content="{TemplateBinding Content}">
+                                                    <ContentControl.Style>
+                                                        <Style TargetType="ContentControl">
+                                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                            <Setter Property="Foreground" Value="White"/>
+                                                            <Setter Property="FontSize" Value="15"/>
+                                                        </Style>
+                                                    </ContentControl.Style>
+                                                </ContentControl>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="Content1" Property="Foreground" Value="Black"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Border>
                 </Grid>
-                
+                <!-- User -->
             </Grid>
         </Border>
 		<Border>

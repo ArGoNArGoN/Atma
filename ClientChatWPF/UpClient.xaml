@@ -1,0 +1,59 @@
+﻿<Window x:Class="ClientChatWPF.UpClient"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClientChatWPF"
+        mc:Ignorable="d"
+        Title="UpClient" Height="500" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="40"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition MinHeight="45" MaxHeight="50"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Grid.ColumnSpan" Value="3"/>
+                    <Setter Property="Grid.Row" Value="3"/>
+                </Style>
+            </Grid.Style>
+            <!-- Click="UpClientClick" <- Событие нажатия кнопки -->
+            <!-- Закрывает Окно и изменяет пользователя -->
+            <Button Click="UpClientClick">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Grid.Column" Value="1"/>
+                        
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <!-- Click="GoOutClick" <- Событие нажатия кнопки -->
+            <!-- Закрывает Окно и не изменяет пользователя -->
+            <Button Click="GoOutClick">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Grid.Column" Value="3"/>
+
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+    </Grid>
+</Window>
