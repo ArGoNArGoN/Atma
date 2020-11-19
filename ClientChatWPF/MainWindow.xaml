@@ -28,6 +28,13 @@
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+        <Style TargetType="TextBlock" x:Key="TextBlock">
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
     </Window.Resources>
     <Window.Triggers>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonMenuOpen">
@@ -268,7 +275,7 @@
 					  x:Name="ListTextChat"
 					  SelectionChanged="TextChatWasSelected" Background="#FF2D2D30">
                 </ListView>
-                   <!--User-->
+                <!--User & Setting-->
                 <Grid>
                     <Grid.Resources>
                     </Grid.Resources>
@@ -290,7 +297,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="60"/>
                             </Grid.ColumnDefinitions>
                             <Border>
                                 <Border.Style>
@@ -307,6 +314,28 @@
                                     </Style>
                                 </Border.Style>
                             </Border>
+                        </Grid>
+                    </Border>
+                    <Border>
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Grid.Column" Value="20"/>
+                                <Setter Property="Width" Value="40"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                            </Style>
+                        </Border.Style>
+                        <Grid>
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Grid.Row" Value="2"/>
+                                    <Setter Property="Grid.Column" Value="1"/>
+                                </Style>
+                            </Grid.Style>
+                            <Grid.RowDefinitions>
+                                <RowDefinition MinHeight="20" MaxHeight="25"/>
+                                <RowDefinition MinHeight="20" MaxHeight="40"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Style="{StaticResource TextBlock}" Margin="-31,10,0,24.8" Grid.RowSpan="2">Nickname</TextBlock>
                         </Grid>
                     </Border>
                     <Border>
