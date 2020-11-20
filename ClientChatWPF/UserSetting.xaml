@@ -11,14 +11,9 @@
 
         <!-- Бордер для триггера! -->
         <Style TargetType="Border" x:Key="BorderStyleForEventTrigger">
-            <!-- Это свойство есть у каждого поля -->
             <Setter Property="Grid.Row" Value="1"/>
-            <!-- Укажем высоту -->
             <Setter Property="Height" Value="40"></Setter>
-            <!-- Эта штука отделяет элемент от боков на указанное кол. поинтов -->
-            <!-- Например Margin="30 0" => отделяет слева 30 сверху 0 справа 30 снизу 0 тобишь Margin="30 0" == Margin="30(слева) 0(сверху) 30(справа) 0(снизу)" -->
             <Setter Property="Margin" Value="30 0"></Setter>
-
             <Style.Triggers>
                 <!-- если пользователь навелся мышкой на поле, то -->
                 <EventTrigger RoutedEvent="MouseEnter">
@@ -36,7 +31,6 @@
                         </BeginStoryboard>
                     </EventTrigger.Actions>
                 </EventTrigger>
-
                 <!-- если пользователь НЕ навелся мышкой на поле, то -->
                 <EventTrigger RoutedEvent="MouseLeave">
                     <EventTrigger.Actions>
@@ -44,9 +38,7 @@
                             <Storyboard>
                                 <!-- Изменяем поле Margin -->
                                 <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
-                                    <!-- за 0 сек. до значения "0" -->
                                     <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0" />
-                                    <!-- за 0.1 сек. до значения "30 0" -->
                                     <SplineThicknessKeyFrame KeyTime="00:00:0.1" Value="30 0"/>
                                 </ThicknessAnimationUsingKeyFrames>
                             </Storyboard>
@@ -62,7 +54,6 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Foreground" Value="Red"/>
-
             <!-- текст может переносится в другую строку -->
             <Setter Property="TextWrapping" Value="Wrap"/>
             <Setter Property="Height" Value="Auto"/>
@@ -70,9 +61,8 @@
 
         <!-- Обводка -->
         <Style TargetType="Border" x:Key="Border">
-            <!-- Границы будут зелеными (вроде) -->
             <Setter Property="Background" Value="#FF787827"/>
-            <!-- Скругляем Бордер на 20, т.к. высота 40 (40 / 2 == 20 вау!) -->
+            <!-- Скругляем Бордер -->
             <Setter Property="CornerRadius" Value="20"/>
         </Style>
 
@@ -80,10 +70,7 @@
         <Style TargetType="Border" x:Key="Fon">
             <!-- Отступаем на 2 слева, сверху, справа, снизу (именно в таком порядке!) -->
             <Setter Property="Margin" Value="2"/>
-            <!-- Ну.. тут понятно..  -->
             <Setter Property="CornerRadius" Value="18"/>
-            <!-- почему здесь не NULL? -->
-            <!-- Попробуй подствить {x:Null} и сама все поймешь  (поле будет зеленым)-->
             <Setter Property="Background" Value="#FF2D2D30"></Setter>
         </Style>
 
@@ -91,26 +78,14 @@
         <Style TargetType="TextBox" x:Key="TextInBorder">
             <!-- Избавляемся от цвета -->
             <Setter Property="Background" Value="{x:Null}"/>
-
-            <!-- Задаем минимальный размер (изначально 1 пиксель (классно, круто)) -->
             <Setter Property="MinWidth" Value="140"/>
-
-            <!-- Избавляемся от обводки (она квадратная и ненужная!) -->
             <Setter Property="BorderThickness" Value="0"/>
-
             <!-- Ставим по центру -->
             <Setter Property="HorizontalAlignment" Value="Center"/>
-
-            <!-- Ставим по центру -->
             <Setter Property="VerticalAlignment" Value="Center"/>
-
-            <!-- Ставим текст по центру -->
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-
-            <!-- Ставим текст по центру -->
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="14"/>
-
             <!-- Изменяем цвет вписанного текста -->
             <Setter Property="Foreground" Value="WhiteSmoke"/>
         </Style>
@@ -152,14 +127,16 @@
             <RowDefinition MinHeight="45" MaxHeight="50"></RowDefinition>
             <RowDefinition Height="20"></RowDefinition>
         </Grid.RowDefinitions>
-        
+
+        <!--Name-->
         <Grid>
             <Grid.Style>
                 <Style TargetType="Grid">
+                    <Setter Property="Grid.Row" Value="0"/>
                     <Setter Property="Grid.RowSpan" Value="2"/>
                     <Setter Property="Grid.Column" Value="1"/>
                     <Setter Property="ColumnSpan" Value="2"/>
-                    <Setter Property="Margin" Value="10,0,39.6,133.2"/>
+                    <Setter Property="Margin" Value="0,50,39.6,133.2"/>
                 </Style>
             </Grid.Style>
             <Grid.RowDefinitions>
@@ -200,9 +177,166 @@
                     <TextBox x:Name="Text1" Style="{StaticResource ResourceKey=TextInBorder}"/>
                 </Grid>
             </Border>
-            <TextBlock Style="{StaticResource TextBlock}">Name</TextBlock>
+            <TextBlock Style="{StaticResource TextBlock}">Name on Server</TextBlock>
         </Grid>
 
+        <!--Name on Server-->
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Grid.Row" Value="1"/>
+                    <Setter Property="Grid.RowSpan" Value="1"/>
+                    <Setter Property="Grid.Column" Value="1"/>
+                    <Setter Property="ColumnSpan" Value="2"/>
+                    <Setter Property="Margin" Value="0,0.4,39.6,49.2"/>
+                </Style>
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="25" MaxHeight="30"/>
+                <RowDefinition MinHeight="40" MaxHeight="50"/>
+            </Grid.RowDefinitions>
+            <Border Style="{StaticResource BorderStyleForEventTrigger}">
+                <Grid>
+                    <Border>
+                        <!-- Бордер для окраски обводки поля -->
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource Border}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text2, Path=IsFocused}" Value="True">
+                                        <Setter Property="Background" Value="Yellow"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                    <Border Style="{StaticResource Fon}">
+                        <!-- Бордер для окраски внутренностей -->
+                    </Border>
+                    <TextBlock x:Name="Empty2" Text="Empty">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn= "{StaticResource StyleEmpty}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text2, Path=Text}">
+                                        <!--Value="{x:Static sys:String.Empty}"-->
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <!-- Поле для ввода -->
+                    <TextBox x:Name="Text2" Style="{StaticResource ResourceKey=TextInBorder}"/>
+                </Grid>
+            </Border>
+            <TextBlock Style="{StaticResource TextBlock}">Name on Server</TextBlock>
+        </Grid>
+
+        <!--DoB-->
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Grid.Row" Value="1"/>
+                    <Setter Property="Grid.RowSpan" Value="2"/>
+                    <Setter Property="Grid.Column" Value="1"/>
+                    <Setter Property="ColumnSpan" Value="2"/>
+                    <Setter Property="Margin" Value="0,89.4,39.6,93.8"/>
+                </Style>
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="25" MaxHeight="30"></RowDefinition>
+                <RowDefinition MinHeight="40" MaxHeight="50"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Border Style="{StaticResource BorderStyleForEventTrigger}">
+                <Grid>
+                    <Border>
+                        <!-- Бордер для окраски обводки поля -->
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource Border}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text3, Path=IsFocused}" Value="True">
+                                        <Setter Property="Background" Value="Yellow"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                    <Border Style="{StaticResource Fon}">
+                        <!-- Бордер для окраски внутренностей -->
+                    </Border>
+                    <TextBlock x:Name="Empty3" Text="dd mm yy">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource StyleEmpty}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text3, Path=Text}">
+                                        <!--Value="{x:Static sys:String.Empty}">-->
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <!-- Поле для ввода -->
+                    <TextBox x:Name="Text3" Style="{StaticResource ResourceKey=TextInBorder}"/>
+                </Grid>
+            </Border>
+            <TextBlock Style="{StaticResource TextBlock}">Date of Birth</TextBlock>
+        </Grid>
+
+        <!--Status-->
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Grid.Row" Value="2"/>
+                    <Setter Property="Grid.RowSpan" Value="1"/>
+                    <Setter Property="Grid.Column" Value="1"/>
+                    <Setter Property="Grid.ColumnSpan" Value="2"/>
+                    <Setter Property="Grid.Margin" Value="0,39.8,39.6,9.8"/>
+                </Style>
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="25" MaxHeight="30"/>
+                <RowDefinition MinHeight="40" MaxHeight="50"/>
+            </Grid.RowDefinitions>
+            <Border Style="{StaticResource BorderStyleForEventTrigger}">
+                <Grid>
+                    <Border>
+                        <!-- Бордер для окраски обводки поля -->
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource Border}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text4, Path=IsFocused}" Value="True">
+                                        <Setter Property="Background" Value="Yellow"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                    <Border Style="{StaticResource Fon}">
+                        <!-- Бордер для окраски внутренностей -->
+                    </Border>
+                    <TextBlock x:Name="Empty4" Text="Empty">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn= "{StaticResource StyleEmpty}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Text4, Path=Text}">
+                                        <!--Value="{x:Static sys:String.Empty}"-->
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <!-- Поле для ввода -->
+                    <TextBox x:Name="Text4" Style="{StaticResource ResourceKey=TextInBorder}"/>
+                </Grid>
+            </Border>
+            <TextBlock Style="{StaticResource TextBlock}">Status</TextBlock>
+        </Grid>
+
+        <!--Кнопочки-->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20"></ColumnDefinition>
