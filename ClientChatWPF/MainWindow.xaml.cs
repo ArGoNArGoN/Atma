@@ -251,5 +251,10 @@ namespace ClientChatWPF
         {
 			GetServer();
         }
+
+        private void UpClientClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

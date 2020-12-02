@@ -23,5 +23,15 @@ namespace ClientChatWPF
         {
             InitializeComponent();
         }
+
+        private void UpClientClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void GoOutClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
