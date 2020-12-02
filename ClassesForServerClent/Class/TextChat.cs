@@ -15,20 +15,21 @@ namespace ClassesForServerClent.Class
 		private Int32 idServer;
 		private String name;
 		private String info;
-		private Int32? maxCountUser;
 		private Int32 number;
 		private List<ServerUser> serverUsers = new List<ServerUser>();
 		private List<Message> messages = new List<Message>();
-        private Server server;
+		private Server server;
 
-        public TextChat(int id, string name, string info, int? maxCountUser = null)
+		[NotMapped]
+		public ActionForTextChat ActionForTextChat { get; set; }
+
+		public TextChat(int id, string name, string info)
 		{
 			try
 			{
 				ID = id;
 				Name = name;
 				Info = info;
-				MaxCountUser = maxCountUser;
 			}
 			catch { throw; }
 		}
@@ -68,17 +69,6 @@ namespace ClassesForServerClent.Class
 				name = value;
 			}
 		}
-		public Int32? MaxCountUser
-		{
-			get => maxCountUser;
-			set
-			{
-				if (value < 2)
-					throw new ArgumentException("value < 2", nameof(value));
-
-				maxCountUser = value;
-			}
-		}
 		[Column("Info")]
 		public String Info
 		{
@@ -113,15 +103,11 @@ namespace ClassesForServerClent.Class
 		public TextChat()
 		{
 			Message = new HashSet<Message>();
-			Right = new HashSet<Right>();
 			EventLog = new HashSet<EventLog>();
 		}
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<Message> Message { get; set; }
-
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public ICollection<Right> Right { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<EventLog> EventLog { get; set; }

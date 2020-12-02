@@ -10,10 +10,8 @@ namespace ClassesForServerClent.Class
 	{
         private Int32 id;
 		private Int32 idServer;
-		private ServerUser server;
         private String name;
         private String info;
-        private Int32 priority;
         private DateTime date;
 
         public Int32 ID
@@ -66,18 +64,6 @@ namespace ClassesForServerClent.Class
 				info = value;
 			}
 		}
-		public Int32 Priority
-		{
-			get => priority;
-			set
-			{
-				if (value < 0)
-					throw new ArgumentException("value < 0", nameof(value));
-
-				priority = value;
-			}
-		}
-		[Column(TypeName = "datetime")]
 		public DateTime Date
 		{
 			get => date;
@@ -96,18 +82,18 @@ namespace ClassesForServerClent.Class
 		{
 			RightRole = new HashSet<RightRole>();
 			EventLog = new HashSet<EventLog>();
+			ServerUser = new HashSet<ServerUser>();
 		}
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<RightRole> RightRole { get; set; }
+
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<EventLog> EventLog { get; set; }
 
-		public ServerUser ServerUser
-		{
-			get => server;
-			set => server = value
-				?? throw new ArgumentNullException("value is null", nameof(value));
-		}
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public ICollection<ServerUser> ServerUser { get; set; }
+
+		public Server Server { get; set; }
 	}
 }

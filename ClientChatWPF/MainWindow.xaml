@@ -5,7 +5,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:ClientChatWPF"
 		mc:Ignorable="d"
-		Title="MainWindow" Height="450" Width="800">
+		Title="MainWindow" Height="450" Width="800" Closed="Window_Closed">
 
     <Window.Resources>
         <Storyboard x:Key="MenuOpen">
@@ -222,11 +222,6 @@
                                             </Grid>
                                         </Border>
                                     </Grid>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="ItSr" Property="Background" Value="#FF898989"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
@@ -261,21 +256,109 @@
 				</Style>
 			</Border.Style>
             <Grid>
+                <Grid.Resources>
+                    <Style TargetType="Button" x:Key="button">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <ContentControl  x:Name="Content1" Content="{TemplateBinding Content}">
+                                        <ContentControl.Style>
+                                            <Style TargetType="ContentControl">
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                                <Setter Property="FontSize" Value="15"/>
+                                            </Style>
+                                        </ContentControl.Style>
+                                    </ContentControl>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Grid.Resources>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Background" Value="#FF2D2D30"></Setter>
+                    </Style>
+                </Grid.Style>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
+
+                <!-- Server -->
+                <Grid>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Height" Value="35"/>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="5"></ColumnDefinition>
+                        <ColumnDefinition Width="35"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock x:Name="serverName" Text="ServerName">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                                <Setter Property="Margin" Value="10 0 0 0"/>
+                                <Setter Property="Foreground" Value="WhiteSmoke"/>
+                                <Setter Property="Opacity" Value="0.4"/>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <Button Click="UpServerClick">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource button}">
+                                <Setter Property="Content" Value="⚙"/>
+                                <Setter Property="Grid.Column" Value="2"/>
+                                <Setter Property="Opacity" Value="0.5"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="1"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Border>
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Height" Value="1"/>
+                                <Setter Property="Background" Value="Black"/>
+                                <Setter Property="Grid.Row" Value="1"/>
+                                <Setter Property="Grid.ColumnSpan" Value="3"/>
+                                <Setter Property="CornerRadius" Value="0.5"/>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </Grid>
+                <!-- Server -->
+                
+                
                 <ListView Style="{StaticResource ListChatsView}"
-					  x:Name="ListTextChat"
-					  SelectionChanged="TextChatWasSelected" Background="#FF2D2D30">
+                          Grid.Row="1"
+					      x:Name="ListTextChat"
+					      SelectionChanged="TextChatWasSelected">
                 </ListView>
+                
 				<!-- User -->
                 <Grid>
                     <Grid.Resources>
                     </Grid.Resources>
                     <Grid.Style>
                         <Style TargetType="Grid">
-                            <Setter Property="Grid.Row" Value="1"/>
+                            <Setter Property="Grid.Row" Value="2"/>
                             <Setter Property="Margin" Value="10"/>
                         </Style>
                     </Grid.Style>
@@ -320,37 +403,21 @@
                         </Border.Style>
                         <Button Click="UpClientClick">
                             <Button.Style>
-                                <Style TargetType="Button">
+                                <Style TargetType="Button" BasedOn="{StaticResource button}">
                                     <Setter Property="Content" Value="⚙"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <ContentControl  x:Name="Content1" Content="{TemplateBinding Content}">
-                                                    <ContentControl.Style>
-                                                        <Style TargetType="ContentControl">
-                                                            <Setter Property="HorizontalAlignment" Value="Center"/>
-                                                            <Setter Property="VerticalAlignment" Value="Center"/>
-                                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                                            <Setter Property="Foreground" Value="White"/>
-                                                            <Setter Property="FontSize" Value="15"/>
-                                                        </Style>
-                                                    </ContentControl.Style>
-                                                </ContentControl>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="Content1" Property="Foreground" Value="Black"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
+                                    <Setter Property="Opacity" Value="0.8"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="Black"/>
+                                        </Trigger>
+                                    </Style.Triggers>
                                 </Style>
                             </Button.Style>
                         </Button>
                     </Border>
                 </Grid>
                 <!-- User -->
+                
             </Grid>
         </Border>
 		<Border>
@@ -588,7 +655,7 @@
 											</Style>
 										</TextBlock.Style>
 									</TextBlock>
-									<TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Path=Status}">
+									<TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Path=User.Status}">
 										<TextBlock.Style>
 											<Style TargetType="TextBlock">
 												<Setter Property="FontSize" Value="10"/>
@@ -622,7 +689,7 @@
 					<ListView Style="{StaticResource ListUser}"
 							  x:Name="ListUserOnline"
 							  Grid.Row="1"
-							  ItemsSource="{Binding Path=User}"/>
+							  ItemsSource="{Binding Path=ServerUser}"/>
 
 				</Grid>
 			</Border>
@@ -636,7 +703,7 @@
 					<TextBlock Text="Не в сети:"/>
 					<ListView Style="{StaticResource ListUser}"
 							  x:Name="ListUserOffline" Grid.Row="1"
-							  ItemsSource="{Binding Path=User}"/>
+							  ItemsSource="{Binding Path=ServerUser}"/>
 
 				</Grid>
 			</Border>

@@ -102,13 +102,16 @@ namespace ClassesForServerClent.Class
 		[NotMapped]
 		public ActionForServer ActionForServer { get; set; }
 
+		[NotMapped]
+		public ActionOnServer ActionOnServer { get; set; }
+
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 		public Server()
 		{
 			Chat = new HashSet<Chat>();
 			EventLog = new HashSet<EventLog>();
 			Opinion = new HashSet<Opinion>();
-			Right = new HashSet<Right>();
+			Role = new HashSet<Role>();
 			ServerUser = new HashSet<ServerUser>();
 			TextChat = new HashSet<TextChat>();
 			UserLog = new HashSet<UserLog>();
@@ -116,22 +119,16 @@ namespace ClassesForServerClent.Class
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<Chat> Chat { get; set; }
-
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<EventLog> EventLog { get; set; }
-
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<Opinion> Opinion { get; set; }
-
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public ICollection<Right> Right { get; set; }
-
+		public ICollection<Role> Role { get; set; }
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<ServerUser> ServerUser { get; set; }
-
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<TextChat> TextChat { get; set; }
-
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<UserLog> UserLog { get; set; }
 	}

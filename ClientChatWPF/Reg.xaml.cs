@@ -1,36 +1,23 @@
 ﻿using ClassesForServerClent.Class;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ClientChatWPF
 {
-	/// <summary>
-	/// Логика взаимодействия для Reg.xaml
-	/// </summary>
-	public partial class Reg : Window
+    /// <summary>
+    /// Логика взаимодействия для Reg.xaml
+    /// </summary>
+    public partial class Reg : Window
 	{
 		public User User;
 		public Reg()
 		{
 			InitializeComponent();
 		}
-		/// private const string host = "192.168.0.100";
-		private const string host = "127.1.0.1";
-		private const int port = 22222;
+		private const string host = "127.0.0.1";
+		private const int port = 888;
 		public TcpClient Client { get; set; }
 		public NetworkStream Stream { get; set; }
 
@@ -45,7 +32,7 @@ namespace ClientChatWPF
 				{
 					RealName = Name.Text,
 					Password = Password.Text,
-					ActionForServer = ActionForServer.AddDB,
+					ActionForServer = ActionForServer.Cheack,
 				};
 
 				try
@@ -56,6 +43,7 @@ namespace ClientChatWPF
 						Client.Connect(host, port);
 						Stream = Client.GetStream();
 					}
+
 					BinaryFormatter formatter = new BinaryFormatter();
 					formatter.Serialize(Stream, User);
 					Object ob = formatter.Deserialize(Stream);
@@ -79,6 +67,7 @@ namespace ClientChatWPF
 				}
 				catch (Exception ex)
 				{
+					Client = null;
 					ErrorText.Text = ex.Message;
 					User = null;
 				}

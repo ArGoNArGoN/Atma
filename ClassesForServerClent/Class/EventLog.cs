@@ -161,9 +161,8 @@ namespace ClassesForServerClent.Class
 				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
 		public Chat Chat { get; set; }
-		public Message Message1 { get; set; }
+		public Message Message { get; set; }
 		public Opinion Opinion { get; set; }
-		public Right Right { get; set; }
 		public Role Role { get; set; }
 		public TextChat TextChat { get; set; }
 		public User User { get; set; }

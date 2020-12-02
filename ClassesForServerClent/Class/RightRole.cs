@@ -8,9 +8,7 @@ namespace ClassesForServerClent.Class
 	public class RightRole
 	{
         private Int32 id;
-		private Int32 idRight;
 		private Int32 idRole;
-		private Right right;
         private Role role;
 
         public Int32 ID
@@ -22,17 +20,6 @@ namespace ClassesForServerClent.Class
 					throw new ArgumentException("value < 0", nameof(value));
 
 				id = value;
-			}
-		}
-		public Int32 IDRight
-		{
-			get => idRight;
-			set
-			{
-				if (value < 0)
-					throw new ArgumentException("value < 0", nameof(value));
-
-				idRight = value;
 			}
 		}
 		public Int32 IDRole
@@ -47,12 +34,9 @@ namespace ClassesForServerClent.Class
 			}
 		}
 
-		public Right Right
-        {
-			get => right;
-			set => right = value
-				?? throw new ArgumentException("value is null", nameof(value)); 
-        }
+		public DateTime Date { get; set; }
+		public int Priority { get; set; }
+
 		public Role Role
 		{
 			get => role;

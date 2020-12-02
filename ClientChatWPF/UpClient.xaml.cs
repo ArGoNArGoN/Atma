@@ -1,17 +1,5 @@
 ﻿using ClassesForServerClent.Class;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ClientChatWPF
 {
@@ -42,7 +30,7 @@ namespace ClientChatWPF
             /// и у пользователя должно проинициализироваться след. поле
             
 
-            User.ActionForServer = ActionForServer.Upp;
+            User.ActionForServer = ActionForServer.LoudTextChat;
             Close();
 
             /// Дальше сервер сохраняет информациию о пользователе.

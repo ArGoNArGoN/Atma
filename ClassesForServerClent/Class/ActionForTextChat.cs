@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClientChatWPF
+namespace ClassesForServerClent.Class
 {
-    class TakeMessageOfServer
-    {
-    }
+	public enum ActionForTextChat
+	{
+		None,
+		LoadMessage,
+		Cheack
+	}
 }
