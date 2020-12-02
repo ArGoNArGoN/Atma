@@ -197,10 +197,5 @@ namespace ClientChatWPF
 			WindowEditingServer server = new WindowEditingServer();
 			server.ShowDialog();
         }
-
-        private void UpClientClick(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

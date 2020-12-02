@@ -44,7 +44,7 @@
             <BeginStoryboard Storyboard="{StaticResource MenuClose}"></BeginStoryboard>
         </EventTrigger>
     </Window.Triggers>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="46" Width="Auto" MaxWidth="130"></ColumnDefinition>
@@ -350,8 +350,8 @@
                     </Border>
                 </Grid>
                 <!-- Server -->
-                
-                
+
+
                 <ListView Style="{StaticResource ListChatsView}"
                           Grid.Row="1"
 					      x:Name="ListTextChat"
@@ -444,10 +444,10 @@
                     </Border>
                 </Grid>
                 <!-- User -->
-                
+
             </Grid>
         </Border>
-            <Border>
+        <Border>
             <Border.Style>
                 <Style TargetType="Border">
                     <Setter Property="Grid.Column" Value="2"/>
@@ -632,7 +632,7 @@
             </Grid>
         </Border>
         <Grid>
-            
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -704,38 +704,7 @@
                     </Setter>
                 </Style>
             </Grid.Resources>
-									<TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=Name}">
-										<TextBlock.Style>
-											<Style TargetType="TextBlock">
-												<Setter Property="FontSize" Value="14"/>
-												<Setter Property="Foreground" Value="Yellow"/>
-											</Style>
-										</TextBlock.Style>
-									</TextBlock>
-									<TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Path=User.Status}">
-										<TextBlock.Style>
-											<Style TargetType="TextBlock">
-												<Setter Property="FontSize" Value="10"/>
-												<Setter Property="Foreground" Value="White"/>
-											</Style>
-										</TextBlock.Style>
-									</TextBlock>
-									<TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding Path=Status2}">
-										<TextBlock.Style>
-											<Style TargetType="TextBlock">
-												<Setter Property="FontSize" Value="8"/>
-												<Setter Property="Foreground" Value="White"/>
-											</Style>
-										</TextBlock.Style>
-									</TextBlock>
-								</Grid>
-							</DataTemplate>
-						</Setter.Value>
-					</Setter>
-				</Style>
-			</Grid.Resources>
-			
-			<Border>
+            <Border>
                 
 				<Grid>
 					<Grid.RowDefinitions>
