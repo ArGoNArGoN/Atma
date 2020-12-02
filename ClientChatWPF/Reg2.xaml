@@ -112,8 +112,6 @@
             <RowDefinition MinHeight="65" MaxHeight="82"></RowDefinition>
             <RowDefinition Height="4"></RowDefinition>
             <RowDefinition MinHeight="65" MaxHeight="82"></RowDefinition>
-            <RowDefinition Height="4"></RowDefinition>
-            <RowDefinition MinHeight="65" MaxHeight="82"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="Auto" MinHeight="40" MaxHeight="50"></RowDefinition>
             <RowDefinition Height="20"></RowDefinition>
@@ -333,49 +331,6 @@
                         <Border.Style>
                             <Style TargetType="Border" BasedOn="{StaticResource L}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=Text5, Path=IsFocused}" Value="True">
-                                        <Setter Property="Background" Value="Yellow"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                    </Border>
-                    <Border Style="{StaticResource R}"/>
-                    <TextBlock Text="Empty...">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock" BasedOn="{StaticResource TextF}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=Text5, Path=Text}" Value="{x:Static sys:String.Empty}">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                    <TextBox x:Name="Text5" Style="{StaticResource ResourceKey=TextInButton}"/>
-                </Grid>
-            </Border>
-            <TextBlock Style="{StaticResource TextN}">Status</TextBlock>
-
-        </Grid>
-        <Grid>
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Setter Property="Grid.Row" Value="14"></Setter>
-                    <Setter Property="Grid.Column" Value="1"></Setter>
-                </Style>
-            </Grid.Style>
-            <Grid.RowDefinitions>
-                <RowDefinition MinHeight="25" MaxHeight="30"></RowDefinition>
-                <RowDefinition MinHeight="40" MaxHeight="50"></RowDefinition>
-            </Grid.RowDefinitions>
-
-            <Border Style="{StaticResource T}">
-                <Grid>
-                    <Border>
-                        <Border.Style>
-                            <Style TargetType="Border" BasedOn="{StaticResource L}">
-                                <Style.Triggers>
                                     <DataTrigger Binding="{Binding ElementName=Text6, Path=IsFocused}" Value="True">
                                         <Setter Property="Background" Value="Yellow"/>
                                     </DataTrigger>
@@ -404,7 +359,7 @@
         <Grid>
             <Grid.Style>
                 <Style TargetType="Grid">
-                    <Setter Property="Grid.Row" Value="16"></Setter>
+                    <Setter Property="Grid.Row" Value="14"></Setter>
                     <Setter Property="Grid.Column" Value="0"></Setter>
                     <Setter Property="Grid.ColumnSpan" Value="3"></Setter>
                 </Style>

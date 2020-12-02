@@ -49,8 +49,8 @@ namespace ClassesForServerClent.Class
 		}
 		[Column(TypeName = "int")]
 		public TypeActionUser Action { get; set; }
-
-		public String Info
+		
+		public String Message
 		{
 			get => info;
 			set
@@ -59,13 +59,12 @@ namespace ClassesForServerClent.Class
 					throw new ArgumentNullException("value is null", nameof(value));
 
 				if (value.Length > 100)
-					throw new ArgumentException("value.Length > 500", nameof(value));
+					throw new ArgumentException("value.Length > 100", nameof(value));
 
 				info = value;
 			}
 		}
 
-		[Column(TypeName = "datetime")]
 		public DateTime Date
 		{
 			get => date;

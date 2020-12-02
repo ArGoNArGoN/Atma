@@ -27,13 +27,14 @@ namespace ServerChatConsole
         }
         public void SendUserToServer(Object usr)
         {
-            if(usr is not User)
+            if(usr is not ServerUser user)
                 throw new ArgumentException("usr is not User", nameof(usr));
+
             try
             {
                 foreach (var client in ClientObjectsOfServer)
                 {
-                    if (((User)usr).ID != client.User?.ID)
+                    if (user.IDUser != client.User?.ID)
                         client.SendObjectToClient(usr);
                 }
             }
@@ -43,6 +44,7 @@ namespace ServerChatConsole
         {
             if (srvr is not ClassesForServerClent.Class.Server)
                 throw new ArgumentException("srvr is not Server", nameof(Server));
+
             try
             {
                 ClientObjectsOfServer.ForEach(x => x.SendObjectToClient(srvr));
@@ -53,7 +55,7 @@ namespace ServerChatConsole
         internal void Close(ClientObject client)
         {
             var a = ClientObjectsOfServer
-                .First(x => x.User.ID == client.User.ID);
+                .FirstOrDefault(x => x.User.ID == client.User.ID);
             
             if(a is not null)
                 ClientObjectsOfServer.Remove(a);
