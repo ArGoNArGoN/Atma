@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.IO;
 
 namespace ClassesForServerClent.Class
 {
@@ -16,7 +15,6 @@ namespace ClassesForServerClent.Class
 		private DateTime dater;
 		private DateTime? dateB;
 		private String rname;
-		private String status;
 
 		public User(Int32 id, String name, String realName)
 		{
@@ -34,7 +32,6 @@ namespace ClassesForServerClent.Class
 			{
 				Icon = icon;
 				Status = status;
-				Status2 = status2;
 				DateReg = dateReg;
 			}
 			catch { throw; }
@@ -60,7 +57,7 @@ namespace ClassesForServerClent.Class
 				if (String.IsNullOrWhiteSpace(value))
 					throw new ArgumentNullException("The nickname cannot be empty!");
 
-				if (value.Length > 50)
+				if (value.Length > 15)
 					throw new ArgumentNullException("The nickname is longer than 50 characters!");
 
 				name = value;
@@ -85,18 +82,6 @@ namespace ClassesForServerClent.Class
 
 		[Column(TypeName = "int")]
 		public Status Status { get; set; }
-
-		public String Status2
-		{
-			get => status;
-			set
-			{
-				if (value?.Length > 100)
-					throw new ArgumentException("The status length is too long!");
-
-				status = value;
-			}
-		}
 
 		[Column(TypeName = "date")]
 		public DateTime DateReg
@@ -124,6 +109,7 @@ namespace ClassesForServerClent.Class
 			}
 		}
 
+		[Required]
 		public String Password
 		{
 			get => password;
@@ -140,13 +126,12 @@ namespace ClassesForServerClent.Class
 		}
 
 		[NotMapped]
-		public ActionForServer? ActionForServer { get; set; } = null;
+		public ActionForServer ActionForServer { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 		public User()
 		{
 			EventLog = new HashSet<EventLog>();
-			Message = new HashSet<Message>();
 			Opinion = new HashSet<Opinion>();
 			Request = new HashSet<Request>();
 			Request1 = new HashSet<Request>();
@@ -156,22 +141,14 @@ namespace ClassesForServerClent.Class
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<EventLog> EventLog { get; set; }
-
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public ICollection<Message> Message { get; set; }
-
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<Opinion> Opinion { get; set; }
-
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<Request> Request { get; set; }
-
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<Request> Request1 { get; set; }
-
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<ServerUser> ServerUser { get; set; }
-
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<UserLog> UserLog { get; set; }
 	}

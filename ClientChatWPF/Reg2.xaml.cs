@@ -37,11 +37,10 @@ namespace ClientChatWPF
 			{
 				User = new User()
 				{
-					RealName = Text1.Text,
-					Password = Text2.Text,
+					RealName = Text1.Text.Trim(),
+					Password = Text2.Text.Trim(),
 					DateOfBirht = date,
-					Status2 = Text5.Text,
-					Name = Text6.Text.Trim() == String.Empty ? Text1.Text : Text6.Text,
+					Name = Text6.Text.Trim(),
 					ActionForServer = ActionForServer.Registration,
 				};
 				BinaryFormatter formatter = new BinaryFormatter();
@@ -62,7 +61,6 @@ namespace ClientChatWPF
 			catch(Exception ex)
 			{ Error.Text = ex.Message; User = null; }
 		}
-
 		private void GoOutClick(object sender, RoutedEventArgs e)
 		{
 			User = null;

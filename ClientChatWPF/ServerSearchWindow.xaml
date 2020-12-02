@@ -193,7 +193,7 @@
                         </TextBox>
                     </Grid>
                 </Border>
-                <Button Content="Search">
+                <Button Content="Search" Click="Search">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Grid.Column" Value="3"/>

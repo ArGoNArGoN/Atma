@@ -132,9 +132,6 @@ namespace ClassesForServerClent.Class
 			set => server = value
 				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
-		public Chat Chat { get; set; }
-		public TextChat TextChat { get; set; }
-		public ServerUser ServerUser { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<RightRole> RightRole { get; set; }

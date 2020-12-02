@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace ClassesForServerClent.Class
 {
-    public enum ActionForServer
-    {
-        Search,
-        LoudTextChat,
-        Registration,
-        Cheack
-    }
+	public enum ActionForTextChat
+	{
+		None,
+		LoadMessage,
+		Cheack
+	}
 }

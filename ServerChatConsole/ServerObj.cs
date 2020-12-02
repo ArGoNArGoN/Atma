@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 
+
 namespace ServerChatConsole
 {
 	internal class ServerObj
@@ -21,25 +22,17 @@ namespace ServerChatConsole
 		{
 			ServerUsers = new List<ServerUsers>();
 		}
-		
-		internal void AddConnection(ClientObject client)
-		{
-            foreach (var item in client.User.ServerUser)
-            {
-				client.ServerUsers.Add(ServerUsers.First(x => x.Server.ID == item.IDServer));
-            }
-            foreach (var item in client.ServerUsers)
-            {
-				item.ClientObjectsOfServer.Add(client);
-			}
-		}
 
+		internal void AddConnection(ClientObject client, Server server)
+        {
+			var a = ServerUsers
+				.Find(x => x.Server.ID == server.ID);
+			a.ClientObjectsOfServer.Add(client);
+			client.ServerUsers = a;
+		}
 		internal void RemoveConnection(ClientObject client)
 		{
-            foreach (var item in client.ServerUsers)
-            {
-				item.Close(client);
-            }
+			client.ServerUsers?.Close(client);
 		}
 
 		/// Добавляем пользователя на сервер
@@ -73,7 +66,7 @@ namespace ServerChatConsole
 		/// Инициализируем прослушивание и запускаем сервер
 		private void StartServer()
 		{
-			TcpListener = new TcpListener(IPAddress.Any, 22222);
+			TcpListener = new TcpListener(IPAddress.Any, 888);
 			TcpListener.Start();
 			ServerUsers = new List<ServerUsers>();
 
@@ -81,8 +74,7 @@ namespace ServerChatConsole
 
             foreach (var server in db.Server)
             {
-                ServerUsers.Add
-                    (new ServerUsers() { Server = server });
+                ServerUsers.Add(new ServerUsers() { Server = server });
             }
         }
 
@@ -101,5 +93,18 @@ namespace ServerChatConsole
 
 			Environment.Exit(0);
 		}
-	}
+
+        internal void SendUserToServer(Object ob)
+        {
+			if (ob is not User user)
+				throw new Exception("ob is not User user");
+
+            foreach (var item in user.ServerUser)
+            {
+				var a = ServerUsers.FirstOrDefault(x => x.Server.ID == item.IDServer);
+				if (a is not null)
+					new Thread(a.SendUserToServer).Start(item);
+            }
+        }
+    }
 }

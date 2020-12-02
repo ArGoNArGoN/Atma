@@ -54,7 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\ActionForServer.cs" />
+    <Compile Include="Class\ActionForTextChat.cs" />
     <Compile Include="Class\ActionInServer.cs" />
+    <Compile Include="Class\ActionOnServer.cs" />
     <Compile Include="Class\Chat.cs" />
     <Compile Include="Class\EventLog.cs" />
     <Compile Include="Class\IChat.cs" />

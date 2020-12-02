@@ -2,25 +2,31 @@
 {
 	public enum ActionInServer
 	{
-		UserLoggedInToServer,       // Пользователь зашел на сервер
-		UserLoggedOutOfServer,      // Пользователь покинул сервер
-		UserSendMessage,            // Пользователь отправил сообщение
-		UserDeleteMessage,          // Пользователь удалил сообщение
-		UserGotRole,                // Пользователь получил Роль
-		UserHasLostRole,            // Пользователь утратил Роль
-		UserGotRight,				// Пользователь получил Право
-		UserHasLostRight,           // Пользователь утратил Право
-		ChatCreate,                 // Чат создан
-		ChatUpdate,                 // Чат обнавлен
-		ChatDeleted,                // Чат удален
-		TextChatCreate,             // Текстовый чат создан
-		TextChatUpdate,             // Текстовый чат обнавлен
-		TextChatDeleted,            // Текстовый чат удален
-		RoleCreate,					// Роль создана
-		RoleUpdate,					// Роль изменена
-		RoleDeleted,				// Роль удалена
-		RightCreate,				// Право создано
-		RightUdate,					// Право изменено
-		RightDeleted,				// Право удалено
+		UserLoggedInToServer,       // 0  Пользователь зашел на сервер
+		UserLoggedOutOfServer,      // 1  Пользователь покинул сервер
+		UserSendMessage,            // 2  Пользователь отправил сообщение
+		UserDeleteMessage,          // 3  Пользователь удалил сообщение
+		UserGotRole,                // 4  Пользователь получил Роль
+		UserHasLostRole,            // 5  Пользователь утратил Роль
+		UserGotRight,				// 6  Пользователь получил Право
+		UserHasLostRight,           // 7  Пользователь утратил Право
+		ChatCreate,                 // 8  Чат создан
+		ChatUpdate,                 // 9  Чат обнавлен
+		ChatDeleted,                // 10 Чат удален
+		TextChatCreate,             // 11 Текстовый чат создан
+		TextChatUpdate,             // 12 Текстовый чат обнавлен
+		TextChatDeleted,            // 13 Текстовый чат удален
+		RoleCreate,					// 14 Роль создана
+		RoleUpdate,					// 15 Роль изменена
+		RoleDeleted,				// 16 Роль удалена
+		RightCreate,				// 17 Право создано
+		RightUdate,					// 18 Право изменено
+		RightDeleted,               // 19 Право удалено
+		ServerCreate,               // 20 Сервер создан
+		ServerUpdate,               // 21 Сервер изменен
+		ServerDeleted,              // 22 Сервер удален
+		OpinionCreate,              // 23 Отзыв создан
+		OpinionUpdate,              // 24 Отзыв изменен
+		OpinionDeleted,             // 25 Отзыв удален
 	}
 }
