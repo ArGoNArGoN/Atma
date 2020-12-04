@@ -50,7 +50,7 @@
             <Setter Property="Foreground" Value="#FF5B9794"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="60,-50,60,0"/>
+            <Setter Property="Margin" Value="59,-50,59,0"/>
         </Style>
     </Window.Resources>
 
@@ -140,22 +140,26 @@
             </TabControl.Resources>
             <TabItem Header="{Binding Server}" Height="30" Style="{StaticResource TabItemStyle}"/>
 
-            <!-- 
-            Десь ты должна сверстать мини окна (6 штук)
-            В каждом Окне должна быть:
+            <!--        ЭТО НАША ПЕСОЧИНИЦА
+                СОЮЗ НЕРУШИМЫЙ РЕСПУБЛИК СВОБОДНЫХ
+                СПЛОТИЛА НА ВЕКИ ВЕЛИКАЯ РУСЬ
+            
+                Мини-окна (6 шт.)
+                В каждом Окне должна быть:
                 * Сохранялка 
                     (кнопка, которая отправит на сервер сообщение об изменении Роли, Сервера или пользователя на сервер)
                 * Не сохранялка
                     (отменяет все изменения)
-            2 число
-                Окно "Обзор"
-                    Добавить возможность редактировать и просматривать сервер (смотри БД)
-                    Просматривать - Все поля должны быть заполнены сразу!!!
-                    В обзоре можно добавить возможность просматривать мнения пользователей о сервере (добавь, если хочешь)
+                *********************************************************************************************************
+                Окно "Обзор":
+                   ? Добавить возможность редактировать и просматривать сервер (смотри БД)
+                   ? Просматривать - Все поля должны быть заполнены сразу!!!
+                   ? В обзоре можно добавить возможность просматривать мнения пользователей о сервере (добавь, если хочешь)
+            
                 Окно "Пользователи"
                     Должен выводиться список всех пользователей на сервере (ServerUser и если это необходимо User)
                     Этот список можно редактировать (Удалять пользователей)
-            
+                **********************************************************************************************************
                     <Если Успеешь>
                         Добавить возможность Выдать Роль Пользователю (заменить одну на другую (т.к. баз. роль - @Участник))
                     </Если Успеешь>
@@ -171,17 +175,14 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition MinHeight="20" MaxHeight="40"/>
-
                         <!--Чтобы автоматически изменять высоту строки "auto"-->
                         <RowDefinition Height="Auto"/>
-                        <!--35-->
                         <RowDefinition Height="25"/>
-                        <!--5-->
                         <RowDefinition MaxHeight="25"/>
                         <!--Тоже auto-->
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="5"/>
-                        <!--Между описанием и инфо-->
+                        <!--Между описанием-->
                         <RowDefinition MinHeight ="20" MaxHeight="40"/>
                         <RowDefinition Height="5"/>
                         <RowDefinition MaxHeight="25"/>
@@ -190,7 +191,7 @@
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="5"/>
-                        <!--Между инфо и языком-->
+                        <!--Между-->
                         <RowDefinition MinHeight="20" MaxHeight="40"/>
                         <RowDefinition Height="5"/>
                         <RowDefinition MaxHeight="25"/>
@@ -226,7 +227,7 @@
                         </Grid>
                         <TextBlock Style="{StaticResource TextBlock}">Имя</TextBlock>
                     </Grid>
-                    
+
                     <!--Статус-->
                     <Grid>
                         <Grid.Style>
@@ -248,35 +249,39 @@
                         </Grid>
                         <TextBlock Style="{StaticResource TextBlock}" Width="45" Margin="50,-15,50,35">Статус</TextBlock>
                     </Grid>
-                    
+
                     <!--Описание-->
                     <Grid>
                         <Grid.Style>
                             <Style TargetType="Grid">
-                                <Setter Property="Grid.Row" Value="4"/>
+                                <Setter Property="Grid.Row" Value="5"/>
                                 <Setter Property="Grid.Column" Value="1"/>
-                                <Setter Property="Grid.ColumnSpan" Value="3"/>
-                                <Setter Property="Grid.RowSpan" Value="4"/>
+                                <Setter Property="Grid.ColumnSpan" Value="4"/>
+                                <Setter Property="Grid.RowSpan" Value="2"/>
+                                <Setter Property="Grid.Background" Value="{x:Null}"/>
                             </Style>
                         </Grid.Style>
                         <Grid.RowDefinitions>
-                            <RowDefinition MinHeight="20" MaxHeight="600"/>
+                            <RowDefinition MinHeight="15" MaxHeight="20"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="315"/>
                         </Grid.ColumnDefinitions>
                         <Grid>
-                            <Border Style="{StaticResource Fon}"/>
-                            <TextBox x:Name="Description" Style="{StaticResource ResourceKey=TextInBorder}" Width = "Auto"/>
+                            <TextBlock Name="Description" Width = "Auto" Background="{x:Null}" FontSize="10" Foreground="WhiteSmoke" Margin="25,0,25,0">
+                                <TextBlock.Text>
+                                    Поля Имя и Статус напрямую влияют на поиск сервера.
+                                </TextBlock.Text>
+                            </TextBlock>
                         </Grid>
-                        <TextBlock Style="{StaticResource TextBlock}" Margin="0,-30,0,30">Описание</TextBlock>
+                        <TextBlock Style="{StaticResource TextBlock}" Margin="0,-15,220,15" FontSize="10">Обратите внимание:</TextBlock>
                     </Grid>
-                    
+
                     <!--Info-->
                     <Grid>
                         <Grid.Style>
                             <Style TargetType="Grid">
-                                <Setter Property="Grid.Row" Value="10"/>
+                                <Setter Property="Grid.Row" Value="7"/>
                                 <Setter Property="Grid.Column" Value="1"/>
                                 <Setter Property="Grid.ColumnSpan" Value="3"/>
                                 <Setter Property="Grid.RowSpan" Value="4"/>
@@ -294,9 +299,61 @@
                                 <TextBox x:Name="Info" Style="{StaticResource ResourceKey=TextInBorder}" Width="Auto"/>
                             </Grid>
                         </Border>
-                        <TextBlock Style="{StaticResource TextBlock}" Margin="0,-42,0,42">Информация</TextBlock>
+                        <TextBlock Style="{StaticResource TextBlock}" Margin="0,-35,0,35">Информация</TextBlock>
                     </Grid>
-                    
+
+                    <!--Инфо инфо-->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Row" Value="13"/>
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.ColumnSpan" Value="3"/>
+                                <Setter Property="Grid.RowSpan" Value="2"/>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="315"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition MinHeight="15" MaxHeight="20"/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <TextBlock Name="Information" Width = "Auto" Background="{x:Null}" FontSize="10" Foreground="WhiteSmoke" Margin="-1,0,0,0">
+                                <TextBlock.Text>
+                                    Введенная информация может быть использована против вас (←_←)
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Grid>
+                        <TextBlock Style="{StaticResource TextBlock}" Margin="0,-15,220,15" FontSize="10">Обратите внимание:</TextBlock>
+                    </Grid>
+
+                    <!--Павук-->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Row" Value="14"/>
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.ColumnSpan" Value="3"/>
+                                <Setter Property="Grid.RowSpan" Value="2"/>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="315"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition MinHeight="15" MaxHeight="20"/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <TextBlock Name="Spider" Width = "Auto" Background="{x:Null}" FontSize="10" Foreground="AliceBlue" Margin="115,0,115,0">
+                                <TextBlock.Text>
+                                    /╲/\╭( ͡°͡° ͜ʖ ͡°͡°)╮/\╱\
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Grid>
+                        <TextBlock Style="{StaticResource TextBlock}" Margin="0,-15,220,15" FontSize="10">Внимание ПАВУК!</TextBlock>
+                    </Grid>
+
                     <!--Язык-->
                     <Grid>
                         <Grid.Style>
@@ -355,13 +412,75 @@
             </TabItem>
 
             <TabItem Header="Пользователи">
-                <Border Background="Wheat"/>
+                <Grid Background="Wheat">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="10"/>
+                    </Grid.RowDefinitions>
+                </Grid>
             </TabItem>
-            <TabItem Header="Роли"/>
+
+            <TabItem Header="Роли">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="170"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="70"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="10"/>
+                    </Grid.RowDefinitions>
+                    <!--Добавление-->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="2"/>
+                                <Setter Property="Grid.Row" Value="1"/>
+                            </Style>
+                        </Grid.Style>
+                        <Grid>
+                            <TextBlock Name="Add" Width = "Auto" Background="{x:Null}" FontSize="16" Foreground="#FF5B9794" VerticalAlignment="Top" HorizontalAlignment="Center">
+                                <TextBlock.Text>
+                                    Добавление
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Grid>
+                    </Grid>
+                   <!--Удаление и Изменение-->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="2"/>
+                                <Setter Property="Grid.Row" Value="4"/>
+                            </Style>
+                        </Grid.Style>
+                        <Grid>
+                            <TextBlock Name="Change" Width = "Auto" Background="{x:Null}" FontSize="16" Foreground="#FF5B9794" VerticalAlignment="Top" HorizontalAlignment="Center">
+                                <TextBlock.Text>
+                                    Изменение и Удаление
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </TabItem>
             <TabItem Header="Текстовые чаты"/>
             <TabItem Header="Журнал событий"/>
             <TabItem Header="Удаление сервера"/>
         </TabControl>
-
     </Grid>
 </Window>
