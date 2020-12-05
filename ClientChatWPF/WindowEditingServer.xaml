@@ -23,7 +23,7 @@
                 </Style>
             </Border.Style>
         </Border>
-        <TabControl Grid.Row="1">
+        <TabControl Grid.Row="1" Name="TabControlSet" SelectionChanged="TabControlSet_SelectionChanged">
             <TabControl.Style>
                 <Style TargetType="TabControl">
                     <Setter Property="TabStripPlacement" Value="Left"></Setter>

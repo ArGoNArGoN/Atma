@@ -17,7 +17,6 @@ namespace ClassesForServerClent.Class
 		private Int32? idChat;
 		private Int32? idTextChat;
 		private Int32? idRole;
-		private Int32? idRight;
 		private Int32? idMessage;
 		private Int32? idOpinion;
 		private Server server;
@@ -90,17 +89,6 @@ namespace ClassesForServerClent.Class
 				idRole = value;
             }
         }
-		public Int32? IDRight
-		{
-			get => idRight;
-			set
-			{
-				if (value < 1)
-					throw new ArgumentException("value < 1", nameof(value));
-
-				idRight = value;
-			}
-		}
 		public Int32? IDMessage
         {
 			get=> idMessage;

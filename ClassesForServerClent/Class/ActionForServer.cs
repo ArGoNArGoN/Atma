@@ -8,9 +8,16 @@ namespace ClassesForServerClent.Class
 {
     public enum ActionForServer
     {
+        None,
         Search,
         LoudTextChat,
+        LoudOpinion,
+        LoudEventLog,
+        LoudServerUsers,
+        LoudChat,
+        LoudRole,
+        Loud,
         Registration,
-        Cheack
+        Cheack,
     }
 }
