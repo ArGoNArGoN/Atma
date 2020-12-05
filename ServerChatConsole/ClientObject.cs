@@ -18,7 +18,7 @@ namespace ServerChatConsole
 		}
 		internal TcpClient Client { get; set; }
 		internal ServerObj ServerObj { get; set; }
-		public NetworkStream Stream { get; internal set; }
+		internal NetworkStream Stream { get; set; }
 		internal User User { get; set; }
 		internal ServerUser ServerUser { get; set; }
 		private BinaryFormatter formatter = new BinaryFormatter();
@@ -49,9 +49,9 @@ namespace ServerChatConsole
 						break;
 					}
 					catch(SocketException e)
-					{ Console.WriteLine(e.Message); }
+					{ Console.WriteLine(e.Message); return; }
 					catch(Exception e)
-					{ this.SendObjectToClient(e); }
+					{ this.SendObjectToClient(e); return; }
 
 				} while (true);
 				
@@ -97,14 +97,14 @@ namespace ServerChatConsole
                 using DB DB = new DB();
                 switch (Obj)
                 {
-                    case (Message):
-                        this.GetMessade((Message)Obj);
+                    case (Message m):
+                        this.GetMessade(m);
                         break;
-                    case (ClassesForServerClent.Class.User):
-                        this.GetUser((User)Obj);
+                    case (User u):
+                        this.GetUser(u);
                         break;
-                    case (Server):
-                        this.GetServer((Server)Obj);
+                    case (Server s):
+                        this.GetServer(s);
                         break;
 					case String str:
 						if (str == "closestream")
@@ -149,29 +149,19 @@ namespace ServerChatConsole
 		}
 		private void GetServer(Server server)
         {
-			if (server is null)
-				throw new ArgumentNullException("server is null", nameof(server));
+            if (server is null)
+                throw new ArgumentNullException("server is null", nameof(server));
 
 			if (server.ActionOnServer == ActionOnServer.Connect)
-            {
+			{
 				using (DB db = new DB())
 				{
-					server.TextChat = db.TextChat
+					var TC = db.TextChat
 						.Include(x => x.Message)
 						.Where(x => x.IDServer == server.ID)
 						.ToList();
 
-					server.ServerUser = db.ServerUser
-						.Where(x => x.IDServer == server.ID)
-						.ToList();
-
-                    foreach (var item in server.ServerUser)
-                    {
-						item.User = db.User.FirstOrDefault(x => x.ID == item.IDUser);
-						if (item.User is null)
-							Console.WriteLine("item.User is null");
-                    }
-					foreach (var item in server.TextChat)
+					foreach (var item in TC)
 					{
 						item.Message = db.Message
 							.Include(x => x.ServerUser)
@@ -179,14 +169,72 @@ namespace ServerChatConsole
 							.ToList();
 					}
 
+					SendObjectToClient(TC);
+
+					var SU = db.ServerUser
+						.Where(x => x.IDServer == server.ID)
+						.ToList();
+
+					foreach (var item in SU)
+					{
+						item.User = db.User.FirstOrDefault(x => x.ID == item.IDUser);
+						if (item.User is null)
+							Console.WriteLine("item.User is null");
+					}
+
+					SendObjectToClient(SU);
+
 					ServerUser = db.ServerUser
 						.FirstOrDefault(x => x.IDUser == User.ID && x.IDServer == server.ID);
 				}
 				if (ServerUsers is not null)
 					ServerObj.RemoveConnection(this);
-				ServerObj.AddConnection(this, server);
-				SendObjectToClient(server);
+
+                ServerObj.AddConnection(this, server);
+
+				return;
 			}
+            using DB DB = new DB();
+
+			var obj = new Object();
+
+			switch (server.ActionForServer)
+            {
+                case ActionForServer.None:
+                    break;
+                case ActionForServer.Search:
+                    break;
+                case ActionForServer.LoudTextChat:
+					obj = DB.TextChat.Where(x => x.IDServer == server.ID).ToList();
+					break;
+                case ActionForServer.LoudOpinion:
+					obj = DB.Opinion.Include(x => x.User).Where(x => x.IDServer == server.ID).ToList();
+					break;
+                case ActionForServer.LoudEventLog:
+					obj = DB.EventLog.Where(x => x.IDServer == server.ID).ToList();
+					break;
+                case ActionForServer.LoudServerUsers:
+                    var a = DB.ServerUser.Include(x => x.User).Include(x => x.Role).Where(x => x.IDServer == server.ID).ToList();
+					a.ForEach(x => x.User.Password = null);
+					obj = a;
+					break;
+                case ActionForServer.LoudChat:
+					obj = DB.Chat.Where(x => x.IDServer == server.ID).ToList();
+					break;
+                case ActionForServer.LoudRole:
+					obj = DB.Role.Include(x => x.RightRole).Where(x => x.IDServer == server.ID).ToList();
+					break;
+                case ActionForServer.Loud:
+					obj = DB.Server.Find(server.ID);
+                    break;
+                case ActionForServer.Registration:
+                    break;
+                case ActionForServer.Cheack:
+                    break;
+                default:
+                    break;
+            }
+			SendObjectToClient(obj);
 		}
 
 		private void SendInfoForUser(String rName, String password)

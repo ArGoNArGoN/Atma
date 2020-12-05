@@ -115,8 +115,8 @@ namespace ClassesForServerClent.Class
 			get => password;
 			set
 			{
-				if (String.IsNullOrEmpty(value))
-					throw new ArgumentNullException("The password can't be empty!");
+				if (value is null)
+					return;
 
 				if (value.Length < 6 || value.Length > 15)
 					throw new ArgumentException("The password must be between 6 and 15 characters long!");
