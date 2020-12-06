@@ -21,6 +21,7 @@ namespace ClientChatWPF
 		static ServerUser ServerUser { get; set; }
 		static NetworkStream Stream { get; set; }
         static BinaryFormatter formatter = new BinaryFormatter();
+		public WindowEditingServer WEditingServer { get; set; }
 
 		/// <summary>
 		/// Начало всего
@@ -67,13 +68,6 @@ namespace ClientChatWPF
 		/// <summary>
 		/// Запускает окно поиска сервера 
 		/// И отправляет информацию об этом событии серверу. 
-		/// Блять, я хз как сделать этот метод по нормальному 
-		/// Вот, что значит ActionForServer.Search 
-		/// Поиск определенного сервера? Нет! 
-		/// Ну значит нужно создать перечисление! 
-		/// Нет, ибо оно будет использоваться 1 раз 
-		/// хз, хз
-		/// </summary>
 		private void SearchServer()
         {
 			SendMessageSerialize(new Server() { ActionForServer = ActionForServer.Search });
@@ -92,7 +86,7 @@ namespace ClientChatWPF
         private void LoadedDataInWindow()
 		{
 			Servers = User.ServerUser.Select(x => x.Server).ToList();
-			ListServers.ItemsSource = User.ServerUser.Select(x => x.Server);
+            ListServers.ItemsSource = User.ServerUser.Select(x => x.Server);
 		}
 
 		/// <summary>
@@ -119,11 +113,9 @@ namespace ClientChatWPF
 			if (ListServers.SelectedIndex == -1)
 				return;
 
-			var server = Servers[ListServers.SelectedIndex];
-			Users = server.ServerUser.ToList();
-			ServerUser = User.ServerUser.First(x => x.IDServer == server.ID);
-			server.ActionOnServer = ActionOnServer.Connect;
-			SendMessageSerialize(server);
+			Server = Servers[ListServers.SelectedIndex];
+			Server.ActionOnServer = ActionOnServer.Connect;
+			SendMessageSerialize(Server);
 		}
 
 		/// <summary>
@@ -148,7 +140,13 @@ namespace ClientChatWPF
 		}
 		
 		public static void SendMessageSerialize(Object message)
-			=> formatter.Serialize(Stream, message);
+		{
+			try
+			{
+				formatter.Serialize(Stream, message);
+			}
+			catch (Exception) { }
+		}
 		private Object TakeMessageSerialize()
 			=> formatter.Deserialize(Stream);
 
@@ -194,8 +192,12 @@ namespace ClientChatWPF
 
         private void UpServerClick(object sender, RoutedEventArgs e)
         {
-			WindowEditingServer server = new WindowEditingServer();
-			server.ShowDialog();
-        }
+			if (Server is null)
+				return;
+
+			WEditingServer = new WindowEditingServer(Server);
+			WEditingServer.ShowDialog();
+			WEditingServer = null;
+		}
     }
 }
