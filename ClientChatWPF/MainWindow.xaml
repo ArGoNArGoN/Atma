@@ -44,7 +44,7 @@
             <BeginStoryboard Storyboard="{StaticResource MenuClose}"></BeginStoryboard>
         </EventTrigger>
     </Window.Triggers>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="46" Width="Auto" MaxWidth="130"></ColumnDefinition>
@@ -383,7 +383,8 @@
                     </Border>
                 </Grid>
                 <!-- Server -->
-                
+
+
                 <ListView Style="{StaticResource ListChatsView}"
                           Grid.Row="2"
 					      x:Name="ListTextChat"
@@ -472,7 +473,7 @@
                     </Border>
                 </Grid>
                 <!-- User -->
-                
+
             </Grid>
         </Border>
         <Border>
