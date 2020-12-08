@@ -87,6 +87,8 @@ namespace ClientChatWPF
 		{
 			Servers = User.ServerUser.Select(x => x.Server).ToList();
             ListServers.ItemsSource = User.ServerUser.Select(x => x.Server);
+			nickNameUser.Text = User.Name;
+			statusUser.Text = User.Status.ToString();
 		}
 
 		/// <summary>
@@ -99,6 +101,7 @@ namespace ClientChatWPF
 			if (ListTextChat.SelectedIndex == -1)
 				return;
 
+			sendMessageButton.IsEnabled = true;
 			var text = TextChats[ListTextChat.SelectedIndex];
 			EventUpMessage(text.Message.ToList());
 		}
@@ -110,10 +113,17 @@ namespace ClientChatWPF
 		/// <param name="e"></param>
 		private void ServerWasSelected(object sender, SelectionChangedEventArgs e)
 		{
-			if (ListServers.SelectedIndex == -1)
-				return;
+            if (ListServers.SelectedIndex == -1)
+                return;
+
+			ListUserMessage.ItemsSource = new List<Message>();
+			sendMessageButton.IsEnabled = false;
 
 			Server = Servers[ListServers.SelectedIndex];
+
+            serverName.Text = Server.Name;
+			ServerUser = User.ServerUser.First(x => x.IDServer == Server.ID);
+			nickNameUser.Text = ServerUser.Name;
 			Server.ActionOnServer = ActionOnServer.Connect;
 			SendMessageSerialize(Server);
 		}
