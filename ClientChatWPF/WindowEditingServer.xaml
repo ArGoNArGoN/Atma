@@ -55,9 +55,13 @@
         <Style x:Key="ListUserView" TargetType="ListView">
             <Setter Property="Background" Value="#FF2F3136"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="ItemTemplate">
+            <Setter Property="ItemContainerStyle" Value="{StaticResource UserViewItem}"/>
+        </Style>
+        <!--Шаблон ListViewItem-->
+        <Style x:Key="UserViewItem" TargetType="ListViewItem">
+            <Setter Property="Template">
                 <Setter.Value>
-                    <DataTemplate>
+                    <ControlTemplate TargetType="ListViewItem">
                         <Grid>
                             <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=Name}">
                                 <TextBlock.Style>
@@ -68,7 +72,7 @@
                                 </TextBlock.Style>
                             </TextBlock>
                         </Grid>
-                    </DataTemplate>
+                    </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
