@@ -6,20 +6,8 @@
         xmlns:local="clr-namespace:ClientChatWPF"
         mc:Ignorable="d"
 		Title="WindowEditingServer" Height="450" Width="600">
+    
     <Window.Resources>
-        <!--Штука для выбора вариантов (нужна ли она...)-->
-        <XmlDataProvider x:Key="Questions" XPath="/Questions/*">
-            <x:XData>
-                <Questions xmlns="">
-                    <Question Title="Question 1" Index="1" />
-                    <Question Title="Question 2" Index="2" />
-                </Questions>
-            </x:XData>
-        </XmlDataProvider>
-        <DataTemplate x:Key="QuestionItemTemplate">
-            <TextBlock Text="{Binding XPath=@Title}" />
-        </DataTemplate>
-
         <!-- Внутренность поля -->
         <Style TargetType="Border" x:Key="Fon">
             <Setter Property="Margin" Value="5"/>
@@ -208,81 +196,75 @@
             <TabItem Header="Обзор">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"/>
-                        <ColumnDefinition Width="145"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="160"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="145"/>
-                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="15"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition MinHeight="20" MaxHeight="40"/>
-                        <!--Чтобы автоматически изменять высоту строки "auto"-->
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition MaxHeight="25"/>
-                        <!--Тоже auto-->
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="20"/>
                         <RowDefinition Height="5"/>
-
-                        <RowDefinition MinHeight ="20" MaxHeight="40"/>
-                        <RowDefinition Height="5"/>
-                        <RowDefinition MaxHeight="25"/>
-
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="5"/>
-                        <!--Между-->
-                        <RowDefinition MinHeight="20" MaxHeight="40"/>
-                        <RowDefinition Height="5"/>
-                        <RowDefinition MaxHeight="25"/>
-
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="5"/>
-
-                        <RowDefinition MinHeight="20" MaxHeight="40"/>
-
-                        <RowDefinition Height ="Auto"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition Height="20"/>
+                        
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <!--Поле для ввода имени-->
                     <Grid>
                         <Grid.Style>
                             <Style TargetType="Grid">
-                                <Setter Property="Grid.Row" Value="1"/>
+                                <Setter Property="Grid.Row" Value="3"/>
                                 <Setter Property="Grid.Column" Value="1"/>
-                                <Setter Property="Grid.RowSpan" Value="3"/>
                             </Style>
                         </Grid.Style>
                         <Grid.RowDefinitions>
                             <RowDefinition MinHeight="25" MaxHeight="40"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="145"/>
+                            <ColumnDefinition Width="160"/>
                         </Grid.ColumnDefinitions>
                         <Grid>
                             <Border Style="{StaticResource Fon}"/>
-                            <TextBox x:Name="Name" Margin="12,12,12,12" Style="{StaticResource ResourceKey=TextInBorder}" Width="126"/>
+                            <TextBox x:Name="Name" Style="{StaticResource ResourceKey=TextInBorder}" Width="130"/>
                         </Grid>
-                        <TextBlock Style="{StaticResource TextBlock}" Margin="59,-50,59,0"> Имя</TextBlock>
                     </Grid>
-
+                    <!--Название поля имени-->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.Row" Value="1"/>
+                            </Style>
+                        </Grid.Style>
+                        <TextBlock Style="{StaticResource TextBlock}" FontSize="17">Имя</TextBlock>
+                    </Grid>
                     <!--Статус-->
                     <Grid>
                         <Grid.Style>
                             <Style TargetType="Grid">
-                                <Setter Property="Grid.Row" Value="2"/>
+                                <Setter Property="Grid.Row" Value="3"/>
                                 <Setter Property="Grid.Column" Value="3"/>
-                                <Setter Property="Grid.RowSpan" Value="3"/>
                             </Style>
                         </Grid.Style>
                         <Grid.RowDefinitions>
                             <RowDefinition MinHeight="20" MaxHeight="40"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="160"/>
                         </Grid.ColumnDefinitions>
                         <CheckBox x:Name="StatusServer" Content="Разрешить подключение">
                             <CheckBox.Style>
@@ -293,7 +275,16 @@
                                 </Style>
                             </CheckBox.Style>
                         </CheckBox>
-                        <TextBlock Style="{StaticResource TextBlock}" Width="45" Margin="50,-15,50,35">Статус</TextBlock>
+                    </Grid>
+                    <!--Название чек бокса Статус-->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="3"/>
+                                <Setter Property="Grid.Row" Value="1"/>
+                            </Style>
+                        </Grid.Style>
+                        <TextBlock Style="{StaticResource TextBlock}" FontSize="17">Статус</TextBlock>
                     </Grid>
 
                     <!--Описание-->
@@ -303,115 +294,42 @@
                                 <Setter Property="Grid.Row" Value="5"/>
                                 <Setter Property="Grid.Column" Value="1"/>
                                 <Setter Property="Grid.ColumnSpan" Value="4"/>
-                                <Setter Property="Grid.RowSpan" Value="2"/>
-                                <Setter Property="Grid.Background" Value="{x:Null}"/>
                             </Style>
                         </Grid.Style>
                         <Grid.RowDefinitions>
-                            <RowDefinition MinHeight="15" MaxHeight="20"/>
+                            <RowDefinition Height="15"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="315"/>
+                            <ColumnDefinition Width="350"/>
                         </Grid.ColumnDefinitions>
                         <Grid>
-                            <TextBlock Name="Description" Width = "Auto" Background="{x:Null}" FontSize="10" Foreground="WhiteSmoke" Margin="25,0,25,0">
+                            <TextBlock Name="Description" Width = "Auto" Background="{x:Null}" FontSize="10" Foreground="WhiteSmoke">
                                 <TextBlock.Text>
                                     Поля Имя и Статус напрямую влияют на поиск сервера.
                                 </TextBlock.Text>
                             </TextBlock>
                         </Grid>
-                        <TextBlock Style="{StaticResource TextBlock}" Margin="0,-15,220,15" FontSize="10">Обратите внимание:</TextBlock>
                     </Grid>
-
-                    <!--Info-->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.Row" Value="4"/>
+                            </Style>
+                        </Grid.Style>
+                        <TextBlock Style="{StaticResource TextBlock}" FontSize="10" HorizontalAlignment="Left">Обратите внимание:</TextBlock>
+                    </Grid>
+                    <!--Язык-->
                     <Grid>
                         <Grid.Style>
                             <Style TargetType="Grid">
                                 <Setter Property="Grid.Row" Value="7"/>
                                 <Setter Property="Grid.Column" Value="1"/>
                                 <Setter Property="Grid.ColumnSpan" Value="3"/>
-                                <Setter Property="Grid.RowSpan" Value="4"/>
                             </Style>
                         </Grid.Style>
                         <Grid.RowDefinitions>
-                            <RowDefinition MinHeight="20" MaxHeight="600"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="315"/>
-                        </Grid.ColumnDefinitions>
-                        <Border>
-                            <Grid>
-                                <Border Style="{StaticResource Fon}"/>
-                                <TextBox x:Name="Info" Style="{StaticResource ResourceKey=TextInBorder}" Width="Auto"/>
-                            </Grid>
-                        </Border>
-                        <TextBlock Style="{StaticResource TextBlock}" Margin="0,-35,0,35">⚝ Информация ⚝</TextBlock>
-                    </Grid>
-
-                    <!--Инфо инфо-->
-                    <Grid>
-                        <Grid.Style>
-                            <Style TargetType="Grid">
-                                <Setter Property="Grid.Row" Value="13"/>
-                                <Setter Property="Grid.Column" Value="1"/>
-                                <Setter Property="Grid.ColumnSpan" Value="3"/>
-                                <Setter Property="Grid.RowSpan" Value="2"/>
-                            </Style>
-                        </Grid.Style>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="315"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition MinHeight="15" MaxHeight="20"/>
-                        </Grid.RowDefinitions>
-                        <Grid>
-                            <TextBlock Name="Information" Width = "Auto" Background="{x:Null}" FontSize="10" Foreground="WhiteSmoke" Margin="-1,0,0,0">
-                                <TextBlock.Text>
-                                    Введенная информация может быть использована против вас (←_←)
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </Grid>
-                        <TextBlock Style="{StaticResource TextBlock}" Margin="0,-15,220,15" FontSize="10">Обратите внимание:</TextBlock>
-                    </Grid>
-
-                    <!--Павук-->
-                    <Grid>
-                        <Grid.Style>
-                            <Style TargetType="Grid">
-                                <Setter Property="Grid.Row" Value="14"/>
-                                <Setter Property="Grid.Column" Value="1"/>
-                                <Setter Property="Grid.ColumnSpan" Value="3"/>
-                                <Setter Property="Grid.RowSpan" Value="2"/>
-                            </Style>
-                        </Grid.Style>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="315"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition MinHeight="15" MaxHeight="20"/>
-                        </Grid.RowDefinitions>
-                        <Grid>
-                            <TextBlock Name="Spider" Width = "Auto" Background="{x:Null}" FontSize="10" Foreground="AliceBlue" Margin="115,0,115,0">
-                                <TextBlock.Text>
-                                    /╲/\╭( ͡°͡° ͜ʖ ͡°͡°)╮/\╱\
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </Grid>
-                        <TextBlock Style="{StaticResource TextBlock}" Margin="0,-15,220,15" FontSize="10">Внимание ПАВУК!</TextBlock>
-                    </Grid>
-
-                    <!--Язык-->
-                    <Grid>
-                        <Grid.Style>
-                            <Style TargetType="Grid">
-                                <Setter Property="Grid.Row" Value="17"/>
-                                <Setter Property="Grid.Column" Value="1"/>
-                                <Setter Property="Grid.ColumnSpan" Value="3"/>
-                                <Setter Property="Grid.RowSpan" Value="4"/>
-                            </Style>
-                        </Grid.Style>
-                        <Grid.RowDefinitions>
-                            <RowDefinition MinHeight="20" MaxHeight="40"/>
+                            <RowDefinition MinHeight="20" MaxHeight="35"/>
                         </Grid.RowDefinitions>
                         <StackPanel VerticalAlignment="Center">
                             <ComboBox Name ="Language" Height="20" VerticalAlignment="Top">
@@ -419,31 +337,136 @@
                                 <ComboBoxItem Content="Rus" Tag="2"/>
                             </ComboBox>
                         </StackPanel>
-                        <TextBlock Style="{StaticResource TextBlock}" Margin="0,-20,0,20">Выбранный язык:</TextBlock>
+                    </Grid>
+                    <!--Выбранный язык-->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.Row" Value="6"/>
+                            </Style>
+                        </Grid.Style>
+                        <TextBlock Style="{StaticResource TextBlock}" FontSize="16">Выбранный язык:</TextBlock>
                     </Grid>
 
+                    <!--поле Info-->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Row" Value="9"/>
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.ColumnSpan" Value="3"/>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.RowDefinitions>
+                            <RowDefinition MinHeight="20" MaxHeight="100"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="350"/>
+                        </Grid.ColumnDefinitions>
+                        <Border>
+                            <Grid>
+                                <Border Style="{StaticResource Fon}"/>
+                                <TextBox x:Name="Info" Style="{StaticResource ResourceKey=TextInBorder}" Width="Auto" Height="Auto"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <!--Информация название-->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.ColumnSpan" Value="3"/>
+                                <Setter Property="Grid.Row" Value="8"/>
+                            </Style>
+                        </Grid.Style>
+                        <TextBlock Style="{StaticResource TextBlock}" FontSize="17">⚝ Информация ⚝</TextBlock>
+                    </Grid>
+                    
+                    <!--Использована против вас-->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Row" Value="11"/>
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.ColumnSpan" Value="3"/>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="345"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition MinHeight="15" MaxHeight="20"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Name="Information" Width = "Auto" Background="{x:Null}" FontSize="10" Foreground="WhiteSmoke" HorizontalAlignment="Center">
+                            <TextBlock.Text>
+                                Введенная информация может быть использована против вас (←_←)
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Grid>
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.Row" Value="10"/>
+                            </Style>
+                        </Grid.Style>
+                        <TextBlock Style="{StaticResource TextBlock}" FontSize="10" HorizontalAlignment="Left">Обратите внимание:</TextBlock>
+                    </Grid>
+                    
+                    <!--Павук-->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Row" Value="13"/>
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.ColumnSpan" Value="3"/>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="345"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition MinHeight="15" MaxHeight="20"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Name="Spider" Width = "Auto" Background="{x:Null}" FontSize="10" Foreground="AliceBlue" HorizontalAlignment="Center">
+                            <TextBlock.Text>
+                                /╲/\╭( ͡°͡° ͜ʖ ͡°͡°)╮/\╱\
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Grid>
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.Row" Value="12"/>
+                            </Style>
+                        </Grid.Style>
+                        <TextBlock Style="{StaticResource TextBlock}" FontSize="10" HorizontalAlignment="Left">Внимание ПАВУК!</TextBlock>
+                    </Grid>
+                    
                     <!--Кнопочки-->
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="160"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="30"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="0"/>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="15"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
                         </Grid.RowDefinitions>
                         <Grid.Style>
                             <Style TargetType="Grid">
-                                <Setter Property="Grid.ColumnSpan" Value="4"/>
-                                <Setter Property="Grid.Row" Value="21"/>
+                                <Setter Property="Grid.ColumnSpan" Value="5"/>
+                                <Setter Property="Grid.Row" Value="15"/>
                             </Style>
                         </Grid.Style>
                         <Button Click="EditingServerClick">
                             <Button.Style>
                                 <Style TargetType="Button">
-                                    <Setter Property="Content" Value="Save"/>
+                                    <Setter Property="Content" Value="Сохранить"/>
                                     <Setter Property="Grid.Column" Value="1"/>
                                 </Style>
                             </Button.Style>
@@ -451,7 +474,7 @@
                         <Button Click="EditingServerCancelClick">
                             <Button.Style>
                                 <Style TargetType="Button">
-                                    <Setter Property="Content" Value="Cancel"/>
+                                    <Setter Property="Content" Value="Отмена"/>
                                     <Setter Property="Grid.Column" Value="3"/>
                                 </Style>
                             </Button.Style>
@@ -496,7 +519,7 @@
                     <Button Click="UserOnServerEditClick">
                         <Button.Style>
                             <Style TargetType="Button">
-                                <Setter Property="Content" Value="Edit"/>
+                                <Setter Property="Content" Value="Редактировать"/>
                                 <Setter Property="Grid.Row" Value="4"/>
                                 <Setter Property="Grid.Column" Value="1"/>
                             </Style>
@@ -506,7 +529,7 @@
                     <Button Click="UserOnServerCancelClick">
                         <Button.Style>
                             <Style TargetType="Button">
-                                <Setter Property="Content" Value="Cancel"/>
+                                <Setter Property="Content" Value="Отмена"/>
                                 <Setter Property="Grid.Row" Value="4"/>
                                 <Setter Property="Grid.Column" Value="3"/>
                             </Style>
@@ -525,7 +548,6 @@
                     </Grid>
                 </Grid>
             </TabItem>
-
             <TabItem Header="Роли">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -565,7 +587,7 @@
                             </TextBlock>
                         </Grid>
                     </Grid>
-                    <!--Кнопочки Add и Cancel-->
+                    <!--Кнопочки Add и Del-->
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0"/>
@@ -587,21 +609,21 @@
                         <Button Click="AddRoleClick">
                             <Button.Style>
                                 <Style TargetType="Button">
-                                    <Setter Property="Content" Value="Add"/>
+                                    <Setter Property="Content" Value="Добавить"/>
                                     <Setter Property="Grid.Column" Value="1"/>
                                 </Style>
                             </Button.Style>
                         </Button>
-                        <Button Click="CancelAddRoleClick">
+                        <Button Click="DelAddRoleClick">
                             <Button.Style>
                                 <Style TargetType="Button">
-                                    <Setter Property="Content" Value="Cancel"/>
+                                    <Setter Property="Content" Value="Удалить"/>
                                     <Setter Property="Grid.Column" Value="3"/>
                                 </Style>
                             </Button.Style>
                         </Button>
                     </Grid>
-                    <!--Поле ввода Имя-->
+                    <!--Поле ввода Роли-->
                     <Grid>
                         <Grid.Style>
                             <Style TargetType="Grid">
@@ -620,7 +642,7 @@
                             <Border Style="{StaticResource Fon}"/>
                             <TextBox x:Name="RoleName" Margin="12,12,12,12" Style="{StaticResource ResourceKey=TextInBorder}" Width="126"/>
                         </Grid>
-                        <TextBlock Style="{StaticResource TextBlock}" Margin="0,-50,0,0"> Имя пользователя</TextBlock>
+                        <TextBlock Style="{StaticResource TextBlock}" Margin="0,-50,0,0"> Роль</TextBlock>
                     </Grid>
                     <!--Поле ввода Информация-->
                     <Grid>
@@ -681,7 +703,7 @@
                         <Button Click="AssignRoleClick">
                             <Button.Style>
                                 <Style TargetType="Button">
-                                    <Setter Property="Content" Value="Assign a role"/>
+                                    <Setter Property="Content" Value="Добавить роль"/>
                                     <Setter Property="Grid.Column" Value="1"/>
                                 </Style>
                             </Button.Style>
@@ -689,7 +711,7 @@
                         <Button Click="DelRoleClick">
                             <Button.Style>
                                 <Style TargetType="Button">
-                                    <Setter Property="Content" Value="Delete"/>
+                                    <Setter Property="Content" Value="Удалить"/>
                                     <Setter Property="Grid.Column" Value="3"/>
                                 </Style>
                             </Button.Style>
@@ -729,7 +751,7 @@
                         </StackPanel>
                         <TextBlock Style="{StaticResource TextBlock}" Margin="142,0,142,50">Право:</TextBlock>
                     </Grid>
-                    <!--FfffFFFFFFFFFFFFF-->
+                    <!--Выпей кофе-->
                     <Grid>
                         <Grid.Style>
                             <Style TargetType="Grid">
@@ -740,7 +762,7 @@
                         </Grid.Style>
                         <Grid>
                             <TextBlock Name="Killme" Width = "Auto" Background="{x:Null}" FontSize="16" Foreground="#FF5B9794" VerticalAlignment="Top" HorizontalAlignment="Center">
-                                  Как это фиксить хелп 🙏 *молитса*
+                                 Ничего не работает, просто выпей кофе☕
                             </TextBlock>
                         </Grid>
                     </Grid>
@@ -759,10 +781,12 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="15"/>
-                        <RowDefinition Height="100"/>
                         <RowDefinition Height="20"/>
-                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="15"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="45"/>
                         <RowDefinition Height="10"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="15"/>
@@ -771,8 +795,8 @@
                     <Button Click="AddTextChatClick">
                         <Button.Style>
                             <Style TargetType="Button">
-                                <Setter Property="Content" Value="Add Text chat"/>
-                                <Setter Property="Grid.Row" Value="6"/>
+                                <Setter Property="Content" Value="Добавить чат"/>
+                                <Setter Property="Grid.Row" Value="8"/>
                                 <Setter Property="Grid.Column" Value="1"/>
                             </Style>
                         </Button.Style>
@@ -781,8 +805,8 @@
                     <Button Click="EditTextChatClick">
                         <Button.Style>
                             <Style TargetType="Button">
-                                <Setter Property="Content" Value="Edit"/>
-                                <Setter Property="Grid.Row" Value="6"/>
+                                <Setter Property="Content" Value="Редактировать"/>
+                                <Setter Property="Grid.Row" Value="8"/>
                                 <Setter Property="Grid.Column" Value="3"/>
                             </Style>
                         </Button.Style>
@@ -791,8 +815,8 @@
                     <Button Click="DelTextChatClick">
                         <Button.Style>
                             <Style TargetType="Button">
-                                <Setter Property="Content" Value="Edit"/>
-                                <Setter Property="Grid.Row" Value="6"/>
+                                <Setter Property="Content" Value="Удалить"/>
+                                <Setter Property="Grid.Row" Value="8"/>
                                 <Setter Property="Grid.Column" Value="5"/>
                             </Style>
                         </Button.Style>
@@ -801,7 +825,7 @@
                     <Grid>
                         <Grid.Style>
                             <Style TargetType="Grid">
-                                <Setter Property="Grid.Row" Value="1"/>
+                                <Setter Property="Grid.Row" Value="6"/>
                                 <Setter Property="Grid.Column" Value="2"/>
                                 <Setter Property="Grid.ColumnSpan" Value="4"/>
                             </Style>
@@ -824,7 +848,7 @@
                             <Style TargetType="Grid">
                                 <Setter Property="Grid.Column" Value="1"/>
                                 <Setter Property="Grid.ColumnSpan" Value="5"/>
-                                <Setter Property="Grid.Row" Value="2"/>
+                                <Setter Property="Grid.Row" Value="1"/>
                             </Style>
                         </Grid.Style>
                         <Grid>
@@ -838,7 +862,7 @@
                         <Grid.Style>
                             <Style TargetType="Grid">
                                 <Setter Property="Grid.Column" Value="1"/>
-                                <Setter Property="Grid.Row" Value="4"/>
+                                <Setter Property="Grid.Row" Value="3"/>
                                 <Setter Property="Grid.ColumnSpan" Value="5"/>
                             </Style>
                         </Grid.Style>
@@ -846,8 +870,46 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Журнал событий"/>
-            <TabItem Header="Удаление сервера">
+            <TabItem Header="Журнал событий">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="85"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="85"/>
+                        <ColumnDefinition Width="15"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="15"/>
+                    </Grid.RowDefinitions>
+                    <!--Список событий-->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="2"/>
+                                <Setter Property="Grid.Row" Value="1"/>
+                            </Style>
+                        </Grid.Style>
+                        <TextBlock Style="{StaticResource TextBlock}" FontSize="20">Список событий ⌛</TextBlock>
+                    </Grid>
+                    <!--ListViev Event-->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.Row" Value="3"/>
+                                <Setter Property="Grid.ColumnSpan" Value="3"/>
+                            </Style>
+                        </Grid.Style>
+                        <ListView Style ="{StaticResource ListUserView}" x:Name="ListEvent" ItemsSource="{Binding Path=ServerUser}"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+                <TabItem Header="Удаление сервера">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80"/>
