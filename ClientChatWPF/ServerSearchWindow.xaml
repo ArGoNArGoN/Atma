@@ -7,18 +7,235 @@
 		mc:Ignorable="d"
 		
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		Title="ServerSearchWindow" Height="350" Width="500" Background="#FF1E1E1E">
-	
+		Title="" Height="390" Width="621" Background="#FF36393F">
+
+    <Window.Resources>
+
+        <Style TargetType="TextBlock" x:Key="TextBlockStyle">
+            <Setter Property="Foreground" Value="#FF5B9794"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockStyle}"/>
+
+        <Style TargetType="ListViewItem" x:Key="ServerItemStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Border x:Name="border">
+                            <Grid>
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Margin" Value="4 2"/>
+                                    </Style>
+                                </Grid.Style>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Text="{Binding Path=Name}" FontSize="11" Foreground="White"></TextBlock>
+                                <TextBlock Grid.Row="1" Text="{Binding Path=Language}" FontSize="8" Foreground="#FF5B9794"></TextBlock>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True"></Condition>
+                                    <Condition Property="IsSelected" Value="False"></Condition>
+                                </MultiTrigger.Conditions>
+                                <MultiTrigger.Setters>
+                                    <Setter TargetName="border" Property="Background" Value="#FF3E3E42"/>
+                                </MultiTrigger.Setters>
+                            </MultiTrigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FF1E1E1E"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ListViewItem" x:Key="OpinionItemStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Border x:Name="border">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="#FF2F3136"/>
+                                </Style>
+                            </Border.Style>
+
+                            <Grid>
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Margin" Value="4 2"/>
+                                    </Style>
+                                </Grid.Style>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="2"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="2"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Foreground="GreenYellow" Text="{Binding Path=User.Name}"></TextBlock>
+
+                                    <TextBlock Grid.Column="2" Style="{StaticResource TextBlockStyle}" Text="оценил(а)(о) на:" Opacity="0.5"/>
+                                    <TextBlock Grid.Column="4" Style="{StaticResource TextBlockStyle}" Text="{Binding Path=Mark}" Foreground="Yellow" />
+                                </Grid>
+
+                                <Border x:Name="qw" Grid.Row="1">
+                                    <TextBlock>
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockStyle}">
+                                                <Setter Property="Text" Value="***"/>
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Setter Property="Height" Value="8"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ElementName=message1, Path=Text}" Value="">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Border>
+
+                                <Grid x:Name="message" Grid.Row="2" Visibility="Collapsed">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="1"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=message1, Path=Text}" Value="">
+                                                    <Setter Property="Height" Value="0"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                    <TextBlock Grid.Row="0" Style="{StaticResource TextBlockStyle}" Text="и написал(а)(о):" Opacity="0.5"/>
+                                    <TextBlock Grid.Row="2" Style="{StaticResource TextBlockStyle}" Text="{Binding Path=Message}" x:Name="message1" Margin="2 0"></TextBlock>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="qw" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="message" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="border" Property="Background" Value="#FF3E3E42"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ListView" x:Key="BaseListStyle">
+            <Setter Property="Background" Value="#FF2F3136"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#FF1E1E1E"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+        </Style>
+        <Style TargetType="ListView" x:Key="ServersListStyle" BasedOn="{StaticResource BaseListStyle}">
+            <Setter Property="ItemsSource" Value="{Binding Server}"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource ServerItemStyle}"/>
+        </Style>
+        <Style TargetType="ListView" x:Key="OpinionListStyle" BasedOn="{StaticResource BaseListStyle}">
+            <Setter Property="ItemsSource" Value="{Binding Opinion}"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource OpinionItemStyle}"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="buttonSearch">
+            <Setter Property="IsEnabled" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="2"/>
+                                    <Setter Property="Background" Value="#FF2F3136"></Setter>
+                                    <Setter Property="BorderThickness" Value="1.3"/>
+                                    <Setter Property="BorderBrush" Value="#FF1E1E1E"/>
+                                </Style>
+                            </Border.Style>
+                            <ContentControl x:Name="content" Content="{TemplateBinding Content}">
+                                <ContentControl.Style>
+                                    <Style TargetType="ContentControl">
+                                        <Setter Property="Foreground" Value="WhiteSmoke"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </ContentControl.Style>
+                            </ContentControl>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FF1E1E1E"/>
+                                <Setter TargetName="content" Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="content" Property="Foreground" Value="#FF686868"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Border" x:Key="BorderSearchStyle">
+            <Setter Property="Background" Value="#FF2F3136"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#FF1A1A1A"/>
+        </Style>
+        <Style TargetType="TextBox" x:Key="TextBoxSearchStyle">
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="MinWidth" Value="200"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="SearchTextBlockStyle">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
+        </Style>
+
+        <Style TargetType="Border" x:Key="BorderDescriptionServerStyle">
+            <Setter Property="Background" Value="#FF3E3E42"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#FF1E1E1E"/>
+        </Style>
+
+    </Window.Resources>
+
+
     <Grid Margin="5">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition MinWidth="36" Width="Auto" MaxWidth="150"></ColumnDefinition>
-			<ColumnDefinition Width="Auto"></ColumnDefinition>
-			<ColumnDefinition></ColumnDefinition>
-		</Grid.ColumnDefinitions>
-        
-		<Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="36" Width="Auto" MaxWidth="150"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid>
             <Grid.Resources>
             </Grid.Resources>
+
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Setter Property="Width" Value="36"/>
@@ -56,6 +273,7 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
+
             <ListView x:Name="ServersList">
                 <ListView.Resources>
                     <Style x:Key="TemplateList" TargetType="ListViewItem">
@@ -125,53 +343,48 @@
                 </ListView.Style>
             </ListView>
         </Grid>
-		<Border Width="2">
-			<Border.Style>
+
+        <Border>
+            <Border.Style>
                 <Style TargetType="Border">
                     <Setter Property="Background" Value="Gray"/>
                     <Setter Property="Grid.Column" Value="1"/>
                     <Setter Property="Margin" Value="8 0"/>
+                    <Setter Property="Width" Value="2"/>
                 </Style>
             </Border.Style>
-		</Border>
+        </Border>
+
         <Grid>
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Setter Property="Grid.Column" Value="2"/>
                 </Style>
             </Grid.Style>
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" MinHeight="25" MaxHeight="40"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
+
             <Grid>
-                <Grid.Resources>
-                    <Style x:Key="StyleBrder" TargetType="Border">
-                        <Setter Property="Background" Value="DarkSlateGray"/>
-                        <Setter Property="BorderThickness" Value="1"/>
-                        <Setter Property="BorderBrush" Value="Gray"/>
-                    </Style>
-                </Grid.Resources>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="10"></ColumnDefinition>
                     <ColumnDefinition MinWidth="60" MaxWidth="70" Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Border Style="{StaticResource StyleBrder}">
+
+                <Border Style="{StaticResource BorderSearchStyle}">
                     <Grid>
                         <Grid.Style>
                             <Style TargetType="Grid">
                                 <Setter Property="Margin" Value="5 0 0 1"/>
                             </Style>
                         </Grid.Style>
-                        <TextBlock x:Name="TextBlockSearch">
+                        <TextBlock Text="Search User.." x:Name="TextBlockSearch">
                             <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                    <Setter Property="Text" Value="Search"/>
-                                    <Setter Property="Foreground" Value="Gray"/>
-                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource SearchTextBlockStyle}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding ElementName=SeachTextBox, Path=Text}" Value="{x:Static sys:String.Empty}">
                                             <Setter Property="Visibility" Value="Visible"/>
@@ -180,137 +393,159 @@
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
-                        <TextBox x:Name="SeachTextBox">
-                            <TextBox.Style>
-                                <Style TargetType="TextBox">
-                                    <Setter Property="Background" Value="{x:Null}"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                    <Setter Property="Foreground" Value="WhiteSmoke"/>
-                                    <Setter Property="MinWidth" Value="300"/>
-                                </Style>
-                            </TextBox.Style>
-                        </TextBox>
+                        <TextBox x:Name="SeachTextBox" Height="24" Style="{StaticResource TextBoxSearchStyle}"/>
                     </Grid>
                 </Border>
-                <Button Content="Search" Click="Search">
+
+                <Button Click="Search">
                     <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Grid.Column" Value="3"/>
-                            <Setter Property="Opacity" Value="0.4"/>
-                            <Setter Property="IsEnabled" Value="False"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border x:Name="BorderButtonSearch" Style="{StaticResource ResourceKey=StyleBrder}">
-                                            <ContentControl x:Name="ContentButtonSearch" Content="{TemplateBinding Content}">
-                                                <ContentControl.Style>
-                                                    <Style TargetType="ContentControl">
-                                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                                        <Setter Property="VerticalAlignment" Value="Center"/>
-                                                        <Setter Property="Foreground" Value="LightGray"/>
-                                                    </Style>
-                                                </ContentControl.Style>
-                                            </ContentControl>
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="BorderButtonSearch" Property="Background" Value="Gray"/>
-                                                <Setter TargetName="ContentButtonSearch" Property="Foreground" Value="Black"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
+                        <Style TargetType="Button" BasedOn="{StaticResource buttonSearch}">
+                            <Setter Property="Content" Value="Search"/>
+                            <Setter Property="Grid.Column" Value="2"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding ElementName=TextBlockSearch, Path=Visibility}" Value="Collapsed">
                                     <Setter Property="IsEnabled" Value="True"/>
-                                    <Setter Property="Opacity" Value="1"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
                 </Button>
             </Grid>
-            <Border Height="2">
+
+            <Border>
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="Background" Value="Gray"/>
                         <Setter Property="Grid.Row" Value="1"/>
                         <Setter Property="Margin" Value="0 5"/>
+                        <Setter Property="Height" Value="2"/>
                     </Style>
                 </Border.Style>
             </Border>
+
             <Grid>
-                <Grid.Resources>
-                    <Style TargetType="ListViewItem" x:Key="ServerItem">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListViewItem">
-                                    <Border x:Name="Item" Background="#FF1E1E1E">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition></ColumnDefinition>
-                                                <ColumnDefinition></ColumnDefinition>
-                                                <ColumnDefinition></ColumnDefinition>
-                                                <ColumnDefinition></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.Resources>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Background" Value="{x:Null}"/>
-                                                    <Setter Property="Foreground" Value="WhiteSmoke"/>
-                                                    <Setter Property="FontSize" Value="12"/>
-                                                    <Setter Property="Margin" Value="0 0 3 0"/>
-                                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                                </Style>
-                                            </Grid.Resources>
-                                            <Grid.Style>
-                                                <Style TargetType="Grid">
-                                                    <Setter Property="Margin" Value="15 5"/>
-                                                    <Setter Property="Height" Value="Auto"/>
-                                                    <Setter Property="Background" Value="{x:Null}"/>
-                                                </Style>
-                                            </Grid.Style>
-                                            <TextBlock Grid.Column="0" Text="{Binding Path=Name}"></TextBlock>
-                                            <TextBlock Grid.Column="1" Text="{Binding Path=Status}"></TextBlock>
-                                            <TextBlock Grid.Column="2" Text="{Binding Path=Language}"></TextBlock>
-                                            <TextBlock Grid.Column="3" Text="{Binding Path=Date, StringFormat='{}{0:MM/dd/yyyy}'}"></TextBlock>
-                                        </Grid>
-                                    </Border>
-                                    
-                                    <ControlTemplate.Triggers>
-                                        <MultiTrigger>
-                                            <MultiTrigger.Conditions>
-                                                <Condition Property="IsMouseOver" Value="True"/>
-                                                <Condition Property="IsSelected" Value="False"/>
-                                            </MultiTrigger.Conditions>
-                                            <MultiTrigger.Setters>
-                                                <Setter TargetName="Item" Property="Background" Value="#FF2A2A2E"/>
-                                            </MultiTrigger.Setters>
-                                        </MultiTrigger>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="Item" Property="Background" Value="Gray"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                    <Style TargetType="ListView" x:Key="StyleServersList">
-                        <Setter Property="Background" Value="{x:Null}"/>
-                        <Setter Property="ItemsSource" Value="{Binding Server}"/>
-                        <Setter Property="ItemContainerStyle" Value="{StaticResource ServerItem}"/>
-                    </Style>
-                </Grid.Resources>
                 <Grid.Style>
                     <Style TargetType="Grid">
                         <Setter Property="Grid.Row" Value="2"/>
                     </Style>
                 </Grid.Style>
-                <Border>
-                    <ListView x:Name="SerchServers" Style="{StaticResource StyleServersList}">
-                        
-                    </ListView>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+                <ListView x:Name="SerchServers" Style="{StaticResource ServersListStyle}" SelectionChanged="SerchServers_SelectionChanged"/>
+
+                <Border Grid.Column="2" Style="{StaticResource BorderDescriptionServerStyle}">
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="2"/>
+                                <Setter Property="Margin" Value="4"/>
+                            </Style>
+                        </Grid.Style>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="1.5*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Width="95">
+                                    Инфо о сервере:
+                                </TextBlock>
+                                <TextBlock x:Name="ServerName" Grid.Column="1" HorizontalAlignment="Left" Foreground="Yellow"></TextBlock>
+                            </Grid>
+
+                            <Border>
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Grid.Row" Value="1"/>
+                                        <Setter Property="Background" Value="#FF2F3136"/>
+                                        <Setter Property="BorderBrush" Value="#FF1E1E1E"/>
+                                        <Setter Property="BorderThickness" Value="1.4"/>
+                                        <Setter Property="Height" Value="Auto"/>
+                                    </Style>
+                                </Border.Style>
+                                <TextBlock x:Name="ServerInfo" Margin="5"></TextBlock>
+                            </Border>
+
+                            <Grid>
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Grid.Row" Value="4"/>
+                                        <Setter Property="Height" Value="20"/>
+                                    </Style>
+                                </Grid.Style>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Width="100">Средняя оценка:</TextBlock>
+                                <TextBlock x:Name="AvgOpinion" Grid.Column="1" HorizontalAlignment="Left" Foreground="Yellow"></TextBlock>
+                            </Grid>
+                        </Grid>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition MinHeight="20" Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Grid.Column" Value="2"/>
+                                </Style>
+                            </Grid.Style>
+
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+                                Отзывы о сервере
+                            </TextBlock>
+
+                            <ListView x:Name="OpinionList">
+                                <ListView.Style>
+                                    <Style TargetType="ListView" BasedOn="{StaticResource OpinionListStyle}">
+                                        <Setter Property="Grid.Row" Value="1"/>
+                                    </Style>
+                                </ListView.Style>
+                            </ListView>
+                        </Grid>
+
+                        <Border>
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="Gray"/>
+                                    <Setter Property="Grid.Column" Value="1"/>
+                                    <Setter Property="Width" Value="2"/>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                    </Grid>
                 </Border>
             </Grid>
         </Grid>

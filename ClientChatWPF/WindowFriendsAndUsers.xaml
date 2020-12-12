@@ -1,0 +1,795 @@
+﻿<Window x:Class="ClientChatWPF.WindowFriendsAndUsers"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClientChatWPF"
+        mc:Ignorable="d"
+        
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		Title="" Height="509.71" Width="594.067">
+
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#FF5B9794"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        
+        <Style TargetType="Button" x:Key="buttonSearch">
+            <Setter Property="IsEnabled" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="2"/>
+                                    <Setter Property="Background" Value="#FF2F3136"></Setter>
+                                    <Setter Property="BorderThickness" Value="1.3"/>
+                                    <Setter Property="BorderBrush" Value="#FF1E1E1E"/>
+                                </Style>
+                            </Border.Style>
+                            <ContentControl x:Name="content" Content="{TemplateBinding Content}">
+                                <ContentControl.Style>
+                                    <Style TargetType="ContentControl">
+                                        <Setter Property="Foreground" Value="WhiteSmoke"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </ContentControl.Style>
+                            </ContentControl>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FF1E1E1E"/>
+                                <Setter TargetName="content" Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="content" Property="Foreground" Value="#FF686868"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource buttonSearch}">
+            <Setter Property="IsEnabled" Value="True"/>
+        </Style>
+        
+        <Style TargetType="ListViewItem" x:Key="UserItemStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Grid x:Name="border" Background="#FF2F3136">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition x:Name="d" Width="3"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border>
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="Gray"/>
+                                        <Setter Property="CornerRadius" Value="11"/>
+                                        <Setter Property="Width" Value="22"/>
+                                        <Setter Property="Height" Value="22"/>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <Grid Grid.Column="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.Resources>
+                                    <Style TargetType="TextBlock" x:Key="TextBlock">
+                                        <Setter Property="Background" Value="{x:Null}"/>
+                                        <Setter Property="FontSize" Value="10"/>
+                                        <Setter Property="Foreground" Value="Gray"/>
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </Grid.Resources>
+
+                                <TextBlock Style="{StaticResource TextBlock}" 
+                                           x:Name="nickNameUser" 
+                                           FontSize="13" 
+                                           Foreground="Yellow" 
+                                           Grid.Row="0" 
+                                           VerticalAlignment="Bottom"
+                                           Text="{Binding Path=Name}"/>
+                                <TextBlock Style="{StaticResource TextBlock}"
+                                           x:Name="statusUser" Grid.Row="1"
+                                           FontSize="11"
+                                           VerticalAlignment="Top"
+                                           Foreground="YellowGreen"
+                                           Text="{Binding Path=Status}"/>
+                            </Grid>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FF2D2D30"/>
+                                <Setter TargetName="d" Property="Width" Value="8"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FF2D2D30"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ListViewItem" x:Key="UserRequestItemStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Grid x:Name="border" Background="#FF2F3136">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition x:Name="d" Width="3"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="2"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="2"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Border>
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="Gray"/>
+                                        <Setter Property="CornerRadius" Value="11"/>
+                                        <Setter Property="Width" Value="22"/>
+                                        <Setter Property="Height" Value="22"/>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <Grid Grid.Column="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.Resources>
+                                    <Style TargetType="TextBlock" x:Key="TextBlock">
+                                        <Setter Property="Background" Value="{x:Null}"/>
+                                        <Setter Property="FontSize" Value="10"/>
+                                        <Setter Property="Foreground" Value="Gray"/>
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </Grid.Resources>
+
+                                <TextBlock Style="{StaticResource TextBlock}" 
+                                           x:Name="nickNameUser" 
+                                           FontSize="13" 
+                                           Foreground="Yellow" 
+                                           Grid.Row="0" 
+                                           VerticalAlignment="Bottom"
+                                           Text="{Binding Path=Name}"/>
+                                <TextBlock Style="{StaticResource TextBlock}"
+                                           x:Name="statusUser" Grid.Row="1"
+                                           FontSize="11"
+                                           VerticalAlignment="Top"
+                                           Foreground="YellowGreen"
+                                           Text="{Binding Path=Status}"/>
+                            </Grid>
+
+                            <TextBlock Text="{Binding Path=RequestEnum}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="Margin" Value="0 2 0 6"/>
+                                        <Setter Property="Grid.Row" Value="2"/>
+                                        <Setter Property="Grid.Column" Value="2"/>
+                                        <Setter Property="Foreground" Value="WhiteSmoke"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
+
+                                        <Style.Triggers>
+                                            <Trigger Property="Text" Value="None">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </Trigger>
+                                            <Trigger Property="Text" Value="Friend">
+                                                <Setter Property="Foreground" Value="Yellow"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <Border Grid.Row="3" Grid.ColumnSpan="3" Background="Black" CornerRadius="1"></Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FF2D2D30"/>
+                                <Setter TargetName="d" Property="Width" Value="8"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FF2D2D30"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ListViewItem" x:Key="UserLogtItemStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+
+                        <ControlTemplate.Triggers>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ListView" x:Key="BaseListStyle">
+            <Setter Property="Background" Value="#FF2F3136"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#FF1E1E1E"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+        </Style>
+        <Style TargetType="ListView" x:Key="ListUser" BasedOn="{StaticResource BaseListStyle}">
+            <Setter Property="ItemContainerStyle" Value="{StaticResource UserItemStyle}"/>
+            <Setter Property="ItemsSource" Value="{Binding User}"/>
+        </Style>
+        <Style TargetType="ListView" x:Key="ListUserRequest" BasedOn="{StaticResource BaseListStyle}">
+            <Setter Property="ItemContainerStyle" Value="{StaticResource UserRequestItemStyle}"/>
+        </Style>
+        <Style TargetType="ListView" x:Key="ListUserLog" BasedOn="{StaticResource BaseListStyle}">
+            <Setter Property="ItemContainerStyle" Value="{StaticResource UserLogtItemStyle}"/>
+        </Style>
+
+        <Style TargetType="Border" x:Key="BorderSearchStyle">
+            <Setter Property="Background" Value="#FF2F3136"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#FF1A1A1A"/>
+        </Style>
+        <Style TargetType="TextBox" x:Key="TextBoxSearchStyle">
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="MinWidth" Value="200"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Setter Property="Background" Value="#FF2F3136"/>
+            </Style>
+        </Grid.Style>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border>
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Grid.RowSpan" Value="5"/>
+                    <Setter Property="Grid.Column" Value="1"/>
+                </Style>
+            </Border.Style>
+        </Border>
+        <TabControl Grid.Row="1" Name="TabControlSet" SelectionChanged="TabControlSet_SelectionChanged">
+            <TabControl.Style>
+                <Style TargetType="TabControl">
+                    <Setter Property="TabStripPlacement" Value="Left"/>
+                    <Setter Property="Grid.Column" Value="1"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Background" Value="#FF36393F"/>
+                    <Setter Property="Grid.Column" Value="1"/>
+                </Style>
+            </TabControl.Style>
+            <TabControl.Resources>
+                <Style TargetType="TabItem" x:Key="TabItemStyle">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <ContentControl Content="{TemplateBinding Header}"
+												Foreground="Gray" VerticalAlignment="Top"
+												HorizontalAlignment="Center"
+                                                Background="{x:Null}">
+                                </ContentControl>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate  TargetType="TabItem">
+                                <Grid Margin="0 0 10 0">
+                                    <Border x:Name="border">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="{x:Null}"/>
+                                                <Setter Property="CornerRadius" Value="5"/>
+                                                <Setter Property="Width" Value="Auto"/>
+                                                <Setter Property="Height" Value="Auto"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#FF36393F"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <Border>
+                                            <ContentControl x:Name="text" Content="{TemplateBinding Header}">
+                                                <ContentControl.Style>
+                                                    <Style TargetType="ContentControl">
+                                                        <Setter Property="Foreground" Value="#FF5B9794"/>
+                                                        <Setter Property="Margin" Value="8 4"/>
+                                                    </Style>
+                                                </ContentControl.Style>
+                                            </ContentControl>
+                                        </Border>
+                                    </Border>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#FF393C43"/>
+                                        <Setter TargetName="text" Property="Foreground" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Header="" Style="{StaticResource TabItemStyle}" Height="25"/>
+
+            <TabItem Header="Вы">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.Resources>
+                        <Style TargetType="Border" x:Key="borderTextBox">
+                            <Setter Property="Grid.Row" Value="1"/>
+                            <Setter Property="Background" Value="#FF2F3136"/>
+                            <Setter Property="CornerRadius" Value="3"/>
+                            <Setter Property="BorderThickness" Value="1.3"/>
+                            <Setter Property="BorderBrush" Value="#FF1E1E1E"/>
+                        </Style>
+                        <Style TargetType="TextBox" x:Key="textBoxStyle">
+                            <Setter Property="Background" Value="{x:Null}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Foreground" Value="WhiteSmoke"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="Height" Value="23"/>
+                        </Style>
+                    </Grid.Resources>
+
+                    <TextBlock Grid.Row="1" Grid.Column="1">
+                        В данных полях вы изменяете свои сведнья на сервере:
+                    </TextBlock>
+
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Row" Value="3"/>
+                                <Setter Property="Grid.Column" Value="1"/>
+                            </Style>
+                        </Grid.Style>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock>Имя на сервере</TextBlock>
+                        <Border Style="{StaticResource borderTextBox}">
+                            <TextBox x:Name="nameUser" Style="{StaticResource textBoxStyle}"></TextBox>
+                        </Border>
+
+                        <TextBlock Grid.Column="2">Пользовательский статус</TextBlock>
+                        <Border Grid.Column="2" Style="{StaticResource borderTextBox}">
+                            <TextBox x:Name="statusUser" Style="{StaticResource textBoxStyle}"></TextBox>
+                        </Border>
+                    </Grid>
+
+                    <TextBlock Grid.Row="5" Grid.Column="1">
+                        В данных полях вы изменяете свои сведнья глобально:
+                    </TextBlock>
+
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Row" Value="7"/>
+                                <Setter Property="Grid.Column" Value="1"/>
+                            </Style>
+                        </Grid.Style>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid>
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Grid.Row" Value="0"/>
+                                </Style>
+                            </Grid.Style>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock>Ваш прекрасный login</TextBlock>
+                            <Border Style="{StaticResource borderTextBox}">
+                                <TextBox x:Name="realNameUser" Style="{StaticResource textBoxStyle}"></TextBox>
+                            </Border>
+
+                            <TextBlock Grid.Column="2">Пароль</TextBlock>
+                            <Border Grid.Column="2" Style="{StaticResource borderTextBox}">
+                                <TextBox x:Name="passwordUser" Style="{StaticResource textBoxStyle}"></TextBox>
+                            </Border>
+                        </Grid>
+
+                        <Grid>
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Grid.Row" Value="2"/>
+                                </Style>
+                            </Grid.Style>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock>Ваше стандартное имя</TextBlock>
+                            <Border Style="{StaticResource borderTextBox}">
+                                <TextBox x:Name="NameUser" Style="{StaticResource textBoxStyle}"></TextBox>
+                            </Border>
+
+                            <TextBlock Grid.Column="2">Дата вашего рождения</TextBlock>
+                            <Border Grid.Column="2" Style="{StaticResource borderTextBox}">
+                                <TextBox x:Name="dateOfBirhtUser" Style="{StaticResource textBoxStyle}"></TextBox>
+                            </Border>
+                        </Grid>
+                    </Grid>
+
+                    <TextBlock 
+                        Grid.Row="8" 
+                        Grid.Column="1" 
+                        x:Name="textError" 
+                        Foreground="Red"/>
+                    
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Row" Value="9"/>
+                                <Setter Property="Grid.Column" Value="1"/>
+                            </Style>
+                        </Grid.Style>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="5"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Column="0" Height="30" Content="Сохранить изменения!"></Button>
+                        <Button Grid.Column="2" Height="30" Content="Отменить!"></Button>
+                        <TextBlock Grid.Row="3" Grid.ColumnSpan="3">
+                            * Если вы нажмете на кнопку "Сохранить изменения!",
+                            то, как ни странно, сервер зафиксирует изменения
+                            вашего профиля.
+                            <LineBreak></LineBreak>
+                            * Если вы нажмете на кнопку "Отменить!", то ваши данные
+                            не будут обновлены на сервере. Все поля вернутся
+                            в исходное состояние 
+                            <LineBreak></LineBreak>
+                            * Если вы не сохраните и покинете данное окно, то данные
+                            на сервере не обновятся!
+                        </TextBlock>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Друзья">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Список Друзей у пользователя -->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.Row" Value="1"/>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock>Друзья</TextBlock>
+                        <ListView Grid.Row="1" Style="{StaticResource ListUser}"/>
+                    </Grid>
+
+                    <!-- Функционал пользователя -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="3"/>
+                                <Setter Property="Grid.Row" Value="1"/>
+                            </Style>
+                        </Grid.Style>
+                        <TextBlock Grid.Row="1">Кнопочки</TextBlock>
+                        <Button Content="Delete From Friends" Grid.Row="2"></Button>
+                        <TextBlock Grid.Row="4" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="3 10 0 0">
+                            С помощью этой кнопки вы можете удалять пользователей из своего списка друзей.
+                        </TextBlock>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Запросы на дружбу">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Список пользователей, котрые отправили заявку в друзья -->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.Row" Value="1"/>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock>Запросы</TextBlock>
+                        <ListView Grid.Row="1" Style="{StaticResource ListUserRequest}"/>
+                    </Grid>
+
+                    <!-- Функционал пользователя 2 кнопки -->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="3"/>
+                                <Setter Property="Grid.Row" Value="1"/>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="1">Кнопочки</TextBlock>
+
+                        <Button Grid.Row="2" Grid.Column="1">To accept request</Button>
+                        <Button Grid.Row="4" Grid.Column="1">Reject the request</Button>
+
+                        <TextBlock Grid.Row="6" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="3 10 0 0">
+                           "To accept request" - используйте эту кнопочку, чтобы добавить пользователя в свой список друзей.
+                            <LineBreak></LineBreak>
+                           "Reject the request" - используйте эту кнопочку, чтобы избавиться от своего или чужого запроса в друзья.
+                        </TextBlock>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Найти друзей" Height="24" VerticalAlignment="Bottom">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Поиск Пользователя -->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.ColumnSpan" Value="3"/>
+                                <Setter Property="Grid.Row" Value="1"/>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="3"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Style="{StaticResource BorderSearchStyle}">
+                            <Grid>
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Margin" Value="5 0 0 1"/>
+                                    </Style>
+                                </Grid.Style>
+                                <TextBlock x:Name="TextBlockSearch">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                            <Setter Property="Text" Value="Search User.."/>
+                                            <Setter Property="Foreground" Value="Gray"/>
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=SeachTextBox, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <TextBox x:Name="SeachTextBox" Height="24" Style="{StaticResource TextBoxSearchStyle}"/>
+                            </Grid>
+                        </Border>
+                        <Button Grid.Column="2" Content="Search" Width="60">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource buttonSearch}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=TextBlockSearch, Path=Visibility}" Value="Collapsed">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+
+                    <!-- Список отправленных запросов на дружбу -->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.Row" Value="3"/>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <!-- Пользователя -->
+                        <TextBlock Text="Запросы"></TextBlock>
+                        <ListView Grid.Row="1" Style="{StaticResource ListUserRequest}"/>
+                    </Grid>
+
+                    <!-- Функционал пользователя 2 кнопки -->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="3"/>
+                                <Setter Property="Grid.Row" Value="3"/>
+                            </Style>
+                        </Grid.Style>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="1">Кнопочки</TextBlock>
+
+                        <Button Grid.Row="2">Send a request</Button>
+                        <Button Grid.Row="4">Reject the request</Button>
+
+                        <TextBlock Grid.Row="5" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="3 10 0 0">
+                            "Send a request" - используйте эту кнопочку, чтобы отправить пользователю запрос в друзья.
+                            <LineBreak></LineBreak>
+                            "Reject the request" - используйте эту кнопочку, чтобы избавиться от своего или чужого запроса в друзья.
+                        </TextBlock>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Журнал событий">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="1" Grid.Column="1">Журнал Событий</TextBlock>
+                    <ListView Grid.Row="2" Grid.Column="1" Style="{StaticResource ListUserLog}"></ListView>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

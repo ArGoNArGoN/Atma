@@ -111,5 +111,8 @@ namespace ClassesForServerClent.Class
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<EventLog> EventLog { get; set; }
-	}
+
+		[NotMapped]
+		public StatusObj StatusObj { get; set; }
+    }
 }

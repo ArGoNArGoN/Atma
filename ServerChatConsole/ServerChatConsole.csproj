@@ -57,7 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientObject.cs" />
+    <Compile Include="Client\ClientObject.cs" />
+    <Compile Include="Client\TakeObjectFromClient.cs" />
     <Compile Include="DB.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

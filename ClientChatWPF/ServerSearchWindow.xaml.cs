@@ -43,5 +43,10 @@ namespace ClientChatWPF
 		{
 			MainWindow.SendMessageSerialize(new Server() { Name = SeachTextBox.Text, ActionForServer = ActionForServer.Search });
 		}
-	}
+
+        private void SerchServers_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
+    }
 }

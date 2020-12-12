@@ -51,13 +51,12 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
-        <!--Шаблон ListView-->
-        <Style x:Key="ListUserView" TargetType="ListView">
-            <Setter Property="Background" Value="#FF2F3136"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="ItemTemplate">
+
+        <!--Шаблон ListViewItem-->
+        <Style x:Key="UserViewItem" TargetType="ListViewItem">
+            <Setter Property="Template">
                 <Setter.Value>
-                    <DataTemplate>
+                    <ControlTemplate TargetType="ListViewItem">
                         <Grid>
                             <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=Name}">
                                 <TextBlock.Style>
@@ -68,9 +67,15 @@
                                 </TextBlock.Style>
                             </TextBlock>
                         </Grid>
-                    </DataTemplate>
+                    </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+        <!--Шаблон ListView-->
+        <Style x:Key="ListUserView" TargetType="ListView">
+            <Setter Property="Background" Value="#FF2F3136"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource UserViewItem}"/>
         </Style>
     </Window.Resources>
 
@@ -277,12 +282,17 @@
                             <RowDefinition MinHeight="20" MaxHeight="40"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="145"/>
+                            <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
-                        <Grid>
-                            <Border Style="{StaticResource Fon}"/>
-                            <TextBox x:Name="Status" Margin="12,12,12,12" Style="{StaticResource ResourceKey=TextInBorder}" Width="126"/>
-                        </Grid>
+                        <CheckBox x:Name="StatusServer" Content="Разрешить подключение">
+                            <CheckBox.Style>
+                                <Style TargetType="CheckBox">
+                                    <Setter Property="Foreground" Value="WhiteSmoke"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                </Style>
+                            </CheckBox.Style>
+                        </CheckBox>
                         <TextBlock Style="{StaticResource TextBlock}" Width="45" Margin="50,-15,50,35">Статус</TextBlock>
                     </Grid>
 
@@ -511,9 +521,7 @@
                                 <Setter Property="Grid.ColumnSpan" Value="3"/>
                             </Style>
                         </Grid.Style>
-                        <ListView>
-                            <ListView Style ="{StaticResource ListUserView}" x:Name="ListUserOnServer" ItemsSource="{Binding Path=ServerUser}" Height="320" Width="325"/>
-                        </ListView>
+                        <ListView Style ="{StaticResource ListUserView}" x:Name="ListUserOnServer" ItemsSource="{Binding Path=ServerUser}" Height="320" Width="325"/>
                     </Grid>
                 </Grid>
             </TabItem>
@@ -834,9 +842,7 @@
                                 <Setter Property="Grid.ColumnSpan" Value="5"/>
                             </Style>
                         </Grid.Style>
-                        <ListView>
-                            <ListView Style ="{StaticResource ListUserView}" x:Name="ListTextChats" ItemsSource="{Binding Path=ServerUser}" Height="320" Width="325"/>
-                        </ListView>
+                        <ListView Style ="{StaticResource ListUserView}" x:Name="ListTextChats" ItemsSource="{Binding Path=ServerUser}"/>
                     </Grid>
                 </Grid>
             </TabItem>
