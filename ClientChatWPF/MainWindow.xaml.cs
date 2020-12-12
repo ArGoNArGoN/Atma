@@ -186,12 +186,8 @@ namespace ClientChatWPF
         private void UpClientClick(object sender, RoutedEventArgs e)
         {
 			/// Отправляем пользователя
-			UpClient upClient = new UpClient(User);
+			WindowFriendsAndUsers upClient = new WindowFriendsAndUsers(User);
 			upClient.ShowDialog();
-
-			/// Если пользователь изменился, то отправляем его на сервер
-			if(User.ActionForServer == ActionForServer.LoudTextChat)
-				SendMessageSerialize(User);
 		}
 
         private void Window_Closed(object sender, EventArgs e)

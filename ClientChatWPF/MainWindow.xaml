@@ -556,7 +556,7 @@
                     <RowDefinition Height="5"></RowDefinition>
                     <RowDefinition Height="Auto" MinHeight="50" MaxHeight="400"></RowDefinition>
                 </Grid.RowDefinitions>
-                <ListView x:Name="ListUserMessage" ItemsSource="{Binding Path=Message}" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <ListView x:Name="ListUserMessage" ItemsSource="{Binding Path=Message}" SelectionMode="Single">
                     <ListView.Style>
                         <Style TargetType="ListView">
                             <Setter Property="Background" Value="{x:Null}"/>

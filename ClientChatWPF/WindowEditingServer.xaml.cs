@@ -69,7 +69,10 @@ namespace ClientChatWPF
 		/// <param name="obj"></param>
 		private void UpServer(Server obj)
 		{
-
+			Name.Text = obj.Name;
+			StatusServer.IsChecked = obj.Status;
+			Info.Text = obj.Info;
+			Language.Text = obj.Language;
 		}
 
 		/// <summary>
@@ -79,15 +82,7 @@ namespace ClientChatWPF
 		/// <param name="obj"></param>
 		private void UpRole(List<Role> obj)
 		{
-			/*		ListUserMessage.Dispatcher?
-				.Invoke(new Action(
-					() =>
-					{
-						var list1 = obj.Select(x => x).ToList();
-						var list2 = (List<ServerUser>)obj.ToArray().Clone();
-						ListUserMessage.ItemsSource = list1;
-					}
-					));*/
+
 		}
 
 		/// <summary>
@@ -96,15 +91,15 @@ namespace ClientChatWPF
 		/// <param name="obj"></param>
 		private void UpOpinion(List<Opinion> obj)
 		{
-			/*		ListUserMessage.Dispatcher?
+			ListTextChats.Dispatcher?
 				.Invoke(new Action(
 					() =>
 					{
 						var list1 = obj.Select(x => x).ToList();
-						var list2 = (List<ServerUser>)obj.ToArray().Clone();
-						ListUserMessage.ItemsSource = list1;
+						var list2 = (List<Opinion>)obj.ToArray().Clone();
+						ListTextChats.ItemsSource = list1;
 					}
-					));*/
+					));
 		}
 
 		/// <summary>
@@ -114,15 +109,14 @@ namespace ClientChatWPF
 		/// <param name="obj"></param>
 		private void UpServerUser(List<ServerUser> obj)
 		{
-			/*		ListUserMessage.Dispatcher?
+			ListUserOnServer.Dispatcher?
 				.Invoke(new Action(
 					() =>
 					{
-						var list1 = obj.Select(x => x).ToList();
 						var list2 = (List<ServerUser>)obj.ToArray().Clone();
-						ListUserMessage.ItemsSource = list1;
+						ListUserOnServer.ItemsSource = list2;
 					}
-					));*/
+				));
 		}
 
 		/// <summary>

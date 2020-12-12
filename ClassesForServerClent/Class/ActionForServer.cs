@@ -19,5 +19,6 @@ namespace ClassesForServerClent.Class
         Loud,
         Registration,
         Cheack,
+        Editing,
     }
 }
