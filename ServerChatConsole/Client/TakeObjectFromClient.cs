@@ -24,12 +24,19 @@ namespace ServerChatConsole
 					case (Message m):
 						this.GetMessade(m);
 						break;
+
 					case (User u):
 						this.GetUser(u);
 						break;
+
 					case (Server s):
 						this.GetServer(s);
 						break;
+
+					case (ServerUser s):
+						this.GetServerUser(s);
+						break;
+
 					case String str:
 						if (str == "closestream")
 						{
@@ -37,6 +44,7 @@ namespace ServerChatConsole
 							return;
 						}
 						break;
+
 					default:
 						Console.WriteLine("Пользователь отправил объект, который не приводится к типам," +
 							" которые описаны в switch");
@@ -45,7 +53,25 @@ namespace ServerChatConsole
 			} while (true);
 		}
 
-		private void GetMessade(Message message)
+        private void GetServerUser(ServerUser s)
+        {
+			using DB db = new DB();
+            switch (s.StatusObj)
+            {
+                case StatusObj.Add:
+					db.ServerUser.Add(s);
+					SendObjectToClient(db.GetServer(s.ID));
+
+                    break;
+
+                case StatusObj.Delete:
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        private void GetMessade(Message message)
 		{
 			if (message is null)
 				throw new ArgumentNullException("message is null", nameof(message));

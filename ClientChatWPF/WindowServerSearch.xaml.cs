@@ -15,31 +15,17 @@ namespace ClientChatWPF
 		public User User { get; set; } = null;
 
 		public List<Server> UserServerList { get; set; } = new List<Server>();
+
 		public List<Server> SerchServersList { get; set; } = new List<Server>();
 
 		public ServerSearchWindow(User user)
 		{
 			InitializeComponent();
+
             User = user;
 			UserServerList = User.ServerUser.Select(x => x?.Server).ToList();
-			ServersList.ItemsSource = UserServerList;
-			SerchServers.ItemsSource = SerchServersList;
-		}
-
-		public void UpServer(List<Server> obj)
-		{
-			SerchServers.Dispatcher
-				.Invoke
-				(
-					new Action
-					(
-						() =>
-						{
-							SerchServersList = obj;
-							SerchServers.ItemsSource = SerchServersList;
-						}
-					)
-				);
+            ServersList.ItemsSource = UserServerList;
+			SerchServers.ItemsSource = null;
 		}
 
 		private void Search(object sender, RoutedEventArgs e)
@@ -60,6 +46,8 @@ namespace ClientChatWPF
 			if (SerchServers.SelectedIndex == -1)
 				return;
 
+			SerchServers.ItemsSource = SerchServersList;
+
 			ServersList.SelectedIndex = -1;
 
 			SendMessageToServer.SendMessageSerialize(new Server() { ID = SerchServersList[SerchServers.SelectedIndex].ID, ActionForServer = ActionForServer.LoudOpinion });
@@ -79,6 +67,7 @@ namespace ClientChatWPF
 			if (ServersList.SelectedIndex == -1)
 				return;
 
+			SerchServers.ItemsSource = SerchServersList;
 			SerchServers.SelectedIndex = -1;
 
 			SendMessageToServer.SendMessageSerialize(new Server() { ID = UserServerList[ServersList.SelectedIndex].ID, ActionForServer = ActionForServer.LoudOpinion });
@@ -86,7 +75,7 @@ namespace ClientChatWPF
 			LoudInfo(UserServerList[ServersList.SelectedIndex]);
 		}
 
-		private void LoudInfo(Server server)
+        private void LoudInfo(Server server)
         {
 			ServerName.Text = server.Name;
 
@@ -97,11 +86,22 @@ namespace ClientChatWPF
 				ServerInfo.Text = server.Info;
 		}
 
-        internal void UpOpinion(List<Opinion> obj)
+        public void UpOpinion(List<Opinion> obj)
         {
 			if (obj.Count == 0)
-				AvgOpinion.Text = "Оценок нет!";
-
+			{
+				AvgOpinion.Dispatcher
+					.Invoke
+					(
+						new Action
+						(
+							() =>
+							{
+								AvgOpinion.Text = "Оценок нет!";
+							}
+						)
+					);
+			}
 			else
 			{
 				AvgOpinion.Dispatcher
@@ -128,6 +128,45 @@ namespace ClientChatWPF
 						}
 					)
 				);
+		}
+
+		public Int32 a = 2;
+
+		public void UpServerSearch(List<Server> obj)
+		{
+			SerchServers.Dispatcher
+				.Invoke
+				(
+					new Action
+					(
+						() =>
+						{
+							SerchServersList = ((Server[])obj.ToArray().Clone()).ToList();
+							SerchServers.ItemsSource = SerchServersList;
+							a = 1000;
+						}
+					)
+				);
+		}
+		private void ConnectionFromServer(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+			var server = SerchServersList[ServersList.SelectedIndex];
+
+			var SU = new ServerUser() { IDServer = server.ID, IDUser = User.ID, StatusObj = StatusObj.Add };
+
+			SendMessageToServer.SendMessageSerialize(SU);
+		}
+
+        private void DisСonnectionFromServer(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+			var server = SerchServersList[ServersList.SelectedIndex];
+
+			if (UserServerList.FirstOrDefault(x => x.ID == server.ID) is not null)
+				return;
+
+			var SU = new ServerUser() { IDServer = server.ID, IDUser = User.ID, StatusObj = StatusObj.Delete };
+
+			SendMessageToServer.SendMessageSerialize(SU);
 		}
     }
 }

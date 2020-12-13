@@ -26,6 +26,7 @@ namespace ClientChatWPF
 		/// </summary>
 		public event Action<List<Message>> EventUpMessage;
 		public event Action<List<ServerUser>> EventUpUserStatus;
+		public event Action<List<Server>> EventUpServerSearch;
 		public event Action<List<Server>> EventUpServer;
 		public event Action<List<TextChat>> EventUpTextChat;
 		public event Action<List<Opinion>> EventUpOpinion;
@@ -58,21 +59,20 @@ namespace ClientChatWPF
 		{
 			this.EventUpMessage += new Action<List<Message>>(AddMessageInListbox);
 			this.EventUpUserStatus += new Action<List<ServerUser>>(UpUserStatusInListBoxs);
-			this.EventUpServer += new Action<List<Server>>(ServerSearch.UpServer);
-			this.EventUpOpinion += new Action<List<Opinion>>(ServerSearch.UpOpinion);
+			this.EventUpServer += new Action<List<Server>>(UpServer);
 			this.EventUpTextChat += new Action<List<TextChat>>(UpTextChat);
 
 			Thread thr = new Thread(new ThreadStart(TakeMessageOfServer)) { IsBackground = false };
 			thr.Start();
 		}
 
-		/// <summary>
-		/// Прослушивает поток, на наличие сообщений от сервера
-		/// Прежде чем добавить какой-нибудь объект в swich подумай 10 раз!
-		/// Т.к. создатель этого метода не шибко умный, тебе придется либо увеличивать switch
-		/// Либо писать огромный метод, который будет все это обрабатывать, что тоже не оч. верно
-		/// </summary>
-		private void TakeMessageOfServer()
+        /// <summary>
+        /// Прослушивает поток, на наличие сообщений от сервера
+        /// Прежде чем добавить какой-нибудь объект в swich подумай 10 раз!
+        /// Т.к. создатель этого метода не шибко умный, тебе придется либо увеличивать switch
+        /// Либо писать огромный метод, который будет все это обрабатывать, что тоже не оч. верно
+        /// </summary>
+        private void TakeMessageOfServer()
 		{
 			Object ob = null;
 			do
@@ -124,7 +124,7 @@ namespace ClientChatWPF
 						if (Servers is null || Servers.Count() == 0)
 							break;
 						
-						EventUpServer(Servers);
+						EventUpServerSearch(Servers);
 						break;
 
 					/// получаем сервер, если он обновился и отправляем в окно редактирования, если оно открыто
@@ -135,6 +135,9 @@ namespace ClientChatWPF
 						if (WEditingServer is not null)
 							WEditingServer.StartEventOfObject(Server);
 
+						Servers.Add(Server);
+
+						EventUpServerSearch?.Invoke(Servers);
 						break;
 
 					/// получаем текстовые чаты и отправляем их в окно редактирования, если оно открыто
@@ -193,6 +196,16 @@ namespace ClientChatWPF
 						break;
 				}
 			} while (true);
+		}
+		private void UpServer(List<Server> obj)
+		{
+			ListServers.Dispatcher
+				.Invoke(new Action(
+					() =>
+					{
+						ListTextChat.ItemsSource = obj;
+					}
+					));
 		}
 
 		private void UpTextChat(List<TextChat> obj)

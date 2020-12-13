@@ -29,8 +29,7 @@ namespace ClientChatWPF
 			if (!LogUp())
 				return;
 
-			ServerSearch = new ServerSearchWindow(User);
-			
+
 			/// Если пользователь только что зарегался, или у него нет сервера,
 			/// то он должен на него зайти, иначе он гей
 			if (User.ServerUser.Count() == 0)
@@ -66,7 +65,12 @@ namespace ClientChatWPF
 		{
 			SendMessageToServer.SendMessageSerialize(new Server() { ActionForServer = ActionForServer.Search });
 
+            ServerSearch = new ServerSearchWindow(User);
+			this.EventUpServerSearch += new Action<List<Server>>(ServerSearch.UpServerSearch);
+			this.EventUpOpinion += new Action<List<Opinion>>(ServerSearch.UpOpinion);
 			ServerSearch.ShowDialog();
+			this.EventUpServerSearch -= new Action<List<Server>>(ServerSearch.UpServerSearch);
+			this.EventUpOpinion -= new Action<List<Opinion>>(ServerSearch.UpOpinion);
 
 			if (User.ServerUser.Count() == 0)
 			{

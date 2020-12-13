@@ -26,7 +26,7 @@ namespace ClassesForServerClent.Class
             }
             catch { throw; }
         }
-
+        
         public Int32 ID
         {
             get => id;
@@ -88,6 +88,9 @@ namespace ClassesForServerClent.Class
 
         [NotMapped]
         public Status Status { get; set; }
+
+        [NotMapped]
+        public StatusObj StatusObj { get; set; }
 
         [StringLength(15)]
         public string Name { get; set; }
