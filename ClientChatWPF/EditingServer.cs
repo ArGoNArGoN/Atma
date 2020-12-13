@@ -22,7 +22,7 @@ namespace ClientChatWPF
                 Language = Language.Text
             };
             Server = server;
-            MainWindow.SendMessageSerialize(server);
+            SendMessageToServer.SendMessageSerialize(server);
         }
 
         private void EditingServerCancelClick(object sender, RoutedEventArgs e)
@@ -68,7 +68,7 @@ namespace ClientChatWPF
                 IDServer = Server.ID,
                 StatusObj = StatusObj.Add
             };
-            MainWindow.SendMessageSerialize(tC);
+            SendMessageToServer.SendMessageSerialize(tC);
         }
 
         private void EditTextChatClick(object sender, RoutedEventArgs e)

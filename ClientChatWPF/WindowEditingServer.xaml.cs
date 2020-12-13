@@ -160,30 +160,36 @@ namespace ClientChatWPF
 			{
 				case (0):
 					break;
+
 				case (1):
 					s.ActionForServer = ActionForServer.Loud;
-					MainWindow.SendMessageSerialize(s);
 					break;
+
 				case (2):
 					s.ActionForServer = ActionForServer.LoudServerUsers;
-					MainWindow.SendMessageSerialize(s);
 					break;
+
 				case (3):
 					s.ActionForServer = ActionForServer.LoudRole;
-					MainWindow.SendMessageSerialize(s); 
 					break;
+
 				case (4):
 					s.ActionForServer = ActionForServer.LoudTextChat;
-					MainWindow.SendMessageSerialize(s); 
 					break;
+
 				case (5):
 					s.ActionForServer = ActionForServer.LoudEventLog;
-					MainWindow.SendMessageSerialize(s);
 					break;
+
+				case (6):
+					break;
+
 				default:
 					MessageBox.Show("В дурку хочешь?\nТы как на это нажал?");
 					break;
 			}
+
+			SendMessageToServer.SendMessageSerialize(s);
 		}
 	}
 }

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		Title="" Height="509.71" Width="594.067">
+		Title="" Height="500" Width="600">
 
     <Window.Resources>
         <Style TargetType="TextBlock">

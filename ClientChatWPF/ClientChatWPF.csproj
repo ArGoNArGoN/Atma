@@ -68,19 +68,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="EditingServer.cs" />
-    <Compile Include="Reg.xaml.cs">
-      <DependentUpon>Reg.xaml</DependentUpon>
+    <Compile Include="SendMessage.cs" />
+    <Compile Include="WindowLogin.xaml.cs">
+      <DependentUpon>WindowLogin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reg2.xaml.cs">
-      <DependentUpon>Reg2.xaml</DependentUpon>
+    <Compile Include="WindowRegistration.xaml.cs">
+      <DependentUpon>WindowRegistration.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ServerSearchWindow.xaml.cs">
-      <DependentUpon>ServerSearchWindow.xaml</DependentUpon>
+    <Compile Include="WindowServerSearch.xaml.cs">
+      <DependentUpon>WindowServerSearch.xaml</DependentUpon>
     </Compile>
     <Compile Include="LoadInfoForClienInThread.cs" />
-    <Compile Include="UpClient.xaml.cs">
-      <DependentUpon>UpClient.xaml</DependentUpon>
-    </Compile>
     <Compile Include="WindowEditingServer.xaml.cs">
       <DependentUpon>WindowEditingServer.xaml</DependentUpon>
     </Compile>
@@ -99,19 +97,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Reg.xaml">
+    <Page Include="WindowLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Reg2.xaml">
+    <Page Include="WindowRegistration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ServerSearchWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UpClient.xaml">
+    <Page Include="WindowServerSearch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
