@@ -11,16 +11,16 @@
         <!-- Внутренность поля -->
         <Style TargetType="Border" x:Key="Fon">
             <Setter Property="Margin" Value="5"/>
-            <Setter Property="CornerRadius" Value="6"/>
-            <Setter Property="Background" Value="#FF2D2D30"></Setter>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="Background" Value="#FF2D2D30"/>
+            <Setter Property="BorderThickness" Value="1.2"/>
+            <Setter Property="BorderBrush" Value="#FF1E1E1E"/>
         </Style>
         <!-- Шаблон для текстового поля -->
         <Style TargetType="TextBox" x:Key="TextInBorder">
             <!-- Избавляемся от цвета -->
             <Setter Property="Background" Value="{x:Null}"/>
-            <!-- Задаем минимальный размер -->
             <Setter Property="MinWidth" Value="120"/>
-            <!-- Избавляемся от обводки (она квадратная и ненужная!) -->
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -38,7 +38,14 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
-
+        <Style TargetType="TextBlock" x:Key="TextAnnotation">
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontSize" Value="10"/>
+        </Style>
+        
         <!--Шаблон ListViewItem-->
         <Style x:Key="UserViewItem" TargetType="ListViewItem">
             <Setter Property="Template">
@@ -334,7 +341,7 @@
                             <ColumnDefinition Width="350"/>
                         </Grid.ColumnDefinitions>
                         <Grid>
-                            <TextBlock Name="Description" Width = "Auto" Background="{x:Null}" FontSize="10" Foreground="WhiteSmoke">
+                            <TextBlock Style="{StaticResource TextAnnotation}">
                                 <TextBlock.Text>
                                     Поля Имя и Статус напрямую влияют на поиск сервера.
                                 </TextBlock.Text>
@@ -430,7 +437,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition MinHeight="15" MaxHeight="20"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Name="Information" Width = "Auto" Background="{x:Null}" FontSize="10" Foreground="WhiteSmoke" HorizontalAlignment="Center">
+                        <TextBlock Style="{StaticResource TextAnnotation}">
                             <TextBlock.Text>
                                 Введенная информация может быть использована против вас (←_←)
                             </TextBlock.Text>
@@ -1000,7 +1007,6 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            
             <TabItem Header="Журнал событий">
                 <Grid>
                     <Grid.ColumnDefinitions>
