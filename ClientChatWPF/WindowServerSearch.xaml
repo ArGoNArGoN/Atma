@@ -646,18 +646,12 @@
                 </Border>
 
                 <ListView x:Name="SerchServers" Style="{StaticResource ServersListStyle}" SelectionChanged="SerchServers_SelectionChanged">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem" BasedOn="{StaticResource ServerItemStyle}">
-                            <Setter Property="ContextMenu">
-                                <Setter.Value>
-                                    <ContextMenu  Style="{StaticResource ContextMenuServerItem}">
-                                        <MenuItem Header="Оставить клятву" Style="{StaticResource MenuItemStyle}"/>
-                                        <MenuItem Header="Разорвать клятву" Style="{StaticResource MenuItemStyle}"/>
-                                    </ContextMenu>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListView.ItemContainerStyle>
+                    <ListView.ContextMenu>
+                        <ContextMenu Name="contextMenu" Style="{StaticResource ContextMenuServerItem}">
+                            <MenuItem x:Name="ConnectMenu" Header="Оставить клятву" MouseLeftButtonDown="ConnectionFromServer" Style="{StaticResource MenuItemStyle}"/>
+                            <MenuItem x:Name="DisConnectMenu" Header="Разорвать клятву" MouseLeftButtonDown="DisСonnectionFromServer" Style="{StaticResource MenuItemStyle}"/>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
                 </ListView>
             </Grid>
         </Grid>
