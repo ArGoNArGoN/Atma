@@ -58,6 +58,8 @@ namespace ClientChatWPF
 					else
 						throw new Exception("An unknown error occurred!");
 
+					SendMessageToServer.Stream = Stream;
+
 					Close();
 				}
 				catch(SocketException ex)

@@ -69,8 +69,11 @@ namespace ClassesForServerClent.Class
 			get => rname;
 			set
 			{
-				if (String.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("The Name cannot be empty!");
+				if (value is null)
+				{
+					rname = value;
+					return;
+				}
 
 				if (value.Length > 50)
 					throw new ArgumentNullException("The Name is longer than 50 characters!");

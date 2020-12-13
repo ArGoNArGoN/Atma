@@ -19,7 +19,7 @@ namespace ClientChatWPF
 	/// пожалуйста, не изменяй события!
 	/// (оно и так плохо работает)
 	/// </summary>
-	public partial class MainWindow
+	public partial class WindowMain
 	{
 		/// <summary>
 		/// События, отвечающие за обнавление информации на стороне клиента
@@ -28,6 +28,7 @@ namespace ClientChatWPF
 		public event Action<List<ServerUser>> EventUpUserStatus;
 		public event Action<List<Server>> EventUpServer;
 		public event Action<List<TextChat>> EventUpTextChat;
+		public event Action<List<Opinion>> EventUpOpinion;
 
 		/// <summary>
 		/// Содержат информацию о
@@ -58,6 +59,7 @@ namespace ClientChatWPF
 			this.EventUpMessage += new Action<List<Message>>(AddMessageInListbox);
 			this.EventUpUserStatus += new Action<List<ServerUser>>(UpUserStatusInListBoxs);
 			this.EventUpServer += new Action<List<Server>>(ServerSearch.UpServer);
+			this.EventUpOpinion += new Action<List<Opinion>>(ServerSearch.UpOpinion);
 			this.EventUpTextChat += new Action<List<TextChat>>(UpTextChat);
 
 			Thread thr = new Thread(new ThreadStart(TakeMessageOfServer)) { IsBackground = false };
@@ -77,7 +79,7 @@ namespace ClientChatWPF
 			{
 				try
 				{
-					ob = TakeMessageSerialize();
+					ob = SendMessageToServer.TakeMessageSerialize();
 				}
 				catch (Exception)
 				{
@@ -153,8 +155,10 @@ namespace ClientChatWPF
 						if (Opinions is null)
 							return;
 
-						if (WEditingServer is not null)
-							WEditingServer.StartEventOfObject(Opinions);
+                        if (WEditingServer is not null)
+                            WEditingServer.StartEventOfObject(Opinions);
+
+						EventUpOpinion(Opinions);
 
 						break;
 

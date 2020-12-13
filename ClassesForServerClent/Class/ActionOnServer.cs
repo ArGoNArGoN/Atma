@@ -9,6 +9,7 @@ namespace ClassesForServerClent.Class
 	public enum ActionOnServer
 	{
 		None,
-		Connect
+		Connect,
+
 	}
 }

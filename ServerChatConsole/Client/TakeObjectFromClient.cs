@@ -80,37 +80,17 @@ namespace ServerChatConsole
 			{
 				using (DB db = new DB())
 				{
-					var TC = db.TextChat
-						.Include(x => x.Message)
-						.Where(x => x.IDServer == server.ID)
-						.ToList();
+					var s = db.GetServer(server.ID);
+					s.TextChat = db.GetTextChatAndMessageFromServer(server.ID);
+					s.ServerUser = db.GetServerUserFromServer(server.ID);
 
-					foreach (var item in TC)
-					{
-						item.Message = db.Message
-							.Include(x => x.ServerUser)
-							.Where(x => x.IDTextChat == item.ID)
-							.ToList();
-					}
-
-					SendObjectToClient(TC);
-
-					var SU = db.ServerUser
-						.Where(x => x.IDServer == server.ID)
-						.ToList();
-
-					foreach (var item in SU)
-					{
-						item.User = db.User.FirstOrDefault(x => x.ID == item.IDUser);
-						if (item.User is null)
-							Console.WriteLine("item.User is null");
-					}
-
-					SendObjectToClient(SU);
+					SendObjectToClient(s.TextChat);
+					SendObjectToClient(s.ServerUser);
 
 					ServerUser = db.ServerUser
 						.FirstOrDefault(x => x.IDUser == User.ID && x.IDServer == server.ID);
 				}
+
 				if (ServerUsers is not null)
 					ServerObj.RemoveConnection(this);
 
@@ -118,46 +98,52 @@ namespace ServerChatConsole
 
 				return;
 			}
+
 			using DB DB = new DB();
 
 			var obj = new Object();
 
 			switch (server.ActionForServer)
 			{
-				case ActionForServer.None:
-					break;
 				case ActionForServer.Search:
+					obj = DB.GetServerSerch(server.Name);
 					break;
+
 				case ActionForServer.LoudTextChat:
-					obj = DB.TextChat.Where(x => x.IDServer == server.ID).ToList();
+					obj = DB.GetTextChatFromServer(server.ID);
 					break;
+
 				case ActionForServer.LoudOpinion:
-					obj = DB.Opinion.Include(x => x.User).Where(x => x.IDServer == server.ID).ToList();
+					obj = DB.GetOpinions(server.ID);
 					break;
+
 				case ActionForServer.LoudEventLog:
 					obj = DB.EventLog.Where(x => x.IDServer == server.ID).ToList();
 					break;
+
 				case ActionForServer.LoudServerUsers:
-					var a = DB.ServerUser.Include(x => x.User).Include(x => x.Role).Where(x => x.IDServer == server.ID).ToList();
-					a.ForEach(x => x.User.Password = null);
-					obj = a;
+					obj = DB.GetServerUserFromServer(server.ID);
 					break;
-				case ActionForServer.LoudChat:
-					obj = DB.Chat.Where(x => x.IDServer == server.ID).ToList();
-					break;
+
 				case ActionForServer.LoudRole:
-					obj = DB.Role.Include(x => x.RightRole).Where(x => x.IDServer == server.ID).ToList();
+					obj = DB.Role
+						.Include(x => x.RightRole)
+						.Where(x => x.IDServer == server.ID)
+						.ToList();
 					break;
+
 				case ActionForServer.Loud:
-					obj = DB.Server.Find(server.ID);
+					obj = DB.GetServer(server.ID);
 					break;
+
 				case ActionForServer.Registration:
+					obj = DB.CreateAndGetServerUser(server.ID, User.ID);
 					break;
-				case ActionForServer.Cheack:
-					break;
+
 				default:
 					break;
 			}
+
 			SendObjectToClient(obj);
 		}
 	}
