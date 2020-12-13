@@ -5,7 +5,6 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:ClientChatWPF"
 		mc:Ignorable="d"
-		
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		Title="" Height="400" Width="600" Background="#FF36393F">
 
@@ -218,7 +217,7 @@
         </Style>
 
         <Style TargetType="Border" x:Key="BorderDescriptionServerStyle">
-            <Setter Property="Background" Value="#FF3E3E42"/>
+            <Setter Property="Background" Value="#FF36393F"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="#FF1E1E1E"/>
         </Style>
@@ -415,14 +414,13 @@
                         <Setter Property="Grid.Row" Value="2"/>
                     </Style>
                 </ListView.Style>
-
             </ListView>
         </Grid>
 
         <Border>
             <Border.Style>
                 <Style TargetType="Border">
-                    <Setter Property="Background" Value="Gray"/>
+                    <Setter Property="Background" Value="SlateGray"/>
                     <Setter Property="Grid.Column" Value="1"/>
                     <Setter Property="Margin" Value="8 0"/>
                     <Setter Property="Width" Value="2"/>
@@ -490,7 +488,7 @@
             <Border>
                 <Border.Style>
                     <Style TargetType="Border">
-                        <Setter Property="Background" Value="Gray"/>
+                        <Setter Property="Background" Value="SlateGray"/>
                         <Setter Property="Grid.Row" Value="1"/>
                         <Setter Property="Margin" Value="0 5"/>
                         <Setter Property="Height" Value="2"/>
@@ -544,17 +542,16 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-
-                                <TextBlock Width="95">
-                                    Инфо о сервере:
+                                <TextBlock Width="115">
+                                    ⚒ Инфо о сервере:
                                 </TextBlock>
                                 <TextBlock x:Name="ServerName" Grid.Column="1" HorizontalAlignment="Left" Foreground="Yellow"/>
                             </Grid>
-
                             <Border>
                                 <Border.Style>
                                     <Style TargetType="Border">
                                         <Setter Property="Grid.Row" Value="1"/>
+                                        <Setter Property="CornerRadius" Value="5"/>
                                         <Setter Property="Background" Value="#FF2F3136"/>
                                         <Setter Property="BorderBrush" Value="#FF1E1E1E"/>
                                         <Setter Property="BorderThickness" Value="1.4"/>
@@ -602,8 +599,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-
-                                <TextBlock Width="100">Средняя оценка:</TextBlock>
+                                <TextBlock Width="110">⚡Средняя оценка:</TextBlock>
                                 <TextBlock x:Name="AvgOpinion" Grid.Column="1" HorizontalAlignment="Left" Foreground="Yellow"/>
                             </Grid>
                         </Grid>
@@ -619,9 +615,8 @@
                                     <Setter Property="Grid.Column" Value="2"/>
                                 </Style>
                             </Grid.Style>
-
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
-                                Отзывы о сервере
+                                Отзывы о сервере 🐾
                             </TextBlock>
 
                             <ListView x:Name="OpinionList">
@@ -636,7 +631,7 @@
                         <Border>
                             <Border.Style>
                                 <Style TargetType="Border">
-                                    <Setter Property="Background" Value="Gray"/>
+                                    <Setter Property="Background" Value="SlateGray"/>
                                     <Setter Property="Grid.Column" Value="1"/>
                                     <Setter Property="Width" Value="2"/>
                                 </Style>

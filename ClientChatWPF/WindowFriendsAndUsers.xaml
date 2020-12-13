@@ -15,8 +15,15 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontSize" Value="15"/>
         </Style>
-        
+        <Style TargetType="TextBlock" x:Key="TextAnnotation">
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
         <Style TargetType="Button" x:Key="buttonSearch">
             <Setter Property="IsEnabled" Value="False"/>
             <Setter Property="Template">
@@ -57,7 +64,7 @@
         <Style TargetType="Button" BasedOn="{StaticResource buttonSearch}">
             <Setter Property="IsEnabled" Value="True"/>
         </Style>
-        
+
         <Style TargetType="ListViewItem" x:Key="UserItemStyle">
             <Setter Property="Template">
                 <Setter.Value>
@@ -202,7 +209,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <Border Grid.Row="3" Grid.ColumnSpan="3" Background="Black" CornerRadius="1"></Border>
+                            <Border Grid.Row="3" Grid.ColumnSpan="3" Background="Black" CornerRadius="1"/>
                         </Grid>
 
                         <ControlTemplate.Triggers>
@@ -222,7 +229,6 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate>
-
                         <ControlTemplate.Triggers>
 
                         </ControlTemplate.Triggers>
@@ -352,7 +358,7 @@
             </TabControl.Resources>
             <TabItem Header="" Style="{StaticResource TabItemStyle}" Height="25"/>
 
-            <TabItem Header="Вы">
+            <TabItem Header="Личное досье">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="20"/>
@@ -376,9 +382,9 @@
                     <Grid.Resources>
                         <Style TargetType="Border" x:Key="borderTextBox">
                             <Setter Property="Grid.Row" Value="1"/>
-                            <Setter Property="Background" Value="#FF2F3136"/>
-                            <Setter Property="CornerRadius" Value="3"/>
-                            <Setter Property="BorderThickness" Value="1.3"/>
+                            <Setter Property="Background" Value="#FF2D2D30"/>
+                            <Setter Property="CornerRadius" Value="5"/>
+                            <Setter Property="BorderThickness" Value="1.2"/>
                             <Setter Property="BorderBrush" Value="#FF1E1E1E"/>
                         </Style>
                         <Style TargetType="TextBox" x:Key="textBoxStyle">
@@ -390,8 +396,8 @@
                         </Style>
                     </Grid.Resources>
 
-                    <TextBlock Grid.Row="1" Grid.Column="1">
-                        В данных полях вы изменяете свои сведнья на сервере:
+                    <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TextAnnotation}">
+                        В данных полях вы изменяете сведения на сервере:
                     </TextBlock>
 
                     <Grid>
@@ -412,19 +418,19 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock>Имя на сервере</TextBlock>
+                        <TextBlock>Зовите меня...</TextBlock>
                         <Border Style="{StaticResource borderTextBox}">
-                            <TextBox x:Name="nameUser" Style="{StaticResource textBoxStyle}"></TextBox>
+                            <TextBox x:Name="nameUser" Style="{StaticResource textBoxStyle}"/>
                         </Border>
 
-                        <TextBlock Grid.Column="2">Пользовательский статус</TextBlock>
+                        <TextBlock Grid.Column="2" FontSize="14">Пользовательский статус</TextBlock>
                         <Border Grid.Column="2" Style="{StaticResource borderTextBox}">
                             <TextBox x:Name="statusUser" Style="{StaticResource textBoxStyle}"></TextBox>
                         </Border>
                     </Grid>
 
-                    <TextBlock Grid.Row="5" Grid.Column="1">
-                        В данных полях вы изменяете свои сведнья глобально:
+                    <TextBlock Style="{StaticResource TextAnnotation}" Grid.Row="5" Grid.Column="1">
+                        В данных полях вы изменяете свои сведения глобально:
                     </TextBlock>
 
                     <Grid>
@@ -460,7 +466,7 @@
 
                             <TextBlock>Ваш прекрасный login</TextBlock>
                             <Border Style="{StaticResource borderTextBox}">
-                                <TextBox x:Name="realNameUser" Style="{StaticResource textBoxStyle}"></TextBox>
+                                <TextBox x:Name="realNameUser" Style="{StaticResource textBoxStyle}"/>
                             </Border>
 
                             <TextBlock Grid.Column="2">Пароль</TextBlock>
@@ -486,24 +492,34 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock>Ваше стандартное имя</TextBlock>
+                            <TextBlock>Ваше реальное имя</TextBlock>
                             <Border Style="{StaticResource borderTextBox}">
                                 <TextBox x:Name="NameUser" Style="{StaticResource textBoxStyle}"></TextBox>
                             </Border>
 
-                            <TextBlock Grid.Column="2">Дата вашего рождения</TextBlock>
+                            <TextBlock Grid.Column="2">Дата рождения</TextBlock>
                             <Border Grid.Column="2" Style="{StaticResource borderTextBox}">
                                 <TextBox x:Name="dateOfBirhtUser" Style="{StaticResource textBoxStyle}"></TextBox>
                             </Border>
                         </Grid>
                     </Grid>
+                    <!--KGB-->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Grid.Column" Value="1"/>
+                                <Setter Property="Grid.Row" Value="8"/>
+                            </Style>
+                        </Grid.Style>
+                        <TextBlock FontSize="19" Foreground="WhiteSmoke">КГБ ВСЕ ЗНАЕТ |┬┴┬┴┤( ͡° ͜ʖ├┬┴┬┴|</TextBlock>
+                    </Grid>
 
-                    <TextBlock 
+                    <TextBlock
                         Grid.Row="8" 
                         Grid.Column="1" 
                         x:Name="textError" 
                         Foreground="Red"/>
-                    
+
                     <Grid>
                         <Grid.Style>
                             <Style TargetType="Grid">
@@ -518,28 +534,27 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="5"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Button Grid.Column="0" Height="30" Content="Сохранить изменения!"></Button>
-                        <Button Grid.Column="2" Height="30" Content="Отменить!"></Button>
-                        <TextBlock Grid.Row="3" Grid.ColumnSpan="3">
-                            * Если вы нажмете на кнопку "Сохранить изменения!",
+                        <Button Grid.Column="0" Grid.Row="3" Height="30" Content="Сохранить изменения!"/>
+                        <Button Grid.Column="2" Grid.Row="3" Height="30" Content="Отменить!"/>
+                        <TextBlock FontSize="12" Grid.Row="0" Grid.ColumnSpan="3">
+                            ✓ Если вы нажмете на кнопку "Сохранить изменения!",
                             то, как ни странно, сервер зафиксирует изменения
-                            вашего профиля.
+                            профиля.
                             <LineBreak></LineBreak>
-                            * Если вы нажмете на кнопку "Отменить!", то ваши данные
-                            не будут обновлены на сервере. Все поля вернутся
-                            в исходное состояние 
+                            ✓ При нажатии на кнопку "Отменить!" ваши данные
+                            не будут обновлены. Все поля вернутся в исходное состояние.
                             <LineBreak></LineBreak>
-                            * Если вы не сохраните и покинете данное окно, то данные
+                            ✓ Если вы покинете данное окно без сохранения, то данные
                             на сервере не обновятся!
                         </TextBlock>
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Друзья">
+            <TabItem Header="Товарищи">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="20"/>
@@ -566,7 +581,7 @@
                             <RowDefinition Height="30"></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock>Друзья</TextBlock>
+                        <TextBlock FontSize="17">☭ Товарищи ☭</TextBlock>
                         <ListView Grid.Row="1" Style="{StaticResource ListUser}"/>
                     </Grid>
 
@@ -576,6 +591,7 @@
                             <RowDefinition Height="70"/>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
+                            <RowDefinition Height="10"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
@@ -587,8 +603,8 @@
                             </Style>
                         </Grid.Style>
                         <TextBlock Grid.Row="1">Кнопочки</TextBlock>
-                        <Button Content="Delete From Friends" Grid.Row="2"></Button>
-                        <TextBlock Grid.Row="4" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="3 10 0 0">
+                        <Button Content="Delete From Friends" Grid.Row="2"/>
+                        <TextBlock Style="{StaticResource TextAnnotation}" Grid.Row="4" VerticalAlignment="Top" HorizontalAlignment="Center">
                             С помощью этой кнопки вы можете удалять пользователей из своего списка друзей.
                         </TextBlock>
                     </Grid>
@@ -621,7 +637,7 @@
                             <RowDefinition Height="30"></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock>Запросы</TextBlock>
+                        <TextBlock FontSize="17">Запросы</TextBlock>
                         <ListView Grid.Row="1" Style="{StaticResource ListUserRequest}"/>
                     </Grid>
 
@@ -639,6 +655,8 @@
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="10"/>
                             <RowDefinition Height="30"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="160"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
@@ -647,11 +665,12 @@
                         <Button Grid.Row="2" Grid.Column="1">To accept request</Button>
                         <Button Grid.Row="4" Grid.Column="1">Reject the request</Button>
 
-                        <TextBlock Grid.Row="6" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="3 10 0 0">
-                           "To accept request" - используйте эту кнопочку, чтобы добавить пользователя в свой список друзей.
+                        <TextBlock Style="{StaticResource TextAnnotation}" Grid.Row="6" VerticalAlignment="Top" HorizontalAlignment="Center">
+                           "To accept request" - используйте эту кнопочку, чтобы добавить пользователя в товарищи.
                             <LineBreak></LineBreak>
                            "Reject the request" - используйте эту кнопочку, чтобы избавиться от своего или чужого запроса в друзья.
                         </TextBlock>
+                        <TextBlock Grid.Row="7" FontSize="18">Все люди - братья!   \_(￣^￣)ゞ</TextBlock>
                     </Grid>
                 </Grid>
             </TabItem>
@@ -738,7 +757,7 @@
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <!-- Пользователя -->
-                        <TextBlock Text="Запросы"></TextBlock>
+                        <TextBlock FontSize="17">Запросы</TextBlock>
                         <ListView Grid.Row="1" Style="{StaticResource ListUserRequest}"/>
                     </Grid>
 
@@ -757,6 +776,7 @@
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="10"/>
                             <RowDefinition Height="30"/>
+                            <RowDefinition Height="10"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
@@ -765,7 +785,7 @@
                         <Button Grid.Row="2">Send a request</Button>
                         <Button Grid.Row="4">Reject the request</Button>
 
-                        <TextBlock Grid.Row="5" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="3 10 0 0">
+                        <TextBlock Style="{StaticResource TextAnnotation}" Grid.Row="6" VerticalAlignment="Top" HorizontalAlignment="Left">
                             "Send a request" - используйте эту кнопочку, чтобы отправить пользователю запрос в друзья.
                             <LineBreak></LineBreak>
                             "Reject the request" - используйте эту кнопочку, чтобы избавиться от своего или чужого запроса в друзья.
@@ -786,7 +806,7 @@
                         <RowDefinition/>
                         <RowDefinition Height="10"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="1" Grid.Column="1">Журнал Событий</TextBlock>
+                    <TextBlock Grid.Row="1" Grid.Column="1" FontSize="18">Журнал Событий ⌛</TextBlock>
                     <ListView Grid.Row="2" Grid.Column="1" Style="{StaticResource ListUserLog}"></ListView>
                 </Grid>
             </TabItem>
