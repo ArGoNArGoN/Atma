@@ -31,17 +31,11 @@ namespace ClientChatWPF
 			if (!LogUp())
 				return;
 
-
-			/// Если пользователь только что зарегался, или у него нет сервера,
-			/// то он должен на него зайти, иначе он гей
-			if (User.ServerUser.Count() == 0)
-				SearchServer();
-
-			LoadedDataInWindow();
-
 			/// Инициализируем все события
 			/// Файлик LoadInfoForClienInThread
 			this.Loaded += new RoutedEventHandler(LoadInfoServer);
+
+			LoadedDataInWindow();
 		}
 
 		/// <summary>
@@ -201,5 +195,10 @@ namespace ClientChatWPF
 			WEditingServer.ShowDialog();
 			WEditingServer = null;
 		}
-	}
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+		}
+    }
 }
