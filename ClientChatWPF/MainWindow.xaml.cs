@@ -17,6 +17,8 @@ namespace ClientChatWPF
 		static ServerUser ServerUser { get; set; }
 		public WindowEditingServer WEditingServer { get; set; }
 		public ServerSearchWindow ServerSearch { get; set; }
+		public WindowFriendsAndUsers WFAU { get; set; }
+
 
 		/// <summary>
 		/// Начало всего
@@ -56,27 +58,6 @@ namespace ClientChatWPF
 			if (reg.User == null)
 			{ Close(); return false; }
 			return true;
-		}
-
-		/// <summary>
-		/// Запускает окно поиска сервера 
-		/// И отправляет информацию об этом событии серверу. 
-		private void SearchServer()
-		{
-			SendMessageToServer.SendMessageSerialize(new Server() { ActionForServer = ActionForServer.Search });
-
-            ServerSearch = new ServerSearchWindow(User);
-			this.EventUpServerSearch += new Action<List<Server>>(ServerSearch.UpServerSearch);
-			this.EventUpOpinion += new Action<List<Opinion>>(ServerSearch.UpOpinion);
-			ServerSearch.ShowDialog();
-			this.EventUpServerSearch -= new Action<List<Server>>(ServerSearch.UpServerSearch);
-			this.EventUpOpinion -= new Action<List<Opinion>>(ServerSearch.UpOpinion);
-
-			if (User.ServerUser.Count() == 0)
-			{
-				Close();
-				Environment.Exit(0);
-			}
 		}
 
 		/// <summary>
@@ -167,6 +148,31 @@ namespace ClientChatWPF
 		}
 
 		/// <summary>
+		/// Запускает окно поиска сервера 
+		/// И отправляет информацию об этом событии серверу. 
+		private void SearchServer()
+		{
+			SendMessageToServer.SendMessageSerialize(new Server() { ActionForServer = ActionForServer.Search });
+
+			ServerSearch = new ServerSearchWindow(User);
+
+			this.EventUpServerSearch += new Action<List<Server>>(ServerSearch.UpServerSearch);
+			this.EventUpOpinion += new Action<List<Opinion>>(ServerSearch.UpOpinion);
+			this.EventUpServersFromUser += new Action<List<Server>>(ServerSearch.UpServerFromUser);
+			ServerSearch.ShowDialog();
+			this.EventUpServerSearch -= new Action<List<Server>>(ServerSearch.UpServerSearch);
+			this.EventUpOpinion -= new Action<List<Opinion>>(ServerSearch.UpOpinion);
+			this.EventUpServersFromUser -= new Action<List<Server>>(ServerSearch.UpServerFromUser);
+			ServerSearch = null;
+
+			if (User.ServerUser.Count() == 0)
+			{
+				Close();
+				Environment.Exit(0);
+			}
+		}
+
+		/// <summary>
 		///	Запускаем окно
 		/// </summary>
 		/// <param name="sender"></param>
@@ -174,8 +180,11 @@ namespace ClientChatWPF
 		private void UpClientClick(object sender, RoutedEventArgs e)
 		{
 			/// Отправляем пользователя
-			WindowFriendsAndUsers upClient = new WindowFriendsAndUsers(User);
-			upClient.ShowDialog();
+			WFAU = new WindowFriendsAndUsers(User, ServerUser);
+			this.EventUpFriendsAndUsers += new Action<object>(WFAU.StartEventOfObject);
+			WFAU.ShowDialog();
+			this.EventUpFriendsAndUsers -= new Action<object>(WFAU.StartEventOfObject);
+			WFAU = null;
 		}
 
 		private void Window_Closed(object sender, EventArgs e)

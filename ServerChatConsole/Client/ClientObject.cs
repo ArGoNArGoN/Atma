@@ -55,7 +55,7 @@ namespace ServerChatConsole
 
 				} while (true);
 				
-				GetUser(User);
+				GetUserLoud(User);
 				TakeObjectFromUser();
 			}
 			catch(Exception e)
@@ -129,6 +129,7 @@ namespace ServerChatConsole
 			{
 				User.ServerUser = DB.ServerUser
 					.Include(x => x.Server)
+					.Include(x => x.User)
 					.Where(x => x.IDUser == User.ID)
 					.ToList();
 			}
@@ -162,7 +163,7 @@ namespace ServerChatConsole
 					DB.SaveChanges();
 				}
 
-				GetUser(User);
+				GetUserLoud(User);
 			}
 			ServerObj.RemoveConnection(this);
 

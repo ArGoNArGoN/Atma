@@ -75,6 +75,16 @@ namespace ClientChatWPF
 			LoudInfo(UserServerList[ServersList.SelectedIndex]);
 		}
 
+        public void UpServerFromUser(List<Server> obj)
+        {
+			ServersList.Dispatcher
+				.Invoke(new Action(() =>
+				{
+					UserServerList = ((Server[])obj.ToArray().Clone()).ToList();
+					ServersList.ItemsSource = UserServerList;
+				}));
+		}
+
         private void LoudInfo(Server server)
         {
 			ServerName.Text = server.Name;
@@ -85,6 +95,7 @@ namespace ClientChatWPF
 			else
 				ServerInfo.Text = server.Info;
 		}
+
 
         public void UpOpinion(List<Opinion> obj)
         {
@@ -129,42 +140,41 @@ namespace ClientChatWPF
 					)
 				);
 		}
-
-		public Int32 a = 2;
-
 		public void UpServerSearch(List<Server> obj)
 		{
 			SerchServers.Dispatcher
-				.Invoke
-				(
-					new Action
-					(
-						() =>
-						{
-							SerchServersList = ((Server[])obj.ToArray().Clone()).ToList();
-							SerchServers.ItemsSource = SerchServersList;
-							a = 1000;
-						}
-					)
-				);
+				.Invoke(new Action(() =>
+				{
+					SerchServersList = ((Server[])obj.ToArray().Clone()).ToList();
+					SerchServers.ItemsSource = SerchServersList;
+				}));
 		}
-		private void ConnectionFromServer(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-			var server = SerchServersList[ServersList.SelectedIndex];
 
-			var SU = new ServerUser() { IDServer = server.ID, IDUser = User.ID, StatusObj = StatusObj.Add };
+
+        private void ConnectionFromServer(object sender, RoutedEventArgs e)
+        {
+			if (SerchServers.SelectedIndex == -1)
+				return;
+			
+			var server = SerchServersList[SerchServers.SelectedIndex];
+
+			var SU = new ServerUser() { IDServer = server.ID, IDUser = User.ID, StatusObj = StatusObj.Add, Name = User.Name };
 
 			SendMessageToServer.SendMessageSerialize(SU);
 		}
 
-        private void DisСonnectionFromServer(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void DisСonnectionFromServer(object sender, RoutedEventArgs e)
         {
-			var server = SerchServersList[ServersList.SelectedIndex];
-
-			if (UserServerList.FirstOrDefault(x => x.ID == server.ID) is not null)
+			if (SerchServers.SelectedIndex == -1)
 				return;
 
-			var SU = new ServerUser() { IDServer = server.ID, IDUser = User.ID, StatusObj = StatusObj.Delete };
+			var server = SerchServersList[SerchServers.SelectedIndex];
+
+			if (UserServerList.FirstOrDefault(x => x.ID == server.ID) is null)
+				return;
+
+            var SU = new ServerUser() { ID = User.ServerUser.FirstOrDefault(x => x.IDServer == server.ID).ID, StatusObj = StatusObj.Delete };
+
 
 			SendMessageToServer.SendMessageSerialize(SU);
 		}

@@ -130,9 +130,10 @@ namespace ClassesForServerClent.Class
 
 		[NotMapped]
 		public ActionForServer ActionForServer { get; set; }
-
 		[NotMapped]
-		public RequestEnum RequestEnum { get; set; }
+		public ActionFromUser ActionFromUser { get; set; }
+		[NotMapped]
+		public StatusObj StatusObj { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 		public User()
@@ -157,5 +158,6 @@ namespace ClassesForServerClent.Class
 		public ICollection<ServerUser> ServerUser { get; set; }
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<UserLog> UserLog { get; set; }
-	}
+
+    }
 }

@@ -49,7 +49,7 @@ namespace ServerChatConsole
 		}
 
 		public ServerUser CreateAndGetServerUser(Int32 IDServer, Int32 IDUser)
-        {
+		{
 			var SU = new ServerUser() { IDServer = IDServer, IDUser = IDUser };
 			this.ServerUser.Add(SU);
 
@@ -57,20 +57,75 @@ namespace ServerChatConsole
 		}
 
 		public ICollection<Server> GetServerSerch(String name)
-        {
-			var a = this.Server
+		{
+			return this.Server
 				.Where(x => x.Name.Contains(name))
 				.ToList();
-
-			return a;
-        }
+		}
 
 		public ICollection<Opinion> GetOpinions(Int32 IDServer)
-        {
+		{
 			return this.Opinion
 				.Where(x => x.IDServer == IDServer)
 				.Include(x => x.User)
 				.ToList();
-        }
-    }
+		}
+
+		public User GetUser(Int32 ID, Int32? IDServer)
+		{
+			var u = this.User
+				.Find(ID);
+
+			if (IDServer is not null)
+				u.ServerUser.Add(this.ServerUser
+					.Where(x => x.IDServer == IDServer && x.IDUser == ID).First());
+
+			return u;
+		}
+
+		private User GetUserReq(Request request, Int32 IDUser)
+		{
+			if (request.IDFriend == IDUser)
+				return request.User;
+			else if (request.IDUser == IDUser)
+				return request.User1;
+			else
+				throw new Exception();
+		}
+		public ICollection<User> GetRequestFriends(Int32 IDUser)
+		{
+			return this.Request
+				.Where(x => (x.IDUser == IDUser || x.IDFriend == IDUser) && (x.UserRequest && x.FriendRequest))
+				.Include(x => x.User1)
+				.Include(x => x.User)
+				.AsEnumerable()
+				.Select(x => GetUserReq(x, IDUser)).ToList();
+		}
+
+		public ICollection<Request> GetRequest(Int32 IDUser)
+		{
+			return this.Request
+				.Where(x => (x.IDUser == IDUser || x.IDFriend == IDUser) && (x.UserRequest || x.FriendRequest) && !(x.UserRequest && x.FriendRequest))
+				.Include(x => x.User1)
+				.Include(x => x.User)
+				.ToList();
+		}
+
+		public ICollection<User> GetUserSearch(String name, Int32 IDUser)
+		{
+			return this.User
+				.Include(x => x.Request)
+				.Include(x => x.Request1)
+				.Where(x => x.Name.Contains(name) && x.ID != IDUser 
+				&& x.Request.All(x => x.IDFriend != IDUser && x.IDUser != IDUser) 
+				&& x.Request1.All(x => x.IDFriend != IDUser && x.IDUser != IDUser))
+				.ToList();
+		}
+
+		public ICollection<UserLog> GetUserLog(Int32 iDUser)
+		{
+			return this.UserLog
+				.Where(x => x.IDUser == iDUser).ToList();
+		}
+	}
 }

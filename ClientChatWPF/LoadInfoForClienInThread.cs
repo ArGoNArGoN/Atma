@@ -30,6 +30,8 @@ namespace ClientChatWPF
 		public event Action<List<Server>> EventUpServer;
 		public event Action<List<TextChat>> EventUpTextChat;
 		public event Action<List<Opinion>> EventUpOpinion;
+		public event Action<List<Server>> EventUpServersFromUser;
+		public event Action<Object> EventUpFriendsAndUsers;
 
 		/// <summary>
 		/// Содержат информацию о
@@ -66,15 +68,16 @@ namespace ClientChatWPF
 			thr.Start();
 		}
 
-        /// <summary>
-        /// Прослушивает поток, на наличие сообщений от сервера
-        /// Прежде чем добавить какой-нибудь объект в swich подумай 10 раз!
-        /// Т.к. создатель этого метода не шибко умный, тебе придется либо увеличивать switch
-        /// Либо писать огромный метод, который будет все это обрабатывать, что тоже не оч. верно
-        /// </summary>
-        private void TakeMessageOfServer()
+		/// <summary>
+		/// Прослушивает поток, на наличие сообщений от сервера
+		/// Прежде чем добавить какой-нибудь объект в swich подумай 10 раз!
+		/// Т.к. создатель этого метода не шибко умный, тебе придется либо увеличивать switch
+		/// Либо писать огромный метод, который будет все это обрабатывать, что тоже не оч. верно
+		/// </summary>
+		private void TakeMessageOfServer()
 		{
 			Object ob = null;
+
 			do
 			{
 				try
@@ -98,6 +101,38 @@ namespace ClientChatWPF
 
 					/// Получаем пользователя и меняем его статус на сервере
 					case ServerUser user:
+						if (user.StatusObj == StatusObj.Add)
+						{
+							User.ServerUser.Add(user);
+
+							var server = user.Server;
+							Servers.Add(server);
+
+							EventUpServer?.Invoke(Servers);
+
+							EventUpServersFromUser?.Invoke(Servers);
+
+							break;
+						}
+						else if (user.StatusObj == StatusObj.Delete)
+						{
+							User.ServerUser = User.ServerUser.Where(x => user.ID != x.ID).ToList();
+
+							var server = user.Server;
+							var asd = Servers.Where(x => server.ID != x.ID).ToList();
+							Servers.Clear();
+							foreach (var item in asd)
+							{
+								Servers.Add(item);
+							}
+
+							EventUpServer?.Invoke(Servers);
+
+							EventUpServersFromUser?.Invoke(Servers);
+
+							break;
+						}
+
 						if (Users is null)
 							break;
 
@@ -112,11 +147,21 @@ namespace ClientChatWPF
 					case (List<ServerUser> SU):
 						if (SU is null)
 							break;
-						
-						Users = SU;
-						EventUpUserStatus(SU);
+
 						if (WEditingServer is not null)
+						{
 							WEditingServer.StartEventOfObject(SU);
+							return;
+						}
+						if (WFAU is not null)
+						{
+							EventUpFriendsAndUsers?.Invoke(SU);
+							return;
+						}
+
+						Users = SU;
+						EventUpUserStatus?.Invoke(SU);
+
 						break;
 
 					/// получаем список серверов у пользователя или в окне поиска (TODO)
@@ -135,9 +180,6 @@ namespace ClientChatWPF
 						if (WEditingServer is not null)
 							WEditingServer.StartEventOfObject(Server);
 
-						Servers.Add(Server);
-
-						EventUpServerSearch?.Invoke(Servers);
 						break;
 
 					/// получаем текстовые чаты и отправляем их в окно редактирования, если оно открыто
@@ -146,20 +188,20 @@ namespace ClientChatWPF
 							break;
 
 						TextChats = textChat;
-                        this.EventUpTextChat?.Invoke(textChat);
+						this.EventUpTextChat?.Invoke(textChat);
 
-                        if (WEditingServer is not null)
-                            WEditingServer.StartEventOfObject(textChat);
+						if (WEditingServer is not null)
+							WEditingServer.StartEventOfObject(textChat);
 
 						break;
 
 					/// получаем Отзывы о сервере и отправляем их в окно редактирования, если оно открыто
 					case List<Opinion> Opinions:
 						if (Opinions is null)
-							return;
+							break;
 
-                        if (WEditingServer is not null)
-                            WEditingServer.StartEventOfObject(Opinions);
+						if (WEditingServer is not null)
+							WEditingServer.StartEventOfObject(Opinions);
 
 						EventUpOpinion(Opinions);
 
@@ -168,7 +210,7 @@ namespace ClientChatWPF
 					/// получаем Роли на сервере и отправляем их в окно редактирования, если оно открыто
 					case List<Role> Role:
 						if (Role is null)
-							return;
+							break;
 
 						if (WEditingServer is not null)
 							WEditingServer.StartEventOfObject(Role);
@@ -178,11 +220,37 @@ namespace ClientChatWPF
 					/// получаем Журнал событий сервера и отправляем его в окно редактирования, если оно открыто
 					case List<EventLog> EL:
 						if (EL is null)
-							return;
+							break;
 
 						if (WEditingServer is not null)
 							WEditingServer.StartEventOfObject(EL);
 
+						break;
+
+					/// получаем Журнал событий сервера и отправляем его в окно редактирования, если оно открыто
+					case List<Request> RL:
+						if (RL is null)
+							break;
+
+						EventUpFriendsAndUsers.Invoke(RL);
+						break;
+
+					case List<User> UL:
+						if (UL is null)
+							break;
+
+						EventUpFriendsAndUsers.Invoke(UL);
+						break;
+						
+					case List<UserLog> UL:
+						if (UL is null)
+							break;
+
+						EventUpFriendsAndUsers.Invoke(UL);
+						break;
+
+					case User user:
+						EventUpFriendsAndUsers.Invoke(user);
 						break;
 
 					case String str:
@@ -197,13 +265,14 @@ namespace ClientChatWPF
 				}
 			} while (true);
 		}
+		
 		private void UpServer(List<Server> obj)
 		{
 			ListServers.Dispatcher
 				.Invoke(new Action(
 					() =>
 					{
-						ListTextChat.ItemsSource = obj;
+						ListServers.ItemsSource = (Server[])Servers.ToArray().Clone();
 					}
 					));
 		}
@@ -240,6 +309,7 @@ namespace ClientChatWPF
 
 						if (ListTextChat.SelectedIndex != -1 && TextChats[ListTextChat.SelectedIndex].ID == obj[0]?.IDTextChat)
 							ListUserMessage.ItemsSource = obj;
+						Scroll.ScrollToEnd();
 					}
 					));
 		}

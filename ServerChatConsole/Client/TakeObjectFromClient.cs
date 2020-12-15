@@ -15,6 +15,7 @@ namespace ServerChatConsole
 		private void TakeObjectFromUser()
 		{
 			using DB DB = new DB();
+
 			do
 			{
 				var Obj = formatter.Deserialize(Stream);
@@ -26,7 +27,10 @@ namespace ServerChatConsole
 						break;
 
 					case (User u):
-						this.GetUser(u);
+						if(u.ActionFromUser == ActionFromUser.None)
+							this.GetUserLoud(u);
+						else
+							this.GetUserLoud(u);
 						break;
 
 					case (Server s):
@@ -35,6 +39,10 @@ namespace ServerChatConsole
 
 					case (ServerUser s):
 						this.GetServerUser(s);
+						break;
+
+					case (Request s):
+						this.GetRequest(s);
 						break;
 
 					case String str:
@@ -53,25 +61,67 @@ namespace ServerChatConsole
 			} while (true);
 		}
 
-        private void GetServerUser(ServerUser s)
+        private void GetRequest(Request request)
         {
 			using DB db = new DB();
-            switch (s.StatusObj)
+
+            switch (request.StatusObj)
             {
                 case StatusObj.Add:
-					db.ServerUser.Add(s);
-					SendObjectToClient(db.GetServer(s.ID));
-
+					db.Request.Add(request);
                     break;
+
+                case StatusObj.Edit:
+					var req = db.Request.FirstOrDefault(x => x.IDFriend == request.IDFriend && x.IDUser == request.IDUser);
+					if (req is null)
+						break;
+
+					req.UserRequest = request.UserRequest;
+					req.FriendRequest = request.FriendRequest;
+					break;
 
                 case StatusObj.Delete:
-                    break;
 
+					var request1 = request.ID < 0 ? db.Request.FirstOrDefault(x => x.IDFriend == request.IDFriend && x.IDUser == request.IDUser) : db.Request.Find(request.ID);
+					db.Request.Remove(request1);
+					break;
                 default:
                     break;
-            }
-        }
-        private void GetMessade(Message message)
+			}
+
+			db.SaveChanges();
+		}
+        private void GetServerUser(ServerUser s)
+		{
+			using DB db = new DB();
+
+			switch (s.StatusObj)
+			{
+				case StatusObj.Add:
+					db.ServerUser.Add(s);
+					db.SaveChanges();
+
+					var s1 = db.ServerUser.Include(x => x.Server).First(x => x.ID == s.ID);
+					s1.StatusObj = StatusObj.Add;
+					SendObjectToClient(s1);
+					break;
+
+				case StatusObj.Delete:
+					var delserver = db.ServerUser.Include(x => x.Server).FirstOrDefault(x => x.ID == s.ID);
+					delserver.StatusObj = StatusObj.Delete;
+					SendObjectToClient(delserver);
+
+					db.ServerUser.Remove(delserver);
+					db.SaveChanges();
+					break;
+
+				default:
+					break;
+			}
+
+			db.SaveChanges();
+		}
+		private void GetMessade(Message message)
 		{
 			if (message is null)
 				throw new ArgumentNullException("message is null", nameof(message));
@@ -88,14 +138,75 @@ namespace ServerChatConsole
 			new Thread(ServerUsers.SendMessageToServer)
 				.Start(message);
 		}
-		private void GetUser(User user)
+		private void GetUserLoud(User user)
 		{
-			if (user is null)
-				throw new ArgumentNullException("user is null", nameof(user));
+			using DB db = new DB();
 
-			Console.WriteLine($"{User.Name}: {user.Status}");
+			Object ob = null;
 
-			new Thread(ServerObj.SendUserToServer).Start(User);
+			if(user.StatusObj == StatusObj.Edit)
+            {
+                try
+				{
+					Console.WriteLine("Изменения!");
+					var user1 = new User() { Name = user.Name, RealName = user.RealName, ID = user.ID, Password = user.Password, Status = Status.Online, DateOfBirht = user.DateOfBirht };
+					db.Entry(user1).State = EntityState.Modified;
+					if (user.ServerUser is not null && user.ServerUser.Count() > 0)
+					{
+						var ad = user.ServerUser.ToList()[0];
+						
+						db.Entry(new ServerUser() { ID = ad.ID, Status = ad.Status, Name = ad.Name, IDServer = ad.IDServer, IDUser = ad.IDUser, IDRole = ad.IDRole, Date = ad.Date}).State = EntityState.Modified;
+						ServerUser = user.ServerUser.ToList()[0];
+					}
+					User = user;
+				}
+                catch (Exception e)
+                {
+					var u = db.User.Find(user.ID);
+					u.StatusObj = StatusObj.Edit;
+					SendObjectToClient(u);
+					Console.WriteLine("dawdawd");
+					db.SaveChanges();
+				}
+
+				db.SaveChanges();
+				return;
+			}
+
+			switch (user.ActionFromUser)
+			{
+				case ActionFromUser.Loud:
+					var aq = (Int32?)user.ServerUser.ToList()[0]?.IDServer;
+
+					var SU = db.GetUser(user.ID, aq);
+					SU.ActionFromUser = ActionFromUser.Loud;
+					ob = SU;
+					break;
+
+				case ActionFromUser.LoudFriends:
+					ob = db.GetRequestFriends(user.ID);
+					break;
+
+				case ActionFromUser.LoudReq:
+					ob = db.GetRequest(user.ID);
+					break;
+
+				case ActionFromUser.Search:
+					ob = db.GetUserSearch(user.Name, User.ID);
+					break;
+
+				case ActionFromUser.LoudUserLog:
+					ob = db.GetUserLog(user.ID);
+					break;
+
+				default:
+					break;
+			}
+
+			if (ob is not null)
+				SendObjectToClient(ob);
+
+			db.SaveChanges();
 		}
 		private void GetServer(Server server)
 		{

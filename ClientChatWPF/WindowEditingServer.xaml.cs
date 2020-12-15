@@ -23,6 +23,7 @@ namespace ClientChatWPF
 		private WindowEditingServer()
 		{
 			InitializeComponent();
+
 			EventUpEventLog     += UpEventLog;
 			EventUpTextChat     += UpTextChat;
 			EventUpServerUser   += UpServerUser;
@@ -69,10 +70,10 @@ namespace ClientChatWPF
 		/// <param name="obj"></param>
 		private void UpServer(Server obj)
 		{
-			Name.Text = obj.Name;
-			StatusServer.IsChecked = obj.Status;
-			Info.Text = obj.Info;
-			Language.Text = obj.Language;
+			Name.Dispatcher?.Invoke(new Action(() => Name.Text = obj.Name));
+			StatusServer.Dispatcher?.Invoke(new Action(() => StatusServer.IsChecked = obj.Status));
+			Info.Dispatcher?.Invoke(new Action(() => Info.Text = obj.Info));
+			Language.Dispatcher?.Invoke(new Action(() => Name.Text = obj.Language));
 		}
 
 		/// <summary>
@@ -92,14 +93,12 @@ namespace ClientChatWPF
 		private void UpOpinion(List<Opinion> obj)
 		{
 			ListTextChats.Dispatcher?
-				.Invoke(new Action(
-					() =>
-					{
-						var list1 = obj.Select(x => x).ToList();
-						var list2 = (List<Opinion>)obj.ToArray().Clone();
-						ListTextChats.ItemsSource = list1;
-					}
-					));
+				.Invoke(new Action(() =>
+				{
+					var list1 = obj.Select(x => x).ToList();
+					var list2 = (List<Opinion>)obj.ToArray().Clone();
+					ListTextChats.ItemsSource = list1;
+				}));
 		}
 
 		/// <summary>
@@ -191,5 +190,20 @@ namespace ClientChatWPF
 
 			SendMessageToServer.SendMessageSerialize(s);
 		}
-	}
+
+        private void SaveEditingServerClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CancelEditingServerClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DelAddRoleClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
 }

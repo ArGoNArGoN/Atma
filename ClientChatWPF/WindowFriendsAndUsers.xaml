@@ -61,9 +61,10 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style TargetType="Button" BasedOn="{StaticResource buttonSearch}">
+        <Style TargetType="Button" x:Key="baseButtonStyle" BasedOn="{StaticResource buttonSearch}" >
             <Setter Property="IsEnabled" Value="True"/>
         </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource baseButtonStyle}"/>
 
         <Style TargetType="ListViewItem" x:Key="UserItemStyle">
             <Setter Property="Template">
@@ -130,108 +131,20 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style TargetType="ListViewItem" x:Key="UserRequestItemStyle">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListViewItem">
-                        <Grid x:Name="border" Background="#FF2F3136">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition x:Name="d" Width="3"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition Height="2"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="2"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Border>
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="Background" Value="Gray"/>
-                                        <Setter Property="CornerRadius" Value="11"/>
-                                        <Setter Property="Width" Value="22"/>
-                                        <Setter Property="Height" Value="22"/>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
-                            <Grid Grid.Column="2">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="1*"></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Grid.Resources>
-                                    <Style TargetType="TextBlock" x:Key="TextBlock">
-                                        <Setter Property="Background" Value="{x:Null}"/>
-                                        <Setter Property="FontSize" Value="10"/>
-                                        <Setter Property="Foreground" Value="Gray"/>
-                                        <Setter Property="HorizontalAlignment" Value="Left"/>
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
-                                    </Style>
-                                </Grid.Resources>
-
-                                <TextBlock Style="{StaticResource TextBlock}" 
-                                           x:Name="nickNameUser" 
-                                           FontSize="13" 
-                                           Foreground="Yellow" 
-                                           Grid.Row="0" 
-                                           VerticalAlignment="Bottom"
-                                           Text="{Binding Path=Name}"/>
-                                <TextBlock Style="{StaticResource TextBlock}"
-                                           x:Name="statusUser" Grid.Row="1"
-                                           FontSize="11"
-                                           VerticalAlignment="Top"
-                                           Foreground="YellowGreen"
-                                           Text="{Binding Path=Status}"/>
-                            </Grid>
-
-                            <TextBlock Text="{Binding Path=RequestEnum}">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                        <Setter Property="Margin" Value="0 2 0 6"/>
-                                        <Setter Property="Grid.Row" Value="2"/>
-                                        <Setter Property="Grid.Column" Value="2"/>
-                                        <Setter Property="Foreground" Value="WhiteSmoke"/>
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
-                                        <Setter Property="HorizontalAlignment" Value="Left"/>
-
-                                        <Style.Triggers>
-                                            <Trigger Property="Text" Value="None">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </Trigger>
-                                            <Trigger Property="Text" Value="Friend">
-                                                <Setter Property="Foreground" Value="Yellow"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                            <Border Grid.Row="3" Grid.ColumnSpan="3" Background="Black" CornerRadius="1"/>
-                        </Grid>
-
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#FF2D2D30"/>
-                                <Setter TargetName="d" Property="Width" Value="8"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#FF2D2D30"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
         <Style TargetType="ListViewItem" x:Key="UserLogtItemStyle">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate>
-                        <ControlTemplate.Triggers>
-
-                        </ControlTemplate.Triggers>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="2"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Foreground="Yellow" Text="{Binding Path=Date}"></TextBlock>
+                            <TextBlock Grid.Row="2" Foreground="White" Text="{Binding Path=Message}"></TextBlock>
+                        </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -247,10 +160,12 @@
             <Setter Property="ItemsSource" Value="{Binding User}"/>
         </Style>
         <Style TargetType="ListView" x:Key="ListUserRequest" BasedOn="{StaticResource BaseListStyle}">
-            <Setter Property="ItemContainerStyle" Value="{StaticResource UserRequestItemStyle}"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource UserItemStyle}"/>
+            <Setter Property="ItemsSource" Value="{Binding User}"/>
         </Style>
         <Style TargetType="ListView" x:Key="ListUserLog" BasedOn="{StaticResource BaseListStyle}">
             <Setter Property="ItemContainerStyle" Value="{StaticResource UserLogtItemStyle}"/>
+            <Setter Property="ItemsSource" Value="{Binding UserLog}"/>
         </Style>
 
         <Style TargetType="Border" x:Key="BorderSearchStyle">
@@ -265,6 +180,61 @@
             <Setter Property="Foreground" Value="WhiteSmoke"/>
             <Setter Property="MinWidth" Value="200"/>
         </Style>
+
+        
+        <Style x:Key="ScrollBarPageButtonStyle" TargetType="{x:Type RepeatButton}">
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border BorderBrush="Transparent"></Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ScrollBarThumbStyle" TargetType="{x:Type Thumb}">
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border>
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="Black"/>
+                                    <Setter Property="CornerRadius" Value="4"/>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="VerticalScrollBar" TargetType="{x:Type ScrollBar}">
+            <Grid Width="4" HorizontalAlignment="Right">
+                <Track Name="PART_Track" Grid.Row="1" IsDirectionReversed="True">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Command="ScrollBar.PageUpCommand" Style="{StaticResource ScrollBarPageButtonStyle}">
+                        </RepeatButton>
+                    </Track.DecreaseRepeatButton>
+
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource ScrollBarThumbStyle}"/>
+                    </Track.Thumb>
+
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Command="ScrollBar.PageDownCommand" Style="{StaticResource ScrollBarPageButtonStyle}">
+                        </RepeatButton>
+                    </Track.IncreaseRepeatButton>
+                </Track>
+
+            </Grid>
+        </ControlTemplate>
+        <Style TargetType="{x:Type ScrollBar}">
+            <Setter Property="Template" Value="{StaticResource VerticalScrollBar}"/>
+        </Style>
+        
     </Window.Resources>
 
     <Grid>
@@ -503,6 +473,7 @@
                             </Border>
                         </Grid>
                     </Grid>
+                    
                     <!--KGB-->
                     <Grid>
                         <Grid.Style>
@@ -511,14 +482,26 @@
                                 <Setter Property="Grid.Row" Value="8"/>
                             </Style>
                         </Grid.Style>
-                        <TextBlock FontSize="19" Foreground="WhiteSmoke">КГБ ВСЕ ЗНАЕТ |┬┴┬┴┤( ͡° ͜ʖ├┬┴┬┴|</TextBlock>
+                        <TextBlock FontSize="19" Foreground="WhiteSmoke">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource TextAnnotation}">
+                                    <Setter Property="Text" Value=""/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=textError, Path=Text}" Value="">
+                                            <Setter Property="Text" Value="КГБ ВСЕ ЗНАЕТ |┬┴┬┴┤( ͡° ͜ʖ├┬┴┬┴|"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </Grid>
 
                     <TextBlock
                         Grid.Row="8" 
                         Grid.Column="1" 
                         x:Name="textError" 
-                        Foreground="Red"/>
+                        Foreground="Red"
+                        Text=""/>
 
                     <Grid>
                         <Grid.Style>
@@ -538,8 +521,8 @@
                             <RowDefinition Height="5"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Button Grid.Column="0" Grid.Row="3" Height="30" Content="Сохранить изменения!"/>
-                        <Button Grid.Column="2" Grid.Row="3" Height="30" Content="Отменить!"/>
+                        <Button Grid.Column="0" Grid.Row="3" Height="30" Content="Сохранить изменения!" Click="SaveChangesClick"/>
+                        <Button Grid.Column="2" Grid.Row="3" Height="30" Content="Отменить!" Click="RelClick"/>
                         <TextBlock FontSize="12" Grid.Row="0" Grid.ColumnSpan="3">
                             ✓ Если вы нажмете на кнопку "Сохранить изменения!",
                             то, как ни странно, сервер зафиксирует изменения
@@ -582,7 +565,7 @@
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <TextBlock FontSize="17">☭ Товарищи ☭</TextBlock>
-                        <ListView Grid.Row="1" Style="{StaticResource ListUser}"/>
+                        <ListView x:Name="ListFriend" Grid.Row="1" Style="{StaticResource ListUser}"/>
                     </Grid>
 
                     <!-- Функционал пользователя -->
@@ -603,7 +586,17 @@
                             </Style>
                         </Grid.Style>
                         <TextBlock Grid.Row="1">Кнопочки</TextBlock>
-                        <Button Content="Delete From Friends" Grid.Row="2"/>
+                        <Button Content="Delete From Friends" Grid.Row="2" Click="DeleteFromFriendsClick">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource baseButtonStyle}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=ListFriends, Path=SelectedIndex}" Value="-1">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                         <TextBlock Style="{StaticResource TextAnnotation}" Grid.Row="4" VerticalAlignment="Top" HorizontalAlignment="Center">
                             С помощью этой кнопки вы можете удалять пользователей из своего списка друзей.
                         </TextBlock>
@@ -638,7 +631,7 @@
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <TextBlock FontSize="17">Запросы</TextBlock>
-                        <ListView Grid.Row="1" Style="{StaticResource ListUserRequest}"/>
+                        <ListView x:Name="requestsList" Grid.Row="1" Style="{StaticResource ListUserRequest}"/>
                     </Grid>
 
                     <!-- Функционал пользователя 2 кнопки -->
@@ -662,8 +655,30 @@
 
                         <TextBlock Grid.Row="1">Кнопочки</TextBlock>
 
-                        <Button Grid.Row="2" Grid.Column="1">To accept request</Button>
-                        <Button Grid.Row="4" Grid.Column="1">Reject the request</Button>
+                        <Button Grid.Row="2" Grid.Column="1" Click="ToAcceptRequestClick">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource baseButtonStyle}">
+                                    <Setter Property="Content" Value="To accept request"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=requestsList, Path=SelectedIndex}" Value="-1">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Grid.Row="4" Grid.Column="1" Click="RejectRequestClick">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource baseButtonStyle}">
+                                    <Setter Property="Content" Value="Reject the request"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=requestsList, Path=SelectedIndex}" Value="-1">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
 
                         <TextBlock Style="{StaticResource TextAnnotation}" Grid.Row="6" VerticalAlignment="Top" HorizontalAlignment="Center">
                            "To accept request" - используйте эту кнопочку, чтобы добавить пользователя в товарищи.
@@ -728,10 +743,10 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>
-                                <TextBox x:Name="SeachTextBox" Height="24" Style="{StaticResource TextBoxSearchStyle}"/>
+                                <TextBox x:Name="SeachTextBox" Height="24" MaxLength="15" Style="{StaticResource TextBoxSearchStyle}"/>
                             </Grid>
                         </Border>
-                        <Button Grid.Column="2" Content="Search" Width="60">
+                        <Button Grid.Column="2" Content="Search" Width="60" Click="SearchClick">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource buttonSearch}">
                                     <Style.Triggers>
@@ -758,7 +773,7 @@
                         </Grid.RowDefinitions>
                         <!-- Пользователя -->
                         <TextBlock FontSize="17">Запросы</TextBlock>
-                        <ListView Grid.Row="1" Style="{StaticResource ListUserRequest}"/>
+                        <ListView x:Name="RequestFriends" Grid.Row="1" Style="{StaticResource ListUserRequest}"/>
                     </Grid>
 
                     <!-- Функционал пользователя 2 кнопки -->
@@ -775,20 +790,26 @@
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="10"/>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition Height="10"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <TextBlock Grid.Row="1">Кнопочки</TextBlock>
 
-                        <Button Grid.Row="2">Send a request</Button>
-                        <Button Grid.Row="4">Reject the request</Button>
+                        <Button Grid.Row="2" Click="SendRequestClick">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource baseButtonStyle}">
+                                    <Setter Property="Content" Value="Send a request"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=RequestFriends, Path=SelectedIndex}" Value="-1">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
 
-                        <TextBlock Style="{StaticResource TextAnnotation}" Grid.Row="6" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <TextBlock Style="{StaticResource TextAnnotation}" Grid.Row="4" VerticalAlignment="Top" HorizontalAlignment="Left">
                             "Send a request" - используйте эту кнопочку, чтобы отправить пользователю запрос в друзья.
-                            <LineBreak></LineBreak>
-                            "Reject the request" - используйте эту кнопочку, чтобы избавиться от своего или чужого запроса в друзья.
                         </TextBlock>
                     </Grid>
                 </Grid>
@@ -807,7 +828,7 @@
                         <RowDefinition Height="10"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="1" Grid.Column="1" FontSize="18">Журнал Событий ⌛</TextBlock>
-                    <ListView Grid.Row="2" Grid.Column="1" Style="{StaticResource ListUserLog}"></ListView>
+                    <ListView x:Name="UserLogList" Grid.Row="2" Grid.Column="1" Style="{StaticResource ListUserLog}"/>
                 </Grid>
             </TabItem>
         </TabControl>

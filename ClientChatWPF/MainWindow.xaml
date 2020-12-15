@@ -35,6 +35,62 @@
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
+        
+        <Style x:Key="ScrollBarPageButtonStyle" TargetType="{x:Type RepeatButton}">
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border BorderBrush="Transparent"></Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ScrollBarThumbStyle" TargetType="{x:Type Thumb}">
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border>
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="Black"/>
+                                    <Setter Property="CornerRadius" Value="4"/>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="VerticalScrollBar" TargetType="{x:Type ScrollBar}">
+            <Grid Width="4" HorizontalAlignment="Right">
+                <Track Name="PART_Track" Grid.Row="1" IsDirectionReversed="True">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Command="ScrollBar.PageUpCommand" Style="{StaticResource ScrollBarPageButtonStyle}">
+                        </RepeatButton>
+                    </Track.DecreaseRepeatButton>
+                    
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource ScrollBarThumbStyle}"/>
+                    </Track.Thumb>
+                    
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Command="ScrollBar.PageDownCommand" Style="{StaticResource ScrollBarPageButtonStyle}">
+                        </RepeatButton>
+                    </Track.IncreaseRepeatButton>
+                </Track>
+                
+            </Grid>
+        </ControlTemplate>
+
+        <Style TargetType="{x:Type ScrollBar}">
+            <Setter Property="Template" Value="{StaticResource VerticalScrollBar}"/>
+        </Style>
     </Window.Resources>
     <Window.Triggers>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonMenuOpen">
@@ -484,71 +540,6 @@
                 </Style>
             </Border.Style>
             <Border.Resources>
-                <Style TargetType="ListViewItem" x:Key="ItemUserMessage">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="ListViewItem">
-                                <Grid x:Name="item">
-                                    <Grid.Style>
-                                        <Style TargetType="Grid">
-                                            <Setter Property="Background" Value="#FF333337"/>
-                                        </Style>
-                                    </Grid.Style>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="2"></ColumnDefinition>
-                                        <ColumnDefinition Width="32"></ColumnDefinition>
-                                        <ColumnDefinition Width="3"></ColumnDefinition>
-                                        <ColumnDefinition></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid Grid.Column="3">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition></RowDefinition>
-                                            <RowDefinition Height="3"></RowDefinition>
-                                            <RowDefinition></RowDefinition>
-                                        </Grid.RowDefinitions>
-                                        <TextBlock>
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Grid.Row" Value="0"/>
-                                                    <Setter Property="Text" Value="{Binding Path=UserName}"/>
-                                                    <Setter Property="Foreground" Value="Yellow"/>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                        <TextBlock>
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Grid.Row" Value="2"/>
-                                                    <Setter Property="Text" Value="{Binding Path=Text}"/>
-                                                    <Setter Property="Foreground" Value="White"/>
-
-                                                    <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </Grid>
-                                    <TextBlock>
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="Grid.Column" Value="1"/>
-                                                <Setter Property="Text" Value="{Binding Path=DateTimeCreate}"/>
-                                                <Setter Property="Foreground" Value="YellowGreen"/>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                </Grid>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="item" Property="Background" Value="#FF2F3136"/>
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="item" Property="Background" Value="#FF2F3136"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
             </Border.Resources>
             <Grid>
                 <Grid.RowDefinitions>
@@ -556,21 +547,90 @@
                     <RowDefinition Height="5"></RowDefinition>
                     <RowDefinition Height="Auto" MinHeight="50" MaxHeight="400"></RowDefinition>
                 </Grid.RowDefinitions>
-                <ListView x:Name="ListUserMessage" ItemsSource="{Binding Path=Message}" SelectionMode="Single">
-                    <ListView.Style>
-                        <Style TargetType="ListView">
-                            <Setter Property="Background" Value="{x:Null}"/>
-                            <Setter Property="SelectionMode" Value="Single"/>
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="ItemContainerStyle" Value="{StaticResource ItemUserMessage}"/>
-                        </Style>
-                    </ListView.Style>
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel VerticalAlignment="Bottom"/>
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                </ListView>
+                <ScrollViewer x:Name="Scroll" HorizontalScrollBarVisibility="Disabled">
+                    <ListView x:Name="ListUserMessage" ItemsSource="{Binding Path=Message}" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListView.Style>
+                            <Style TargetType="ListView">
+                                <Setter Property="Background" Value="{x:Null}"/>
+                                <Setter Property="SelectionMode" Value="Single"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                            </Style>
+                        </ListView.Style>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel VerticalAlignment="Bottom"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListViewItem">
+                                            <Grid x:Name="item">
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Background" Value="#FF333337"/>
+                                                    </Style>
+                                                </Grid.Style>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="2"></ColumnDefinition>
+                                                    <ColumnDefinition Width="32"></ColumnDefinition>
+                                                    <ColumnDefinition Width="3"></ColumnDefinition>
+                                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid Grid.Column="3">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition></RowDefinition>
+                                                        <RowDefinition Height="3"></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock>
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="Grid.Row" Value="0"/>
+                                                                <Setter Property="Text" Value="{Binding Path=UserName}"/>
+                                                                <Setter Property="Foreground" Value="Yellow"/>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                    <TextBlock>
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="Grid.Row" Value="2"/>
+                                                                <Setter Property="Text" Value="{Binding Path=Text}"/>
+                                                                <Setter Property="Foreground" Value="White"/>
+                                                                <Setter Property="TextWrapping" Value="Wrap"/>
+                                                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                </Grid>
+                                                <TextBlock>
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Grid.Column" Value="1"/>
+                                                            <Setter Property="Text" Value="{Binding Path=DateTimeCreate}"/>
+                                                            <Setter Property="Foreground" Value="YellowGreen"/>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="item" Property="Background" Value="#FF2F3136"/>
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="item" Property="Background" Value="#FF2F3136"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </ScrollViewer>
+
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="20"></ColumnDefinition>
@@ -749,7 +809,7 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
-                                    <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Path=Status}">
+                                    <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Path=User.Status}">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="FontSize" Value="10"/>
@@ -757,7 +817,6 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
-
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
@@ -775,6 +834,8 @@
                     <Setter Property="ItemContainerStyle" Value="{StaticResource ItemUser}"/>
                 </Style>
             </Grid.Resources>
+            
+            
             <Border Grid.Column="1">
                 
 				<Grid>
