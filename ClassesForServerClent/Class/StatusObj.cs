@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace ClassesForServerClent.Class
 {
-	public enum ActionOnServer
-	{
-		None,
-		Connect,
-
-	}
+    public enum StatusObj
+    {
+        None,
+        Add,
+        Edit,
+        Delete
+    }
 }

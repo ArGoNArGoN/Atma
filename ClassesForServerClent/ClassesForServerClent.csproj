@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Class\ActionForServer.cs" />
     <Compile Include="Class\ActionForTextChat.cs" />
+    <Compile Include="Class\ActionFromUser.cs" />
     <Compile Include="Class\ActionInServer.cs" />
     <Compile Include="Class\ActionOnServer.cs" />
     <Compile Include="Class\Chat.cs" />
@@ -65,12 +66,14 @@
     <Compile Include="Class\PinnedMessage.cs" />
     <Compile Include="Class\Priority.cs" />
     <Compile Include="Class\Request.cs" />
+    <Compile Include="Class\RequestEnum.cs" />
     <Compile Include="Class\Right.cs" />
     <Compile Include="Class\RightRole.cs" />
     <Compile Include="Class\Role.cs" />
     <Compile Include="Class\Server.cs" />
     <Compile Include="Class\ServerUser.cs" />
     <Compile Include="Class\Status.cs" />
+    <Compile Include="Class\StatusObj.cs" />
     <Compile Include="Class\StatusServer.cs" />
     <Compile Include="Class\TextChat.cs" />
     <Compile Include="Class\TypeActionUser.cs" />

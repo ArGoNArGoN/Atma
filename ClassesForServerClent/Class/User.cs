@@ -69,8 +69,11 @@ namespace ClassesForServerClent.Class
 			get => rname;
 			set
 			{
-				if (String.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("The Name cannot be empty!");
+				if (value is null)
+				{
+					rname = value;
+					return;
+				}
 
 				if (value.Length > 50)
 					throw new ArgumentNullException("The Name is longer than 50 characters!");
@@ -127,6 +130,10 @@ namespace ClassesForServerClent.Class
 
 		[NotMapped]
 		public ActionForServer ActionForServer { get; set; }
+		[NotMapped]
+		public ActionFromUser ActionFromUser { get; set; }
+		[NotMapped]
+		public StatusObj StatusObj { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 		public User()
@@ -151,5 +158,6 @@ namespace ClassesForServerClent.Class
 		public ICollection<ServerUser> ServerUser { get; set; }
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<UserLog> UserLog { get; set; }
-	}
+
+    }
 }

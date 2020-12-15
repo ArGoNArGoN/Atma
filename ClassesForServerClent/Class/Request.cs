@@ -53,6 +53,9 @@ namespace ClassesForServerClent.Class
 		[Column(TypeName = "datetime")]
 		public DateTime Date { get; set; } = DateTime.Now;
 
+		[NotMapped]
+		public StatusObj StatusObj { get; set; }
+
 		public User User
 		{
 			get => user;
@@ -65,5 +68,5 @@ namespace ClassesForServerClent.Class
 			set => friend = value
 				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
-	}
+    }
 }

@@ -16,7 +16,8 @@ namespace ClientChatWPF
 		{
 			InitializeComponent();
 		}
-		private const string host = "127.0.0.1";
+
+		private const string host = "10.168.4.152";
 		private const int port = 888;
 		public TcpClient Client { get; set; }
 		public NetworkStream Stream { get; set; }
@@ -56,6 +57,8 @@ namespace ClientChatWPF
 
 					else
 						throw new Exception("An unknown error occurred!");
+
+					SendMessageToServer.Stream = Stream;
 
 					Close();
 				}

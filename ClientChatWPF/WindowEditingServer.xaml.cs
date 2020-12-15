@@ -23,6 +23,7 @@ namespace ClientChatWPF
 		private WindowEditingServer()
 		{
 			InitializeComponent();
+
 			EventUpEventLog     += UpEventLog;
 			EventUpTextChat     += UpTextChat;
 			EventUpServerUser   += UpServerUser;
@@ -69,7 +70,10 @@ namespace ClientChatWPF
 		/// <param name="obj"></param>
 		private void UpServer(Server obj)
 		{
-
+			Name.Dispatcher?.Invoke(new Action(() => Name.Text = obj.Name));
+			StatusServer.Dispatcher?.Invoke(new Action(() => StatusServer.IsChecked = obj.Status));
+			Info.Dispatcher?.Invoke(new Action(() => Info.Text = obj.Info));
+			Language.Dispatcher?.Invoke(new Action(() => Name.Text = obj.Language));
 		}
 
 		/// <summary>
@@ -79,15 +83,7 @@ namespace ClientChatWPF
 		/// <param name="obj"></param>
 		private void UpRole(List<Role> obj)
 		{
-			/*		ListUserMessage.Dispatcher?
-				.Invoke(new Action(
-					() =>
-					{
-						var list1 = obj.Select(x => x).ToList();
-						var list2 = (List<ServerUser>)obj.ToArray().Clone();
-						ListUserMessage.ItemsSource = list1;
-					}
-					));*/
+
 		}
 
 		/// <summary>
@@ -96,15 +92,13 @@ namespace ClientChatWPF
 		/// <param name="obj"></param>
 		private void UpOpinion(List<Opinion> obj)
 		{
-			/*		ListUserMessage.Dispatcher?
-				.Invoke(new Action(
-					() =>
-					{
-						var list1 = obj.Select(x => x).ToList();
-						var list2 = (List<ServerUser>)obj.ToArray().Clone();
-						ListUserMessage.ItemsSource = list1;
-					}
-					));*/
+			ListTextChats.Dispatcher?
+				.Invoke(new Action(() =>
+				{
+					var list1 = obj.Select(x => x).ToList();
+					var list2 = (List<Opinion>)obj.ToArray().Clone();
+					ListTextChats.ItemsSource = list1;
+				}));
 		}
 
 		/// <summary>
@@ -114,15 +108,14 @@ namespace ClientChatWPF
 		/// <param name="obj"></param>
 		private void UpServerUser(List<ServerUser> obj)
 		{
-			/*		ListUserMessage.Dispatcher?
+			ListUserOnServer.Dispatcher?
 				.Invoke(new Action(
 					() =>
 					{
-						var list1 = obj.Select(x => x).ToList();
 						var list2 = (List<ServerUser>)obj.ToArray().Clone();
-						ListUserMessage.ItemsSource = list1;
+						ListUserOnServer.ItemsSource = list2;
 					}
-					));*/
+				));
 		}
 
 		/// <summary>
@@ -166,30 +159,51 @@ namespace ClientChatWPF
 			{
 				case (0):
 					break;
+
 				case (1):
 					s.ActionForServer = ActionForServer.Loud;
-					MainWindow.SendMessageSerialize(s);
 					break;
+
 				case (2):
 					s.ActionForServer = ActionForServer.LoudServerUsers;
-					MainWindow.SendMessageSerialize(s);
 					break;
+
 				case (3):
 					s.ActionForServer = ActionForServer.LoudRole;
-					MainWindow.SendMessageSerialize(s); 
 					break;
+
 				case (4):
 					s.ActionForServer = ActionForServer.LoudTextChat;
-					MainWindow.SendMessageSerialize(s); 
 					break;
+
 				case (5):
 					s.ActionForServer = ActionForServer.LoudEventLog;
-					MainWindow.SendMessageSerialize(s);
 					break;
+
+				case (6):
+					break;
+
 				default:
 					MessageBox.Show("В дурку хочешь?\nТы как на это нажал?");
 					break;
 			}
+
+			SendMessageToServer.SendMessageSerialize(s);
 		}
-	}
+
+        private void SaveEditingServerClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CancelEditingServerClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DelAddRoleClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
 }

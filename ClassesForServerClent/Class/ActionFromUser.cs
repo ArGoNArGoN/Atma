@@ -6,19 +6,14 @@ using System.Threading.Tasks;
 
 namespace ClassesForServerClent.Class
 {
-    public enum ActionForServer
+    public enum ActionFromUser
     {
         None,
-        Search,
-        LoudTextChat,
-        LoudOpinion,
-        LoudEventLog,
-        LoudServerUsers,
-        LoudChat,
-        LoudRole,
         Loud,
-        Registration,
-        Cheack,
+        LoudFriends,
+        LoudReq,
+        Search,
+        LoudUserLog,
         Editing,
     }
 }
