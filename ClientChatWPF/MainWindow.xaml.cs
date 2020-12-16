@@ -157,13 +157,8 @@ namespace ClientChatWPF
 			this.EventUpServerSearch -= new Action<List<Server>>(ServerSearch.UpServerSearch);
 			this.EventUpOpinion -= new Action<List<Opinion>>(ServerSearch.UpOpinion);
 			this.EventUpServersFromUser -= new Action<List<Server>>(ServerSearch.UpServerFromUser);
-			ServerSearch = null;
 
-			if (User.ServerUser.Count() == 0)
-			{
-				Close();
-				Environment.Exit(0);
-			}
+			ServerSearch = null;
 		}
 
 		/// <summary>
