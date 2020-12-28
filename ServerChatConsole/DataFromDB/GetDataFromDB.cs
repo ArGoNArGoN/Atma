@@ -25,6 +25,15 @@ namespace ServerChatConsole
 			return SU;
 		}
 
+		private ICollection<User> GetUsers(Int32 IDServer)
+		{
+			return this.ServerUser
+				.Where(x => x.IDServer == IDServer)
+				.Include(x => x.User)
+				.Select(x => x.User)
+				.ToList();
+		}
+		                                 
 		public ICollection<TextChat> GetTextChatFromServer(Int32 IDServer)
 		{
 			return this.TextChat

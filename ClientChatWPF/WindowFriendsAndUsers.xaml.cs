@@ -24,12 +24,14 @@ namespace ClientChatWPF
 		{
 			InitializeComponent();
 
+
 			EventUpServerUser       += new Action<User>(UpServerUser);
 			EventUpFrieds           += new Action<List<User>>(UpFrieds);
 			EventUpRequestsUsers    += new Action<List<Request>>(UpRequestsUsers);
 			EventUpServerUsers		+= new Action<List<User>>(UpRequestFrieds);
 			EventUpUserLog          += new Action<List<UserLog>>(UpUserLog);
 		}
+
 		public WindowFriendsAndUsers(User user, ServerUser serverUser)
 			: this()
 		{
@@ -53,11 +55,14 @@ namespace ClientChatWPF
 		public event Action<List<Request>> EventUpRequestsUsers;
 		public event Action<List<User>> EventUpServerUsers;
 		public event Action<List<UserLog>> EventUpUserLog;
+
 		Int32 a;
+
 		private void TabControlSet_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (a == TabControlSet.SelectedIndex)
 				return;
+
 			a = TabControlSet.SelectedIndex;
 
 			var ob = new User() { ID = User.ID };
@@ -93,6 +98,8 @@ namespace ClientChatWPF
 			SendMessageToServer.SendMessageSerialize(ob);
 		}
 
+
+
 		public void StartEventOfObject(Object ob)
 		{
 			switch (ob)
@@ -117,6 +124,7 @@ namespace ClientChatWPF
 
 					if (a == 4)
 						EventUpServerUsers?.Invoke(SUL);
+
 					break;
 
 				case (List<UserLog> UserLog):
@@ -128,6 +136,8 @@ namespace ClientChatWPF
 			}
 		}
 
+
+
 		public void UpServerUser(User User)
 		{
 			if (User is null)
@@ -136,7 +146,10 @@ namespace ClientChatWPF
 				return;
 			}
 			if (User.StatusObj == StatusObj.Edit)
+			{
 				textError.Dispatcher?.Invoke(new Action(() => textError.Text = "Такое имя уже существует!"));
+				return;
+			}
 
 			if (User.ServerUser is not null && User.ServerUser.Count() != 0)
 			{
@@ -164,7 +177,6 @@ namespace ClientChatWPF
 			this.User.Name = User.Name;
 			this.User.DateOfBirht = User.DateOfBirht;
 		}
-
 		public void UpFrieds(List<User> requests)
 		{
 			if (requests is null || requests.Count() == 0)
@@ -202,6 +214,8 @@ namespace ClientChatWPF
 
 			UserLogList.Dispatcher?.Invoke(new Action(() => UserLogList.ItemsSource = userLogs));
 		}
+
+
 
 		private void DeleteFromFriendsClick(object sender, RoutedEventArgs e)
 		{

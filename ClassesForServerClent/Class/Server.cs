@@ -51,8 +51,8 @@ namespace ClassesForServerClent.Class
 				if (String.IsNullOrWhiteSpace(value))
 					throw new ArgumentNullException("value is null", nameof(value));
 
-				if (value.Length > 50)
-					throw new ArgumentNullException("value.Length > 50", nameof(value));
+				if (value.Length > 15)
+					throw new ArgumentNullException("value.Length > 15", nameof(value));
 
 				name = value;
 			}
@@ -76,8 +76,8 @@ namespace ClassesForServerClent.Class
 			get => language;
 			set
 			{
-				if (value?.Length > 30)
-					throw new ArgumentNullException("value.Length > 30", nameof(value));
+				if (value?.Length > 15)
+					throw new ArgumentNullException("value.Length > 15", nameof(value));
 
 				language = value;
 			}

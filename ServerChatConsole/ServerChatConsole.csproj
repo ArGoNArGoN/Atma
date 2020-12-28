@@ -61,6 +61,11 @@
     <Compile Include="Client\TakeObjectFromClient.cs" />
     <Compile Include="DataFromDB\DB.cs" />
     <Compile Include="DataFromDB\GetDataFromDB.cs" />
+    <Compile Include="Migrations\202012230541489_AddCompanyMigration.cs" />
+    <Compile Include="Migrations\202012230541489_AddCompanyMigration.designer.cs">
+      <DependentUpon>202012230541489_AddCompanyMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\ServerObj.cs" />
@@ -75,6 +80,11 @@
       <Project>{73DDC782-085C-4EDD-9806-EDA79C737CF4}</Project>
       <Name>ClassesForServerClent</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202012230541489_AddCompanyMigration.resx">
+      <DependentUpon>202012230541489_AddCompanyMigration.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

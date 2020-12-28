@@ -8,6 +8,7 @@ namespace ClassesForServerClent.Class
     [Serializable]
     [Table("Chat")]
     public class Chat
+       : IChat
     {
         private Int32 id;
         private Int32 idServer;

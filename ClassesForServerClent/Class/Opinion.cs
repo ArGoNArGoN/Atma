@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,7 @@ namespace ClassesForServerClent.Class
 			{
 				if (value < 1)
 					throw new ArgumentException("value < 1", "value");
+
 				id = value;
 			}
 		}
@@ -110,7 +112,8 @@ namespace ClassesForServerClent.Class
 				?? throw new ArgumentNullException("value is null", nameof(value));
 		}
 
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+		[SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<EventLog> EventLog { get; set; }
 	}
 }

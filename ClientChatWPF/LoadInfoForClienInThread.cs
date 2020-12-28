@@ -24,7 +24,7 @@ namespace ClientChatWPF
 		/// <summary>
 		/// События, отвечающие за обнавление информации на стороне клиента
 		/// </summary>
-		public event Action<List<Message>> EventUpMessage;
+		public event Action<IEnumerable<Message>> EventUpMessage;
 		public event Action<List<ServerUser>> EventUpUserStatus;
 		public event Action<List<Server>> EventUpServerSearch;
 		public event Action<List<Server>> EventUpServer;
@@ -59,7 +59,7 @@ namespace ClientChatWPF
 		/// <param name="e"></param>
 		private void LoadInfoServer(object sender, RoutedEventArgs e)
 		{
-			this.EventUpMessage += new Action<List<Message>>(AddMessageInListbox);
+			this.EventUpMessage += new Action<IEnumerable<Message>>(AddMessageInListbox);
 			this.EventUpUserStatus += new Action<List<ServerUser>>(UpUserStatusInListBoxs);
 			this.EventUpServer += new Action<List<Server>>(UpServer);
 			this.EventUpTextChat += new Action<List<TextChat>>(UpTextChat);
@@ -96,7 +96,8 @@ namespace ClientChatWPF
 						var text = TextChats.Find(x => x.ID == message.IDTextChat);
 						text.Message.Add(message);
 
-						EventUpMessage(text.Message.ToList());
+						//// выполняются полиморфные вызовы
+						EventUpMessage((IEnumerable<Message>)text.Message);
 						break;
 
 					/// Получаем пользователя и меняем его статус на сервере
@@ -266,6 +267,12 @@ namespace ClientChatWPF
 			} while (true);
 		}
 		
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="obj"></param>
 		private void UpServer(List<Server> obj)
 		{
 			ListServers.Dispatcher
@@ -295,7 +302,7 @@ namespace ClientChatWPF
 		/// Добавляет сообщения в список
 		/// </summary>
 		/// <param name="obj"></param>
-		private void AddMessageInListbox(List<Message> obj)
+		private void AddMessageInListbox(IEnumerable<Message> obj)
 		{
 			ListUserMessage.Dispatcher
 				.Invoke(new Action(
@@ -307,8 +314,9 @@ namespace ClientChatWPF
 							return;
 						}
 
-						if (ListTextChat.SelectedIndex != -1 && TextChats[ListTextChat.SelectedIndex].ID == obj[0]?.IDTextChat)
+						if (ListTextChat.SelectedIndex != -1 && TextChats[ListTextChat.SelectedIndex].ID == obj.ToArray()[0]?.IDTextChat)
 							ListUserMessage.ItemsSource = obj;
+
 						Scroll.ScrollToEnd();
 					}
 					));

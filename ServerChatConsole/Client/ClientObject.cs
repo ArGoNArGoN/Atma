@@ -79,9 +79,9 @@ namespace ServerChatConsole
 
 				db.User.Add(user);
 
-				this.SendObjectToClient(user);
-
 				db.SaveChanges();
+
+				this.SendObjectToClient(user);
 			}
 			catch (Exception e)
 			{

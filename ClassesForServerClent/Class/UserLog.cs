@@ -47,6 +47,7 @@ namespace ClassesForServerClent.Class
 				idServer = value;
 			}
 		}
+
 		[Column(TypeName = "int")]
 		public TypeActionUser Action { get; set; }
 		
