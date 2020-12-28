@@ -165,7 +165,6 @@ namespace ServerChatConsole
 					var u = db.User.Find(user.ID);
 					u.StatusObj = StatusObj.Edit;
 					SendObjectToClient(u);
-					Console.WriteLine("dawdawd");
 					db.SaveChanges();
 				}
 

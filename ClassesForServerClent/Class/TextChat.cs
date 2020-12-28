@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -10,14 +11,13 @@ namespace ClassesForServerClent.Class
 	[Serializable]
 	[Table("TextChat")]
 	public class TextChat
+		: IChat, IEnumerable<Message>
 	{
 		private Int32 id;
 		private Int32 idServer;
 		private String name;
 		private String info;
 		private Int32 number;
-		private List<ServerUser> serverUsers = new List<ServerUser>();
-		private List<Message> messages = new List<Message>();
 		private Server server;
 
 		[NotMapped]
@@ -70,6 +70,7 @@ namespace ClassesForServerClent.Class
 			}
 		}
 		[Column("Info")]
+
 		public String Info
 		{
 			get => info;
@@ -114,5 +115,15 @@ namespace ClassesForServerClent.Class
 
 		[NotMapped]
 		public StatusObj StatusObj { get; set; }
+
+        public IEnumerator GetEnumerator()
+        {
+            return ((IEnumerable)Message).GetEnumerator();
+        }
+
+        IEnumerator<Message> IEnumerable<Message>.GetEnumerator()
+        {
+			return Message.GetEnumerator();
+		}
     }
 }

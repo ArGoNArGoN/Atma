@@ -26,15 +26,12 @@ namespace ClassesForServerClent.Class
 			}
 			catch { throw; }
 		}
-		public User(Int32 id, String name, DateTime dateReg, String realName, Byte[] icon, Status status, String status2) : this(id, name, realName)
+		public User(Int32 id, String name, DateTime dateReg, String realName, Byte[] icon, Status status) 
+			: this(id, name, realName)
 		{
-			try
-			{
-				Icon = icon;
-				Status = status;
-				DateReg = dateReg;
-			}
-			catch { throw; }
+			Icon = icon;
+			Status = status;
+			DateReg = dateReg;
 		}
 
 		public Int32 ID
@@ -58,7 +55,7 @@ namespace ClassesForServerClent.Class
 					throw new ArgumentNullException("The nickname cannot be empty!");
 
 				if (value.Length > 15)
-					throw new ArgumentNullException("The nickname is longer than 50 characters!");
+					throw new ArgumentNullException("The nickname is longer than 15 characters!");
 
 				name = value;
 			}
@@ -75,8 +72,8 @@ namespace ClassesForServerClent.Class
 					return;
 				}
 
-				if (value.Length > 50)
-					throw new ArgumentNullException("The Name is longer than 50 characters!");
+				if (value.Length > 15)
+					throw new ArgumentNullException("The Name is longer than 15 characters!");
 
 				rname = value;
 			}
@@ -146,8 +143,18 @@ namespace ClassesForServerClent.Class
 			UserLog = new HashSet<UserLog>();
 		}
 
+
+
+
+		/// <summary>
+		/// Ассоциация
+		/// </summary>
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<EventLog> EventLog { get; set; }
+		
+		
+		
+		
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public ICollection<Opinion> Opinion { get; set; }
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -170,6 +170,7 @@ namespace ClientChatWPF
 		{
 			/// Отправляем пользователя
 			WFAU = new WindowFriendsAndUsers(User, ServerUser);
+
 			this.EventUpFriendsAndUsers += new Action<object>(WFAU.StartEventOfObject);
 			WFAU.ShowDialog();
 			this.EventUpFriendsAndUsers -= new Action<object>(WFAU.StartEventOfObject);

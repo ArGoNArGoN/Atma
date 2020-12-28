@@ -26,6 +26,7 @@ namespace ServerChatConsole
 		public virtual DbSet<User> User { get; set; }
 		public virtual DbSet<UserLog> UserLog { get; set; }
 
+
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
             modelBuilder.Entity<Chat>()

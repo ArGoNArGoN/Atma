@@ -26,7 +26,7 @@ namespace ClassesForServerClent.Class
             }
             catch { throw; }
         }
-        
+
         public Int32 ID
         {
             get => id;

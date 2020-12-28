@@ -43,6 +43,7 @@ namespace ClientChatWPF
 					Name = Text6.Text.Trim(),
 					ActionForServer = ActionForServer.Registration,
 				};
+
 				BinaryFormatter formatter = new BinaryFormatter();
 				formatter.Serialize(Stream, User);
 				Object ob = formatter.Deserialize(Stream);

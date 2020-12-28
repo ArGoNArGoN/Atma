@@ -8,6 +8,7 @@ namespace ClassesForServerClent.Class
 {
 	public interface IChat
 	{
-		List<ServerUser> ServerUsers { get; }
+		Int32 Number { get; set; }
+		String Name { get; set; }
 	}
 }

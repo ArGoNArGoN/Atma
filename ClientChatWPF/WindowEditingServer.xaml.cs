@@ -96,7 +96,6 @@ namespace ClientChatWPF
 				.Invoke(new Action(() =>
 				{
 					var list1 = obj.Select(x => x).ToList();
-					var list2 = (List<Opinion>)obj.ToArray().Clone();
 					ListTextChats.ItemsSource = list1;
 				}));
 		}
@@ -112,8 +111,7 @@ namespace ClientChatWPF
 				.Invoke(new Action(
 					() =>
 					{
-						var list2 = (List<ServerUser>)obj.ToArray().Clone();
-						ListUserOnServer.ItemsSource = list2;
+						ListUserOnServer.ItemsSource = obj;
 					}
 				));
 		}
